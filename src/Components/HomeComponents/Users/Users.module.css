@@ -1,0 +1,62 @@
+/* users section */
+
+.users_section {
+	width: 20%;
+	box-shadow: -1px 0px 1px black;
+}
+
+.channel_name {
+	padding: 0.5rem 0;
+}
+.online_users {
+	height: 90vh;
+	overflow: scroll;
+}
+
+/* .chat__wrapper {
+} */
+.online_users::-webkit-scrollbar {
+	display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.online_users {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.online_users .head,
+.offline_users .head {
+	padding-left: 1rem;
+	margin: 1rem auto;
+	font-size: 1.2rem;
+}
+
+.offline_user {
+	opacity: 0.5;
+}
+
+.online_user img,
+.offline_user img {
+	height: 40px;
+	width: 40px;
+	margin: 0.2em;
+	border-radius: 25px;
+}
+
+.online_user,
+.offline_user {
+	padding-left: 1rem;
+	display: flex;
+	flex-direction: row;
+}
+
+.online_user:hover,
+.offline_user:hover {
+	background-color: rgb(75, 80, 85);
+}
+
+.online_user .username,
+.offline_user .username {
+	font-size: 1.2rem;
+	margin: auto 1rem;
+}

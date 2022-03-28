@@ -1,0 +1,278 @@
+.channel_section {
+	width: 15%;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	box-shadow: 1px 0 2px black;
+}
+.currServer_wrapper {
+	display: flex;
+	border: none;
+	border-radius: 0 0 8px 8px;
+	box-shadow: 0 2px 2px black;
+	/* background-color: rgb(34, 34, 34); */
+	background-color: rgb(55, 59, 63);
+	padding: 0.5rem 1rem;
+	font-size: 1.5rem;
+}
+.serverOptions {
+	display: grid;
+	place-items: center;
+	margin-left: auto;
+	padding: 0.2rem;
+}
+
+.react_icon {
+	margin: auto;
+	margin-right: 0;
+}
+
+.delete_server {
+	/* display: inline-block; */
+	color: rgb(255, 62, 62);
+}
+
+.dropbtn:hover {
+	cursor: pointer;
+}
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown .dropbtn {
+	font-size: 1.2rem;
+	border: none;
+	outline: none;
+	color: white;
+	background-color: inherit;
+}
+
+.dropdown_content {
+	width: 10rem;
+	border-radius: 5px;
+	/* margin: 10rem 3.5rem 0 0; */
+	padding: 0.2rem;
+	display: none;
+	position: absolute;
+	background-color: rgb(85, 91, 97);
+	z-index: 1;
+}
+
+.dropdown_content div {
+	font-size: 1rem;
+	padding: 0.3rem;
+	color: white;
+	border-radius: 5px;
+	text-decoration: none;
+	display: flex;
+	text-align: left;
+}
+
+.dropdown_content div:hover {
+	cursor: pointer;
+	background-color: rgb(64, 66, 68);
+}
+
+.dropdown:hover .dropdown_content {
+	display: block;
+}
+
+.profile_status {
+	display: flex;
+	flex-direction: row;
+	padding: 1rem;
+	background-color: rgb(55, 59, 63);
+	box-shadow: -1px -1px 2px black;
+	border-radius: 8px 8px 0 0;
+}
+
+.user_info {
+	display: flex;
+	flex-direction: row;
+}
+
+.user_image {
+	border-radius: 20px;
+	padding: 0.2rem;
+	height: 35px;
+	width: 35px;
+}
+.user_name {
+	margin: auto 10px;
+}
+.uname {
+	font-size: 1.2rem;
+	font-weight: bolder;
+}
+.uid {
+	font-size: 0.9rem;
+}
+
+/* ------------------------------------ */
+
+.channels {
+	overflow: scroll;
+	padding: 0.1rem 0.2rem;
+	/* height: 600px; */
+}
+
+.channels::-webkit-scrollbar {
+	display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.channels {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.text_channels,
+.voice_channels {
+	margin: 1rem 0;
+	width: 100%;
+}
+
+/* .channel_head {
+	display: flex;
+	flex-direction: column;
+} */
+
+/* .channel_add_btn {
+	margin-left: auto;
+} */
+
+.dropdown label span {
+	cursor: pointer;
+}
+
+.dropdown label span::before {
+	content: "▸";
+	float: left;
+	padding: 0 0.5rem;
+}
+/* .dropdown label span::after {
+	content: "+";
+	float: right;
+} */
+.voice_user {
+	display: flex;
+	flex-direction: row;
+}
+.voice_user img {
+	margin: 0.2rem;
+	height: 25px;
+	width: 25px;
+	border-radius: 25px;
+}
+.voice_user div {
+	margin: auto;
+	margin-left: 0.2rem;
+	font-size: 1.1rem;
+}
+
+.slide {
+	clear: both;
+	height: 0px;
+	overflow: hidden;
+	transition: height 0.4s ease;
+}
+.slide li {
+	display: flex;
+	flex-direction: row;
+	padding: 0.5rem 0 0.5rem 2rem;
+	cursor: pointer;
+}
+.slide li .icon .text_icon {
+	font-size: 0.8rem;
+}
+.slide li .icon .voice_icon {
+	font-size: 1.45rem;
+}
+.slide li .channel_name {
+	margin-left: 0.2rem;
+}
+.slide li:hover {
+	font-weight: 800;
+	background-color: rgb(75, 80, 85);
+}
+
+.texttouch {
+	position: absolute;
+	opacity: 0;
+	height: 0px;
+}
+.texttouch:checked + label span {
+	font-weight: 900;
+}
+
+.texttouch:checked + label span::before {
+	content: "▾";
+}
+
+.texttouch:checked + label + .slide {
+	height: max-content;
+	/* height: 250px; */
+}
+
+.voicetouch {
+	position: absolute;
+	opacity: 0;
+	height: 0px;
+}
+.voicetouch:checked + label span {
+	font-weight: 900;
+}
+
+.voicetouch:checked + label span::before {
+	content: "▾";
+}
+
+.voicetouch:checked + label + .slide {
+	height: max-content;
+	/* height: 250px; */
+}
+
+.profile_status {
+	display: flex;
+	flex-direction: column;
+	margin-top: auto;
+}
+.voice_connected {
+	display: flex;
+	flex-direction: column;
+}
+.connect_status,
+.connect_btn {
+	margin: auto 0;
+	display: flex;
+	flex-direction: row;
+}
+.divider {
+	margin: 0.2rem 0 0.35rem 0;
+}
+.connect_btn .btn {
+	margin: auto;
+	font-size: 1.1rem;
+	cursor: pointer;
+	padding: 0.5rem 1rem;
+	border: none;
+	outline: none;
+	border-radius: 10px;
+	background-color: transparent;
+	color: white;
+}
+.connect_btn .btn:hover {
+	background-color: rgb(64, 66, 68);
+}
+.connect_text {
+	color: rgba(0, 255, 0, 0.5);
+	margin: auto 1rem;
+}
+
+/* .settings {
+	font-size: 1.5rem;
+	margin-left: auto;
+}
+.settings:hover {
+	cursor: pointer;
+} */

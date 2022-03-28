@@ -1,0 +1,145 @@
+.main_section {
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+}
+.Loader {
+	text-align: center;
+}
+.Loader img {
+	height: 200px;
+}
+
+.text_channel_section {
+	height: 6vh;
+}
+
+.channel_title {
+	padding: 0.5rem 1rem;
+	font-size: 1.5rem;
+}
+
+.msg_user_div {
+	height: 94vh;
+	display: flex;
+	flex-direction: row;
+}
+
+.settings {
+	margin-left: auto;
+}
+.settings p {
+	font-size: 1.5rem;
+}
+.settings p:hover {
+	cursor: pointer;
+}
+
+/* text_channel_section */
+.chat__wrapper {
+	height: 85vh;
+	overflow: scroll;
+}
+/* .chat__wrapper {
+} */
+.chat__wrapper::-webkit-scrollbar {
+	display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.chat__wrapper {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.text_msg {
+	width: 80%;
+}
+
+.message {
+	margin: 0.1rem;
+	padding: 0.5rem 1rem;
+	display: flex;
+	flex-direction: row;
+}
+.message:hover {
+	background-color: rgb(63, 67, 71);
+}
+
+.message img {
+	height: 35px;
+	width: 35px;
+	margin: 0.2em;
+	border-radius: 25px;
+}
+
+.msg {
+	display: flex;
+	flex-direction: column;
+	margin: auto 0.7rem;
+}
+
+.message_header {
+	display: flex;
+	flex-direction: row;
+}
+.time {
+	margin: auto 1rem;
+	font-size: 0.75rem;
+}
+
+.msg .username {
+	font-size: 1.2rem;
+	font-weight: 700;
+	margin-bottom: 0.2rem;
+}
+
+/* *********** chat form  ************* */
+
+.text_msg {
+	border: none;
+	margin-top: auto;
+}
+
+.chat__form > form > button {
+	color: white;
+}
+.chat__form form {
+	height: 7vh;
+	margin: 0 1rem;
+	display: flex;
+	align-items: center;
+}
+.chat__form input {
+	height: 2.5rem;
+	font-size: 1rem;
+	min-width: 90%;
+	padding: 0 1rem;
+	background-color: rgb(197, 197, 197);
+	border-radius: 15px;
+	border: none;
+}
+.chat__form button {
+	width: 10%;
+	height: 100%;
+	font-size: 16px;
+	background-color: transparent;
+	border: none;
+	text-align: center;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+.chat__form button:hover {
+	font-weight: bold;
+}
+
+.inputBox {
+	outline: none;
+}
+.send_icon {
+	color: white;
+	font-size: 1.6rem;
+	transition: 0.5s;
+}
+.send_icon:hover {
+	color: green;
+}

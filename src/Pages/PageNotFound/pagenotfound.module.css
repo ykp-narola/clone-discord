@@ -1,0 +1,51 @@
+.page_404 {
+	display: grid;
+	place-items: center;
+	height: 100vh;
+	background: #fff;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+}
+
+.four_zero_four_bg {
+	background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 25rem;
+	width: 70rem;
+}
+
+.four_zero_four_bg h1 {
+	font-size: 5rem;
+	text-align: center;
+	color: brown;
+}
+
+.contant_box_404 {
+	/* margin-top: -50px; */
+	text-align: center;
+}
+.contant_box_404 h3 {
+	font-size: 3rem;
+	color: brown;
+}
+.contant_box_404 p {
+	font-size: 1rem;
+	color: brown;
+}
+
+.link_404 {
+	color: #fff !important;
+	border: none;
+	padding: 10px 20px;
+	margin: 20px 0;
+	display: inline-block;
+	background: #3ab132;
+}
+.link_404:hover {
+	background: #2d8826;
+	cursor: pointer;
+}

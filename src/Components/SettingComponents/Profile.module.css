@@ -1,0 +1,103 @@
+.Profile_section {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+}
+
+.main_sec {
+	height: 90%;
+	display: flex;
+	flex-direction: row;
+}
+.name {
+	margin: auto;
+	width: 50%;
+}
+.profile_photo {
+	display: grid;
+	place-items: center;
+	width: 50%;
+}
+.imagephoto {
+	width: 10rem;
+	position: relative;
+	cursor: pointer;
+}
+.image {
+	border-radius: 50px;
+	height: 10rem;
+	width: 100%;
+	opacity: 1;
+	transition: 0.5s ease;
+	backface-visibility: hidden;
+}
+
+.middle_img {
+	display: grid;
+	place-items: center;
+	transition: 0.5s ease;
+	opacity: 0;
+	position: absolute;
+	top: 25%;
+	left: 25%;
+	/* top: -50%; */
+	/* left: 50%; */
+	/* transform: translate(-50%, -50%); */
+	/* -ms-transform: translate(-50%, -50%); */
+	text-align: center;
+}
+.middle_img img {
+	height: 5rem;
+}
+.imagephoto:hover > img {
+	opacity: 0.3;
+}
+
+.imagephoto:hover .middle_img {
+	opacity: 1;
+}
+
+/* .profile_photo img:hover {
+
+} */
+.profile_photo div div {
+	text-align: center;
+}
+.buttons {
+	height: 10%;
+}
+.buttons button {
+	cursor: pointer;
+	background-color: rgb(55, 59, 63);
+	border: none;
+	border-radius: 5px;
+	color: white;
+	padding: 0.5rem 1rem;
+	margin: 0 1rem;
+}
+.buttons button:hover {
+	background-color: rgb(24, 26, 27);
+}
+.inputField {
+	padding: 0.5rem 0;
+	display: flex;
+	flex-direction: column;
+}
+.inputBox {
+	margin-top: 0.4rem;
+	padding: 0.3rem 0.5rem;
+	height: 1.5rem;
+	border: none;
+	border-radius: 5px;
+	font-size: 1rem;
+	outline: none;
+}
+.inputBox:hover {
+	background-color: rgb(199, 255, 255);
+}
+
+.inputBox:focus {
+	background-color: rgb(199, 255, 255);
+	border: 2px solid rgb(0, 162, 255);
+}
