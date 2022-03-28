@@ -1,0 +1,148 @@
+/* :root {
+	--bule-color: rgb(88, 101, 242);
+}*/
+
+.login {
+	background-image: url("../../Assets/background.jpeg");
+	height: 100vh;
+	background-size: cover;
+	display: grid;
+	place-items: center;
+}
+.login p {
+	color: red;
+}
+/*
+.form_container {
+	padding: 1rem;
+	background-color: rgb(55, 59, 63);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: row;
+}
+.section_login {
+	width: 75%;
+	padding: 1rem;
+	margin: auto 1.5rem;
+}
+
+.header {
+	text-align: center;
+	margin: 1.5rem auto;
+}
+
+.welcome {
+	font-size: 1.8rem;
+	font-weight: 700;
+}
+.sub_welcome {
+	margin-top: 0.2rem;
+	font-size: 1rem;
+	color: white;
+}
+.inputField {
+	padding: 0.5rem 0;
+	display: flex;
+	flex-direction: column;
+}
+.inputBox {
+	margin-top: 0.4rem;
+	padding: 0.3rem 0.5rem;
+	height: 1.5rem;
+	border: none;
+	border-radius: 5px;
+	font-size: 1rem;
+	outline: none;
+}
+.inputBox:hover {
+	background-color: rgb(199, 255, 255);
+}
+
+.inputBox:focus {
+	background-color: rgb(199, 255, 255);
+	border: 2px solid rgb(0, 162, 255);
+}
+
+.forgot_pswd {
+	color: var(--bule-color);
+	margin-bottom: 1rem;
+	font-size: 1rem;
+}
+.forgot_pswd:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+.login_btn {
+	padding: 0.4rem 0;
+	border: none;
+	border-radius: 5px;
+	background-color: var(--bule-color);
+	color: white;
+	width: 100%;
+	font-size: 1.4rem;
+}
+.login_btn:hover {
+	cursor: pointer;
+	background-color: var(--bule-color);
+}
+.isRegister {
+	margin: 0.5rem auto;
+	font-size: 1rem;
+	display: flex;
+}
+
+#register {
+	color: var(--bule-color);
+}
+#register:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+/* ************  qr code ************** */
+
+/*
+.section_qrcode {
+	padding: 1rem;
+	display: grid;
+	place-items: center;
+}
+.section_qrcode img {
+	width: 50%;
+	height: 150px;
+	width: 150px;
+}
+.content_head {
+	font-size: 1.2rem;
+}
+
+.content {
+	text-align: center;
+	color: rgb(163, 163, 163);
+}
+.content .bold {
+	color: white;
+	font-weight: 900;
+} */
+
+/* ---------------- Register 
+
+.register_form_container {
+	padding: 2rem;
+	width: 25vw;
+	background-color: rgb(55, 59, 63);
+	border-radius: 10px;
+}
+.register_btn {
+	margin: 0.5rem auto;
+	padding: 0.4rem 0;
+	border: none;
+	border-radius: 5px;
+	background-color: var(--bule-color);
+	color: white;
+	width: 100%;
+	font-size: 1.4rem;
+}
+.register_btn:hover {
+	cursor: pointer;
+	background-color: var(--bule-color);
+} */

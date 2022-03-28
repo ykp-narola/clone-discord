@@ -1,0 +1,79 @@
+:root {
+	--border-color: rgba(104, 104, 104, 0.5);
+	--primary-background: rgb(55, 59, 63);
+	--secondary-background: rgb(75, 81, 87);
+}
+
+.settings__container {
+	height: 100vh;
+	display: grid;
+	place-items: center;
+}
+
+.settings {
+	width: 85vw;
+	height: 80vh;
+	display: flex;
+	flex-direction: row;
+}
+.sidebar_container {
+	border-radius: 8px;
+	margin: 0.5rem;
+	background-color: var(--secondary-background);
+	width: 20vw;
+	min-width: max-content;
+}
+
+.sidebar_setting {
+	display: flex;
+	flex-direction: column-reverse;
+	padding: 0.5rem 0;
+}
+
+/* .upper{} */
+
+.lower {
+	margin: 1rem;
+}
+
+.backbtn {
+	cursor: pointer;
+	background-color: transparent;
+	/* padding: 0 1rem; */
+	border: none;
+	color: white;
+	font-size: 1rem;
+}
+
+.set {
+	border-radius: 8px 0px 0px 8px;
+	margin-left: 0.5rem;
+	padding: 1rem;
+}
+.set:hover {
+	background-color: var(--primary-background);
+	cursor: pointer;
+}
+
+.sidebar_setting a {
+	color: white;
+	text-decoration: none;
+}
+
+.logout:hover {
+	color: red;
+	cursor: pointer;
+}
+.logout:hover::after {
+	content: " -➤";
+}
+
+/* ************* Main Setting ************* */
+
+.main_setting {
+	border-radius: 8px;
+	margin: 0.5rem;
+	padding: 2rem;
+	background-color: var(--secondary-background);
+	width: 80vw;
+}
