@@ -1,18 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { MdArrowBackIos } from 'react-icons/md';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import AuthContext from '../../Contexts/auth-context';
 import style from './Settings.module.css'
 
 
 export default function Settings(props) {
     const nav = useNavigate();
+    const authCtx = useContext(AuthContext);
+
     const onLogoutHandler = e => {
-        localStorage.removeItem("token");
-        // props.setToken("");
-        // setTimeout(() => {
-        // nav('/');
-        window.location.pathname = "/"
-        // }, 100);
+        authCtx.logout();
     }
     return (
         <div className={style.settings__container}>

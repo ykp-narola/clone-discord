@@ -1,32 +1,28 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 // import PropTypes from 'prop-types';
 
 import style from './LoginComponent.module.css'
-import qrcode from "../../Assets/Qrcode.png"
+import qrcode from "../../assets/Qrcode.png"
+import { onLogin } from '../../APIs/API';
+import AuthContext from '../../Contexts/auth-context';
 
 export default function LoginComponent(props) {
+    const authCtx = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isError, setIsError] = useState(false);
 
     const onLoginHandler = async e => {
         e.preventDefault();
-        const res = await fetch("/api/users/login", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({ email, password })
-        }).then(data => data.json());
+        const res = await onLogin({ email, password })
         if (res.status !== "success") {
             sessionStorage.setItem("error", JSON.stringify(res.message));
             setIsError(true);
         }
         else {
-            props.setToken(res.token);
-            setIsError(false);
             sessionStorage.removeItem("error");
+            setIsError(false);
+            authCtx.login(res.token);
         }
     }
     return (
@@ -61,6 +57,3 @@ export default function LoginComponent(props) {
         </div>
     )
 }
-// LoginComponent.propTypes = {
-//     setToken: PropTypes.func.isRequired
-// }

@@ -1,18 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { onRegisterUser } from '../../APIs/API';
 // import Login from '../../Pages/Login/Login';
 import style from './RegisterComponent.module.css'
-
-
-async function registerUser(credentials) {
-    return fetch("/api/users/signup", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(credentials)
-    }).then(data => data.json())
-}
 
 export default function RegisterComponent(props) {
     const nav = useNavigate();
@@ -24,8 +14,8 @@ export default function RegisterComponent(props) {
 
     async function onRegisterHandler(e) {
         e.preventDefault();
-        let item = { name: name, email: email, password: password, passwordConfirm: passwordConfirm };
-        const res = await registerUser(item);
+        let credentials = { name: name, email: email, password: password, passwordConfirm: passwordConfirm };
+        const res = await onRegisterUser(credentials);
         console.log("res", res);
         if (res.status !== 'success') {
             sessionStorage.setItem("error", JSON.stringify(res.message));

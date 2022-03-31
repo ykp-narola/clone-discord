@@ -1,26 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import style from './CreateServerPage.module.css'
-
-async function onCreateServer(data) {
-    console.log(data.form);
-    return fetch("/api/servers", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${data.token}`,
-        },
-        body: data.formdata
-    }).then(data => data.json());
-}
-async function onJoinServer(data) {
-    // console.log(data);
-    return fetch(`/api/servers/${data.slug}/join`, {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${data.token}`,
-        }
-    }).then(data => data.json());
-}
+import { onCreateServer, onJoinServer } from '../../APIs/API';
 
 export default function CreateServerPage() {
     const nav = useNavigate();

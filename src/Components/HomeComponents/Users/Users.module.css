@@ -12,6 +12,9 @@
 	height: 90vh;
 	overflow: scroll;
 }
+.serverAuthor {
+	margin: auto 0;
+}
 
 /* .chat__wrapper {
 } */

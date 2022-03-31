@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import style from './Profile.module.css'
-// import uploadImage from '../../Assets/UploadImage.png'
+// import uploadImage from '../../assets/UploadImage.png'
 import { useNavigate } from 'react-router-dom';
+import { getUserData } from '../../APIs/API';
 const imgPath = "http://192.168.100.130:3000/images/users/";
 
 export default function Profile() {
@@ -17,20 +18,13 @@ export default function Profile() {
     };
     useEffect(() => {
         async function fetchData() {
-            const res = await getUserData();
+            let token = JSON.parse(localStorage.getItem("token"));
+            const res = await getUserData(token);
             setUser(res.data.user);
         }
         fetchData();
     }, []);
-    const getUserData = async e => {
-        let token = JSON.parse(localStorage.getItem("token"));
-        return await fetch(`/api/users/`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }).then(data => data.json());
-    };
+
     const updateProfile = async e => {
         e.preventDefault();
         if (image) {
