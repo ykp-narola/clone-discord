@@ -1,20 +1,6 @@
 import React, { useState } from 'react'
+import { onChangePassword } from '../../APIs/API';
 import style from './ChangePassword.module.css'
-
-const SetUpdatedPassword = async data => {
-    return await fetch("/api/users/updatePassword", {
-        method: "PATCH",
-        headers: {
-            "Authorization": `Bearer ${data.token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "passwordCurrent": data.currPassword,
-            "password": data.newPassword,
-            "passwordConfirm": data.cNewPassword
-        })
-    }).then(data => data.json());
-}
 
 export default function ChangePassword() {
     const [isError, setIsError] = useState(false);
@@ -25,7 +11,7 @@ export default function ChangePassword() {
     const updatePassword = async e => {
         e.preventDefault();
         let token = JSON.parse(localStorage.getItem("token"));
-        const res = await SetUpdatedPassword({ token, currPassword, newPassword, cNewPassword });
+        const res = await onChangePassword({ token, currPassword, newPassword, cNewPassword });
         if (res.status !== "success") {
             sessionStorage.setItem("error", JSON.stringify(res.message));
             sessionStorage.setItem("errors", JSON.stringify(res.errors));

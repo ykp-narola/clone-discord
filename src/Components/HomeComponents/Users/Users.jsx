@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { GiCrown } from 'react-icons/gi';
+import { getServerUsers } from '../../../APIs/API';
 import style from './Users.module.css'
 
-
+let author = { _id: -1 };
 
 export const Users = (props) => {
     const userImg = "http://192.168.100.130:3000/images/users/";
@@ -9,8 +11,10 @@ export const Users = (props) => {
 
     useEffect(() => {
         (async () => {
-            const res = await getAllUsers();
+            const token = JSON.parse(localStorage.getItem("token"));
+            const res = await getServerUsers({ slug: props.slug, token });
             if (res.data.server.length > 0) {
+                author = res.data.server[0].author;
                 const users = res.data.server[0].users;
                 setOnlineUsers(users);
             } else {
@@ -19,15 +23,6 @@ export const Users = (props) => {
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props]);
-    const getAllUsers = async e => {
-        const token = localStorage.getItem("token");
-        return fetch(`/api/servers/${props.slug}`, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${token.substring(1, token.length - 1)}`
-            }
-        }).then(data => data.json());
-    }
     const sortedusers = onlineUsers.sort(function (a, b) {
         const aName = a.name.toUpperCase();
         const bName = b.name.toUpperCase();
@@ -37,11 +32,12 @@ export const Users = (props) => {
             return 1;
         return 0;
     });
-    console.log(sortedusers);
     const OnlineUsersDiv = Object.keys(sortedusers).map((item) => (
         <div key={item} className={style.online_user}>
             <img src={`${userImg}${onlineUsers[item].image}`} alt="" />
             <div className={style.username}>{onlineUsers[item].name}</div>
+            {author._id === onlineUsers[item]._id &&
+                <GiCrown fontSize="1.5rem" color='yellow' className={style.serverAuthor} />}
         </div>
     ))
 

@@ -1,13 +1,54 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
+import React, { useEffect, useState, useRef, useLayoutEffect, useContext } from 'react'
 import style from './MainSec.module.css'
-import loader from '../../../Assets/Loader_magnify.gif'
+import loader from '../../../assets/Loader_magnify.gif'
 import { RiSendPlaneFill } from 'react-icons/ri';
 import io from "socket.io-client";
-// import Peer from 'peerjs';
+import { getChannelMessages } from '../../../APIs/API';
+import UserContext from '../../../Contexts/user-context';
 
 const imgPath = "http://192.168.100.130:3000/images/users/";
 const ENDPOINT = "http://192.168.100.130:3000";
+const notificationAudio = new Audio('http://192.168.100.130:3000/sounds/notification.mp3');
+
 let socket;
+const showError = () => {
+    console.log("Error Occured");
+};
+let granted = false;
+const requestPermission = async () => {
+    if (Notification.permission === "granted") {
+        granted = true;
+    } else if (Notification.permission !== "denied") {
+        let permission = await Notification.requestPermission();
+        granted = permission === "granted" ? true : false;
+    }
+}
+const showNotificationfunc = (data = { msg: "not defined", title: "Accord Web App" }) => {
+    if (!granted) {
+        requestPermission();
+    }
+    let showNotification = () => {
+        // create a new notification
+        let notification = new Notification(data.title, {
+            body: data.msg,
+            timestamp: 1000,
+            icon: `${imgPath}Accord.png`,
+            vibrate: true,
+            dir: 'rtl'
+        });
+        // close the notification after 10 seconds
+        setTimeout(() => {
+            notification.close();
+        }, 10 * 1000);
+
+        // navigate to a URL when clicked
+        notification.addEventListener("click", () => {
+            // window.open("https://www.google.com", "_blank");
+        });
+    };
+    granted ? showNotification() : showError();
+}
+
 export const MainSec = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [messages, setMessages] = useState([]);
@@ -16,121 +57,50 @@ export const MainSec = (props) => {
     const messagesRef = React.createRef();
     const messagesEndRef = useRef(null);
 
+    const { channel, user, currServer } = useContext(UserContext);
+
     useLayoutEffect(() => {
         socket = io(ENDPOINT);
         // console.log(socket);
-    }, [props.channelId]);
+    }, [channel._id]);
 
     useEffect(() => {
         // socket?.disconnect();
         socket.removeAllListeners();
-        socket.emit('join-channel', {
-            channelId: props.channelId,
-            userId: props.user._id
+        socket.emit('join-text-channel', {
+            channelId: channel._id,
+            userId: user._id
         });
-        console.log("joined ", props.channelSlug);
-
-        // **************************
-
-        // const myPeer = new Peer(undefined, {
-        //     host: "/",
-        //     port: "3001",
-        // });
-        // const myVideo = document.createElement("video");
-        // myVideo.muted = true;
-
-        // socket.on("user-disconnected", (userId) => {
-        //     console.log(`${userId} disconnected...`);
-        //     if (peers[userId]) {
-        //         peers[userId].close();
-        //         console.log(userId, " disconnected");
-        //     }
-        // });
-
-        // navigator.mediaDevices
-        //     .getUserMedia({
-        //         video: false,
-        //         audio: true,
-        //     })
-        //     .then((stream) => {
-        //         console.log('hi');
-        //         addVideoStream(myVideo, stream);
-        //         myPeer.on("call", (call) => {
-        //             call.answer(stream);
-        //             const video = document.createElement("video");
-        //             call.on("stream", (userVideoStream) => {
-        //                 addVideoStream(video, userVideoStream);
-        //             });
-        //         });
-
-        //         socket.on("user-connected", (userId) => {
-        //             console.log("userId: ", userId);
-        //             connectToNewUser(userId, stream);
-        //         });
-        //     });
-
-        // myPeer.on("open", (userId) => {
-        //     console.log(`${userId} connected...`);
-        //     if (peers[userId]) {
-        //         peers[userId].close();
-        //         console.log('Call cut...');
-        //         console.log(peers);
-        //     }
-
-        //     socket.emit("join-channel", { channelId: props.channelId, userId });
-        // });
-
-        // function connectToNewUser(userId, stream) {
-        //     console.log('hi from connect to new user');
-        //     const call = myPeer.call(userId, stream);
-        //     console.log(call);
-        //     const video = document.createElement("video");
-        //     call.on("stream", (userVideoStream) => {
-        //         addVideoStream(video, userVideoStream);
-        //     });
-        //     call.on("close", () => {
-        //         video.remove();
-        //     });
-
-        //     console.log(call);
-        //     peers[userId] = call;
-        // }
-
-        // function addVideoStream(video, stream) {
-        //     video.srcObject = stream;
-        //     video.addEventListener("loadedmetadata", () => {
-        //         video.play();
-        //     });
-        //     // videoGrid.append(video);
-        // }
-
-        // ***************************************
-
-        // socket.emit('join-channel', props.channelSlug);
+        // console.log("joined ", channel.slug);
 
         socket.on('new-message', data => {
-            console.log("msg received ", data);
+            if (document.hidden) {
+                if (data.user._id !== user._id) {
+                    showNotificationfunc({
+                        msg: `${data.user.name}: ${data.message}`,
+                        title: `Accord | ${currServer.slug}`
+                    });
+                    notificationAudio.play();
+                }
+            }
             setMessages((prev) => [...prev, data]);
             pageScroll();
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.channelId]);
+        // eslint-disable-next-line
+    }, [channel._id]);
 
     useEffect(() => {
         setIsLoading(true);
         (async () => {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/servers/${props.serverSlug}/channels/${props.channelSlug}/messages`, {
-                headers: {
-                    "Authorization": `Bearer ${token.substring(1, token.length - 1)}`
-                }
-            }).then(data => data.json());
+            const token = JSON.parse(localStorage.getItem("token"));
+            const res = await getChannelMessages({ token, serverSlug: currServer.slug, channelSlug: channel.slug });
             if (res.status === "success") {
                 setMessages(res.data.messages);
                 setIsLoading(false);
                 pageScroll();
             }
         })();
+        // eslint-disable-next-line
     }, [props]);
     function pageScroll() {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -176,20 +146,20 @@ export const MainSec = (props) => {
                         if (myMsg !== "") {
                             socket.emit('message', {
                                 message: myMsg,
-                                user: props.user,
-                                channelSlug: props.channelSlug,
-                                channelId: props.channelId,
-                                serverId: props.serverId,
+                                user: user,
+                                channelSlug: channel.slug,
+                                channelId: channel._id,
+                                serverId: currServer._id,
                                 createdAt: (new Date()).toISOString(),
                             });
-                            setMessages((prev) => [...prev, {
-                                message: myMsg,
-                                user: props.user,
-                                channelSlug: props.channelSlug,
-                                channelId: props.channelId,
-                                serverId: props.serverId,
-                                createdAt: (new Date()).toISOString(),
-                            }]);
+                            // setMessages((prev) => [...prev, {
+                            //     message: myMsg,
+                            //     user: user,
+                            //     channelSlug: channel.slug,
+                            //     channelId: channel._id,
+                            //     serverId: currServer._id,
+                            //     createdAt: (new Date()).toISOString(),
+                            // }]);
                             msgInputRef.current.value = "";
                             setMyMsg("");
                         }

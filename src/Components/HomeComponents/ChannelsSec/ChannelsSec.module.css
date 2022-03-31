@@ -189,11 +189,27 @@
 	font-size: 1.45rem;
 }
 .slide li .channel_name {
+	width: 100%;
 	margin-left: 0.2rem;
 }
 .slide li:hover {
 	font-weight: 800;
+}
+.text_slide li:hover {
 	background-color: rgb(75, 80, 85);
+}
+/* .voice_slide li  {
+	background-color: rgb(75, 80, 85);
+} */
+
+.voice_user {
+	border-radius: 0.5rem;
+	padding: 0.1rem;
+}
+
+.voice_user:hover {
+	margin: 0;
+	background-color: rgb(46, 49, 53);
 }
 
 .texttouch {
@@ -276,3 +292,8 @@
 .settings:hover {
 	cursor: pointer;
 } */
+
+.screenshare_content {
+	margin-bottom: 2rem;
+	bottom: 0rem;
+}

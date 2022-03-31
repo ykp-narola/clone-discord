@@ -1,24 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import style from './ServerSec.module.css';
-import accord from '../../../Assets/Loader.gif'
+import accord from '../../../assets/Loader.gif'
 import { useNavigate } from 'react-router-dom';
 import { AiOutlinePlus, AiFillSetting } from 'react-icons/ai';
+import UserContext from '../../../Contexts/user-context';
+const imgPath = "http://192.168.100.130:3000/images/servers/";
 
-export default function ServerSec(props) {
+export default function ServerSec() {
     const nav = useNavigate();
-    const imgPath = "http://192.168.100.130:3000/images/servers/";
-    let servers = props.servers;
+    const { user, servers, setIsAuthor, setCurrServer, setIsServerSelected } = useContext(UserContext);
     function onServerClickHandler(data) {
-        // console.log(data);
-        props.onServerHandler(data);
+        (data.author.email === user.email) ?
+            setIsAuthor(true) : setIsAuthor(false);
+        setCurrServer(data);
+        setIsServerSelected(true);
     }
-    function onClickAccord() {
-        // props.onServerHandler({ name: "Accord" })
-        props.setIsServer(false);
-    }
-    function onClickCreateServer() {
-        nav('/user/Create-Server');
-    }
+    const onClickCreateServer = () => nav('/user/Create-Server');
     let serversObj = Object.keys(servers).map((item) => (
         <div key={item} onClick={() => onServerClickHandler(servers[item])}>
             <img
@@ -32,7 +29,7 @@ export default function ServerSec(props) {
         <>
             <section className={style.servers_section}>
                 <div className={style.upper}>
-                    <div onClick={onClickAccord}>
+                    <div onClick={() => setIsServerSelected(false)}>
                         <img src={accord} alt="Accord" />
                     </div>
                     {serversObj}
@@ -45,7 +42,6 @@ export default function ServerSec(props) {
                         <AiFillSetting color='rgb(20,20,20)' className={style.react_icon} />
                     </div>
                 </div>
-
             </section>
         </>
     )
