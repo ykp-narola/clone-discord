@@ -4,14 +4,14 @@ import { FiSettings } from 'react-icons/fi';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { FaHashtag, FaSignal } from 'react-icons/fa';
 import { HiPhoneMissedCall } from 'react-icons/hi';
-import { MdHeadset, MdHeadsetOff, MdMic, MdMicOff, MdOutlineScreenShare } from 'react-icons/md';
+import { MdHeadset, MdHeadsetOff, MdMic, MdMicOff, MdOutlineAddCircleOutline, MdOutlineScreenShare } from 'react-icons/md';
 import { GiSpeaker } from 'react-icons/gi';
 import { useNavigate } from 'react-router-dom'
 import style from './ChannelsSec.module.css'
 import io from "socket.io-client";
 import Peer from 'peerjs';
 import { getAllChannels, onUserDeleteServer, onUserLeaveServer } from '../../../APIs/API';
-import UserContext from '../../../Contexts/user-context';
+import UserContext from '../../../Context/user-context';
 const ENDPOINT = "http://192.168.100.130:3000";
 const joinAudio = new Audio('http://192.168.100.130:3000/sounds/join.mp3');
 const leaveAudio = new Audio('http://192.168.100.130:3000/sounds/leave.mp3');
@@ -191,9 +191,7 @@ export const ChannelsSec = (props) => {
             setIsVoiceConnected(true);
             // alert("connecting to voice channel...");
             // videoGrid.append(video);
-
         }
-
     };
     const disconnectAudio = () => {
         leaveAudio.play();
@@ -203,6 +201,7 @@ export const ChannelsSec = (props) => {
             name: user.name,
             image: user.image
         });
+        myPeer.close();
         // myPeer.destroy();
         voiceSocket.disconnect();
         console.log(myPeer);
@@ -219,7 +218,8 @@ export const ChannelsSec = (props) => {
         }
         setVoiceChannelUsers([]);
         setIsVoiceConnected(false);
-    }
+    };
+
     window.onbeforeunload = disconnectAudio;
 
     const startShareScreen = () => {
@@ -273,7 +273,7 @@ export const ChannelsSec = (props) => {
                 <div className={`${style.serverOptions} ${style.dropdown}`}>
                     <button className={style.dropbtn}>⋮</button>
                     <div className={style.dropdown_content}>
-                        {isAuthor ? <div onClick={() => nav(`/server/Create-Channel/${currServer.slug}`)} >Create Channel</div> : null}
+                        {isAuthor ? <div onClick={() => nav(`/server/Create-Channel/${currServer.slug}`)} >Manage Channel<MdOutlineAddCircleOutline className={style.react_icon} /></div> : null}
                         <div onClick={onServerSetting}>Server Settings<FiSettings className={style.react_icon} /></div>
                         {!isAuthor && <div onClick={onLeaveServer}>Leave Server<BsBoxArrowLeft className={style.react_icon} /></div>}
                         {isAuthor &&

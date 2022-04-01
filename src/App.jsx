@@ -8,9 +8,9 @@ import ChangePassword from "./Components/SettingComponents/ChangePassword";
 import CreateServerPage from "./Pages/CreateServerPage/CreateServerPage";
 import { CreateChannel } from "./Pages/CreateChannel/CreateChannel";
 import VoiceSetting from "./Components/SettingComponents/VoiceSetting";
-import AuthContext from "./Contexts/auth-context";
+import AuthContext from "./Context/auth-context";
 // import PageNotFound from "./Pages/PageNotFound/PageNotFound";
-import { UserContextProvider } from "./Contexts/user-context";
+import { UserContextProvider } from "./Context/user-context";
 
 export default function App() {
 	const { isLoggedIn } = useContext(AuthContext);

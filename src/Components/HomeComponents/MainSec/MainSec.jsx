@@ -1,77 +1,33 @@
-import React, { useEffect, useState, useRef, useLayoutEffect, useContext } from 'react'
+import React, { useEffect, useLayoutEffect, useContext } from 'react'
 import style from './MainSec.module.css'
 import loader from '../../../assets/Loader_magnify.gif'
-import { RiSendPlaneFill } from 'react-icons/ri';
-import io from "socket.io-client";
 import { getChannelMessages } from '../../../APIs/API';
-import UserContext from '../../../Contexts/user-context';
-
+import UserContext from '../../../Context/user-context';
+import { InputForm } from './InputBox/InputForm';
+import ChatContext from '../../../Context/chat-context';
 const imgPath = "http://192.168.100.130:3000/images/users/";
-const ENDPOINT = "http://192.168.100.130:3000";
 const notificationAudio = new Audio('http://192.168.100.130:3000/sounds/notification.mp3');
 
-let socket;
-const showError = () => {
-    console.log("Error Occured");
-};
-let granted = false;
-const requestPermission = async () => {
-    if (Notification.permission === "granted") {
-        granted = true;
-    } else if (Notification.permission !== "denied") {
-        let permission = await Notification.requestPermission();
-        granted = permission === "granted" ? true : false;
-    }
-}
-const showNotificationfunc = (data = { msg: "not defined", title: "Accord Web App" }) => {
-    if (!granted) {
-        requestPermission();
-    }
-    let showNotification = () => {
-        // create a new notification
-        let notification = new Notification(data.title, {
-            body: data.msg,
-            timestamp: 1000,
-            icon: `${imgPath}Accord.png`,
-            vibrate: true,
-            dir: 'rtl'
-        });
-        // close the notification after 10 seconds
-        setTimeout(() => {
-            notification.close();
-        }, 10 * 1000);
-
-        // navigate to a URL when clicked
-        notification.addEventListener("click", () => {
-            // window.open("https://www.google.com", "_blank");
-        });
-    };
-    granted ? showNotification() : showError();
-}
-
 export const MainSec = (props) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [messages, setMessages] = useState([]);
-    const [myMsg, setMyMsg] = useState();
-    const msgInputRef = useRef();
-    const messagesRef = React.createRef();
-    const messagesEndRef = useRef(null);
-
-    const { channel, user, currServer } = useContext(UserContext);
+    const {
+        channel, user, currServer,
+    } = useContext(UserContext);
+    const {
+        isLoading, setIsLoading,
+        socket, messages, setMessages,
+        pageScroll, messagesRef,
+        messagesStartRef, messagesEndRef,
+        showNotificationfunc
+    } = useContext(ChatContext);
 
     useLayoutEffect(() => {
-        socket = io(ENDPOINT);
-        // console.log(socket);
-    }, [channel._id]);
-
-    useEffect(() => {
         // socket?.disconnect();
         socket.removeAllListeners();
         socket.emit('join-text-channel', {
             channelId: channel._id,
             userId: user._id
         });
-        // console.log("joined ", channel.slug);
+        console.log("joined ", channel.slug);
 
         socket.on('new-message', data => {
             if (document.hidden) {
@@ -84,7 +40,7 @@ export const MainSec = (props) => {
                 }
             }
             setMessages((prev) => [...prev, data]);
-            pageScroll();
+            pageScroll({ behavior: "smooth" });
         });
         // eslint-disable-next-line
     }, [channel._id]);
@@ -102,9 +58,7 @@ export const MainSec = (props) => {
         })();
         // eslint-disable-next-line
     }, [props]);
-    function pageScroll() {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-    }
+
     function getTime(time) {
         let hour = new Date(time).getHours();
         let minute = new Date(time).getMinutes();
@@ -126,7 +80,8 @@ export const MainSec = (props) => {
     ));
 
     useEffect(() => {
-        pageScroll();
+        pageScroll({ behavior: "smooth" });
+        // eslint-disable-next-line
     }, [divOfListOfMesssages])
 
 
@@ -136,50 +91,11 @@ export const MainSec = (props) => {
                 {isLoading && <div className={style.Loader}>
                     <img src={loader} alt="Loading..." />
                 </div>}
+                <div ref={messagesStartRef} />
                 {!isLoading && divOfListOfMesssages}
                 <div ref={messagesEndRef} />
             </div>
-            <div className={style.chat__form}>
-                <form id="inputForm"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        if (myMsg !== "") {
-                            socket.emit('message', {
-                                message: myMsg,
-                                user: user,
-                                channelSlug: channel.slug,
-                                channelId: channel._id,
-                                serverId: currServer._id,
-                                createdAt: (new Date()).toISOString(),
-                            });
-                            // setMessages((prev) => [...prev, {
-                            //     message: myMsg,
-                            //     user: user,
-                            //     channelSlug: channel.slug,
-                            //     channelId: channel._id,
-                            //     serverId: currServer._id,
-                            //     createdAt: (new Date()).toISOString(),
-                            // }]);
-                            msgInputRef.current.value = "";
-                            setMyMsg("");
-                        }
-                    }}
-                >
-                    <input
-                        ref={msgInputRef}
-                        id="message"
-                        type="text"
-                        className={style.inputBox}
-                        autoComplete="off"
-                        placeholder="Type your message here ..."
-                        onChange={e => setMyMsg(e.target.value)}
-                        max="250"
-                    />
-                    <button type="submit">
-                        <RiSendPlaneFill className={style.send_icon} />
-                    </button>
-                </form>
-            </div>
+            <InputForm />
         </section>
     )
 }

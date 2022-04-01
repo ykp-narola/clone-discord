@@ -34,6 +34,7 @@
 	margin: 0.7rem 0;
 }
 .inputBox {
+	background-color: aliceblue;
 	padding: 0.3rem 0.5rem;
 	height: 1.4rem;
 	border: none;

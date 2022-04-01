@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react'
 import style from './LoginComponent.module.css'
 import qrcode from "../../assets/Qrcode.png"
 import { onLogin } from '../../APIs/API';
-import AuthContext from '../../Contexts/auth-context';
+import AuthContext from '../../Context/auth-context';
 
 export default function LoginComponent(props) {
     const authCtx = useContext(AuthContext);

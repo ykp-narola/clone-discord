@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import style from './CreateServerPage.module.css'
 import { onCreateServer, onJoinServer } from '../../APIs/API';
+const imgPath = "http://192.168.100.130:3000/images/users/";
 
 export default function CreateServerPage() {
     const nav = useNavigate();
@@ -11,6 +12,13 @@ export default function CreateServerPage() {
     const [serverPicture, setServerPicture] = useState();
     const [slug, setSlug] = useState();
     const [isError, setIsError] = useState(false);
+
+    const imageChange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setServerPicture(e.target.files[0]);
+        }
+    };
+
     const onCreateServerHandler = async (e) => {
         e.preventDefault();
         sessionStorage.removeItem("error");
@@ -99,17 +107,23 @@ export default function CreateServerPage() {
                                     onChange={e => setServerName(e.target.value)}
                                 />
                             </div>
-                            <div className={style.inputField1}>
-                                <label htmlFor="image">Upload Photo</label>
-                                <input
-                                    className={style.inputBox_file}
-                                    type="file"
-                                    id='photo'
-                                    accept='image/*'
-                                    onChange={(e) => {
-                                        setServerPicture(e.target.files[0]);
-                                    }}
-                                />
+                            <div className={style.inputField}>
+                                <label htmlFor="image">
+                                    {serverPicture ?
+                                        <img className={style.image} src={URL.createObjectURL(serverPicture)} alt="" />
+                                        : <img className={style.image} src={`${imgPath}Accord.png`} alt="" />}
+                                </label>
+                                <span>
+                                    <input
+                                        id='image'
+                                        className={style.input_img}
+                                        accept="image/jpeg, image/jpg, image/png"
+                                        type="file"
+                                        onChange={imageChange}
+                                        hidden
+                                    />
+                                    Server Image
+                                </span>
                             </div>
                             <button className={style.create_btn} onClick={onCreateServerHandler} type='submit'>Create</button>
                             <button className={style.cancel_btn} onClick={onCancelServerHandler}>Cancel</button>

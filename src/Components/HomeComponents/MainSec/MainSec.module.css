@@ -83,6 +83,7 @@
 	flex-direction: row;
 }
 .time {
+	color: grey;
 	margin: auto 1rem;
 	font-size: 0.75rem;
 }
@@ -98,38 +99,6 @@
 .text_msg {
 	border: none;
 	margin-top: auto;
-}
-
-.chat__form > form > button {
-	color: white;
-}
-.chat__form form {
-	height: 7vh;
-	margin: 0 1rem;
-	display: flex;
-	align-items: center;
-}
-.chat__form input {
-	height: 2.5rem;
-	font-size: 1rem;
-	min-width: 90%;
-	padding: 0 1rem;
-	background-color: rgb(197, 197, 197);
-	border-radius: 15px;
-	border: none;
-}
-.chat__form button {
-	width: 10%;
-	height: 100%;
-	font-size: 16px;
-	background-color: transparent;
-	border: none;
-	text-align: center;
-	text-transform: uppercase;
-	cursor: pointer;
-}
-.chat__form button:hover {
-	font-weight: bold;
 }
 
 .inputBox {

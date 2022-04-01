@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import style from './ServerSec.module.css';
-import accord from '../../../assets/Loader.gif'
+import accord from '../../../assets/Accord.png'
 import { useNavigate } from 'react-router-dom';
 import { AiOutlinePlus, AiFillSetting } from 'react-icons/ai';
-import UserContext from '../../../Contexts/user-context';
+import UserContext from '../../../Context/user-context';
 const imgPath = "http://192.168.100.130:3000/images/servers/";
 
 export default function ServerSec() {

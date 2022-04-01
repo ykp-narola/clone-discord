@@ -1,5 +1,6 @@
+const ENDPOINT = "http://192.168.100.130:3000";
 export const onLogin = async (data) => {
-	return fetch("/api/users/login", {
+	return fetch(`${ENDPOINT}/api/users/login`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -9,7 +10,7 @@ export const onLogin = async (data) => {
 	}).then((data) => data.json());
 };
 export const onRegisterUser = async (data) => {
-	return fetch("/api/users/signup", {
+	return fetch(`${ENDPOINT}/api/users/signup`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -18,14 +19,14 @@ export const onRegisterUser = async (data) => {
 	}).then((data) => data.json());
 };
 export const getAllServers = async (token) => {
-	return fetch("/api/users/", {
+	return fetch(`${ENDPOINT}/api/users/`, {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
 	}).then((data) => data.json());
 };
 export const onCreateServer = async (data) => {
-	return fetch("/api/servers", {
+	return fetch(`${ENDPOINT}/api/servers`, {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
@@ -34,7 +35,7 @@ export const onCreateServer = async (data) => {
 	}).then((data) => data.json());
 };
 export const onJoinServer = async (data) => {
-	return fetch(`/api/servers/${data.slug}/join`, {
+	return fetch(`${ENDPOINT}/api/servers/${data.slug}/join`, {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
@@ -42,7 +43,7 @@ export const onJoinServer = async (data) => {
 	}).then((data) => data.json());
 };
 export const onCreateChannel = async (data) => {
-	return fetch(`/api/servers/${data.serverSlug}/channels`, {
+	return fetch(`${ENDPOINT}/api/servers/${data.serverSlug}/channels`, {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
@@ -55,15 +56,18 @@ export const onCreateChannel = async (data) => {
 	}).then((data) => data.json());
 };
 export const onDeleteChannel = async (data) => {
-	return fetch(`/api/servers/${data.serverSlug}/channels/${data.slug}`, {
-		method: "DELETE",
-		headers: {
-			Authorization: `Bearer ${data.token}`,
-		},
-	}).then((data) => data.json());
+	return fetch(
+		`${ENDPOINT}/api/servers/${data.serverSlug}/channels/${data.slug}`,
+		{
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${data.token}`,
+			},
+		}
+	).then((data) => data.json());
 };
 export const onChangePassword = async (data) => {
-	return fetch("/api/users/updatePassword", {
+	return fetch(`${ENDPOINT}/api/users/updatePassword`, {
 		method: "PATCH",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
@@ -77,7 +81,7 @@ export const onChangePassword = async (data) => {
 	}).then((data) => data.json());
 };
 export const getUserData = async (token) => {
-	return fetch(`/api/users/`, {
+	return fetch(`${ENDPOINT}/api/users/`, {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${token}`,
@@ -85,7 +89,7 @@ export const getUserData = async (token) => {
 	}).then((data) => data.json());
 };
 export const getServerUsers = async (data) => {
-	return fetch(`/api/servers/${data.slug}`, {
+	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
@@ -94,7 +98,7 @@ export const getServerUsers = async (data) => {
 };
 export const getChannelMessages = async (data) => {
 	return fetch(
-		`/api/servers/${data.serverSlug}/channels/${data.channelSlug}/messages`,
+		`${ENDPOINT}/api/servers/${data.serverSlug}/channels/${data.channelSlug}/messages`,
 		{
 			headers: {
 				Authorization: `Bearer ${data.token}`,
@@ -103,7 +107,7 @@ export const getChannelMessages = async (data) => {
 	).then((data) => data.json());
 };
 export const onUserLeaveServer = async (data) => {
-	return fetch(`/api/servers/${data.slug}/leave`, {
+	return fetch(`${ENDPOINT}/api/servers/${data.slug}/leave`, {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
@@ -111,7 +115,7 @@ export const onUserLeaveServer = async (data) => {
 	});
 };
 export const onUserDeleteServer = async (data) => {
-	return fetch(`/api/servers/${data.slug}`, {
+	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
 		method: "DELETE",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
@@ -119,7 +123,7 @@ export const onUserDeleteServer = async (data) => {
 	});
 };
 export const getAllChannels = async (data) => {
-	return fetch(`/api/servers/${data.slug}`, {
+	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${data.token}`,

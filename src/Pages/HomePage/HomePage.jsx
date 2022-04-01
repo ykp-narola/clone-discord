@@ -8,7 +8,8 @@ import { MainSec } from '../../Components/HomeComponents/MainSec/MainSec';
 import { Users } from '../../Components/HomeComponents/Users/Users';
 import { useNavigate } from 'react-router-dom';
 import { getAllServers } from '../../APIs/API';
-import UserContext from '../../Contexts/user-context';
+import UserContext from '../../Context/user-context';
+import { ChatContextProvider } from '../../Context/chat-context';
 
 export default function HomePage() {
     const nav = useNavigate();
@@ -80,7 +81,10 @@ export default function HomePage() {
                                             </div>
                                         </div>}
                                     {isChannelSelected &&
-                                        <MainSec />}
+                                        <ChatContextProvider>
+                                            <MainSec />
+                                        </ChatContextProvider>
+                                    }
                                     <Users slug={currServer.slug} />
                                 </div>
                             </section>
