@@ -1,12 +1,12 @@
 .chat__form form {
 	position: relative;
 	height: 7vh;
-	margin: 0.2rem 1rem;
+	margin: 0rem 1rem;
 }
 
 .container {
-	background-color: rgb(79, 82, 85);
-	border-radius: 8px;
+	background-color: rgb(39, 43, 46);
+	border-radius: 0 0 8px 8px;
 }
 
 .input_container {
@@ -15,15 +15,19 @@
 	display: flex;
 	flex-direction: row;
 }
-.input_container > button,
+/* .input_container > button,
 input,
 .right_btn > button {
 	outline: none;
 	background-color: transparent;
 	border: none;
-}
-button {
+} */
+button,
+input {
+	background-color: transparent;
+	border: none;
 	cursor: pointer;
+	outline: none;
 }
 /* .left_btn {
 } */
@@ -32,29 +36,41 @@ button {
 }
 .icon {
 	color: white;
+	font-size: 1.2rem;
 }
-.add_icon {
+.add_attachment_btn {
+	width: 5%;
+	margin: auto 0;
+}
+.left_btn {
 	border-radius: 25px;
 	margin: 0.3rem;
 	padding: 0.2rem;
 	font-size: 1.1rem;
 }
 button:hover .add_icon {
-	color: rgb(48, 32, 32);
+	color: rgb(148, 137, 137);
+}
+
+.chatbar_input {
+	width: 80%;
+	margin: auto 0;
 }
 
 .inputBox {
+	width: 100%;
 	padding: 0.2rem 0.5rem;
 	border: none;
-	font-size: 1rem;
+	font-size: 1.2rem;
 	outline: none;
-	width: 70%;
 	color: aliceblue;
 	/* overflow: scroll; */
 }
 
 .right_btn {
 	margin-left: auto;
+	display: flex;
+	flex-direction: row;
 }
 .right_btn > button > .icon {
 	color: black;
@@ -64,7 +80,8 @@ button:hover .add_icon {
 	font-size: 1.3rem;
 }
 
-.add_photo {
+.add_icon {
+	font-size: 1.4rem;
 }
 /* .chat__form > form button {
 	color: white;
@@ -93,8 +110,9 @@ button:hover .add_icon {
 .chat__form button:hover {
 	font-weight: bold;
 } */
-.emoji_btn {
+.emoji_button {
 	position: relative;
+	margin: auto 0;
 }
 .picker {
 	margin-bottom: 4.5rem;
@@ -104,4 +122,13 @@ button:hover .add_icon {
 }
 .pickerstyle {
 	background-color: aqua;
+}
+.right_btn button[type="submit"] {
+	margin: auto;
+	font-size: 1.2rem;
+}
+
+.submit_button,
+.pagescroll_button {
+	margin: auto 0.4rem;
 }

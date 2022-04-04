@@ -201,9 +201,12 @@ export const ChannelsSec = (props) => {
             name: user.name,
             image: user.image
         });
-        myPeer.close();
-        // myPeer.destroy();
+
         voiceSocket.disconnect();
+        setIsVoiceConnected(false);
+        // myPeer.close();
+        setVoiceChannelUsers([]);
+        myPeer.destroy();
         console.log(myPeer);
         for (let conns in myPeer.connections) {
             console.log(conns);
@@ -216,8 +219,6 @@ export const ChannelsSec = (props) => {
                     conn.close();
             });
         }
-        setVoiceChannelUsers([]);
-        setIsVoiceConnected(false);
     };
 
     window.onbeforeunload = disconnectAudio;

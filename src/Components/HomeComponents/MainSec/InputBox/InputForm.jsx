@@ -6,17 +6,12 @@ import { RiSendPlaneFill } from 'react-icons/ri';
 
 import ChatContext from '../../../../Context/chat-context';
 import UserContext from '../../../../Context/user-context';
-import { GrAddCircle, GrAttachment } from 'react-icons/gr';
-import { MdAdd, MdAddAPhoto, MdAddPhotoAlternate, MdOutlineEmojiEmotions } from 'react-icons/md';
-import { ImFilePicture } from 'react-icons/im';
-import { AiOutlineGif } from 'react-icons/ai';
-
-// import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
-// import { Picker } from 'emoji-mart'
-// import { Emoji } from 'emoji-mart'
 
 import 'emoji-mart/css/emoji-mart.css'
-import { Picker } from 'emoji-mart'
+import { Picker, Emoji } from 'emoji-mart'
+
+import { DropzoneDialog } from 'material-ui-dropzone';
+import { AddCircle } from '@material-ui/icons';
 
 
 export const InputForm = (props) => {
@@ -30,17 +25,12 @@ export const InputForm = (props) => {
     } = useContext(ChatContext);
     const msgInputRef = useRef();
 
-    const [showPicker, setShowPicker] = useState(false);
-
-    const onEmojiClick = (e) => {
-        // console.log(e.native);
-        // setShowPicker(false);
-        setMyMessage(myMessage + e.native);
-        document.getElementById("message").focus();
-    };
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [showAttachment, setShowAttachment] = useState(false);
+    const [emojiId, setEmojiId] = useState("grinning");
 
     document.getElementById("message")?.addEventListener("focus", () => {
-        setShowPicker(false);
+        setShowEmojiPicker(false);
     });
 
     return (
@@ -63,68 +53,115 @@ export const InputForm = (props) => {
             >
                 <div className={style.container}>
                     <div className={style.input_container}>
-                        <button className={style.left_btn}>
-                            <GrAttachment className={`${style.icon} ${style.add_icon}`} />
-                        </button>
-                        <input
-                            ref={msgInputRef}
-                            id="message"
-                            type="text"
-                            className={style.inputBox}
-                            value={myMessage}
-                            autoComplete="off"
-                            placeholder="Type your message here ..."
-                            onChange={e => setMyMessage(e.target.value)}
-                            max="100"
-                        />
-                        <div className={style.right_btn}>
-                            <button type="button" className={`${style.icon_btn} ${style.emoji_btn}`} onClick={() => {
-                                setShowPicker(!showPicker);
-                            }}>
-                                {/* <Emoji emoji='smiley' set='apple' size={25} /> */}
-                                <MdOutlineEmojiEmotions className={`${style.icon} ${style.emoji}`} />
-                            </button>
-                            <button className={style.icon_btn}>
-                                <AiOutlineGif className={`${style.icon} ${style.add_photo}`} />
-                            </button>
-                            <button className={style.icon_btn}>
-                                <MdAddAPhoto className={`${style.icon} ${style.add_photo}`} />
-                            </button>
-                            <button type="submit">
-                                <RiSendPlaneFill className={style.icon} />
-                            </button>
-                            <button onClick={() => {
-                                if (isOnTop) {
-                                    pageScroll({ behavior: "smooth" });
-                                } else {
-                                    messagesStartRef.current?.scrollIntoView({ behavior: "smooth" });
-                                }
-                            }
-                            }>
-                                {!isOnTop ? <BiArrowToTop className={style.icon} /> :
-                                    <BiArrowToBottom className={style.icon} />
-                                }
+                        <div className={style.add_attachment_btn}>
+                            <button className={style.left_btn}
+                                type="button"
+                                onClick={() =>
+                                    setShowAttachment(!showAttachment)
+                                } >
+                                <AddCircle className={`${style.icon} ${style.add_icon}`} />
                             </button>
                         </div>
-                    </div>
-                    <div className={style.picker}>
-                        {showPicker &&
-                            <Picker
-                                theme="dark"
-                                onSelect={(e) => onEmojiClick(e)}
+                        <div className={style.chatbar_input}>
+                            <input
+                                ref={msgInputRef}
+                                id="message"
+                                type="text"
+                                className={style.inputBox}
+                                value={myMessage}
+                                autoComplete="off"
+                                placeholder={`Message #${channel.name}`}
+                                onChange={e => setMyMessage(e.target.value)}
+                                max="100"
                             />
-                            // <Picker
-                            //     onEmojiClick={onEmojiClick}
-                            //     disableAutoFocus={true}
-                            //     skinTone={SKIN_TONE_MEDIUM_DARK}
-                            //     theme="dark"
-                            //     groupNames={{ smileys_people: 'PEOPLE' }}
-                            //     native
-                            // />
-                        }
+                        </div>
+                        <div className={style.right_btn}>
+                            <div className={style.emoji_button}>
+                                <button type="button" className={style.icon_btn} onClick={() => {
+                                    setShowEmojiPicker(!showEmojiPicker);
+                                }}>
+                                    <Emoji
+                                        emoji={emojiId}
+                                        native={true}
+                                        size={26}
+                                        set={'twitter'}
+                                        onLeave={(em, e) => {
+                                            console.log(em, " ::: ")
+                                        }}
+                                    />
+                                </button>
+                            </div>
+                            <div className={style.submit_button}>
+                                <button type="submit">
+                                    <RiSendPlaneFill className={style.icon} />
+                                </button>
+                            </div>
+                            <div className={style.pagescroll_button}>
+                                <button onClick={() => {
+                                    if (isOnTop) {
+                                        pageScroll({ behavior: "smooth" });
+                                    } else {
+                                        messagesStartRef.current?.scrollIntoView({ behavior: "smooth" });
+                                    }
+                                }
+                                }>
+                                    {!isOnTop ? <BiArrowToTop className={style.icon} /> :
+                                        <BiArrowToBottom className={style.icon} />
+                                    }
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                    {showAttachment && <div className={style.attachment}>
+                        <FileUpload id="upload" showAttachment setShowAttachment={setShowAttachment} />
+                    </div>
+                    }
+                    {showEmojiPicker && <div className={style.picker}>
+                        <EmojiPicker myMessage={myMessage} setMyMessage={setMyMessage} />
+                    </div>
+                    }
                 </div>
             </form>
         </div>
+    )
+}
+
+const EmojiPicker = (props) => {
+    return (
+        <Picker
+            autoFocus={false}
+            onClick={(emoji, e) => {
+                props.setMyMessage(props.myMessage + emoji.native);
+            }}
+            native={true}
+            perLine={12}
+            showPreview={false}
+            theme="dark"
+            defaultSkin={1}
+            set={'twitter'}
+        />
+    )
+}
+
+const FileUpload = (props) => {
+    const [files, setFiles] = useState([]);
+    console.log("All files: ", files);
+
+    return (
+        <DropzoneDialog
+            acceptedFiles={['image/*']}
+            cancelButtonText={"Cancel"}
+            submitButtonText={"Submit"}
+            maxFileSize={5000000}
+            open={props.showAttachment}
+            onClose={() => props.setShowAttachment(false)}
+            onSave={(filess) => {
+                console.log('Files:', filess);
+                setFiles(filess);
+                props.setShowAttachment(false);
+            }}
+            showPreviews={true}
+            showFileNamesInPreview={true}
+        />
     )
 }

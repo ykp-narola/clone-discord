@@ -11,6 +11,7 @@
 }
 
 .text_channel_section {
+	border-bottom: 1px solid black;
 	height: 6vh;
 }
 
@@ -37,7 +38,7 @@
 
 /* text_channel_section */
 .chat__wrapper {
-	height: 85vh;
+	height: 83vh;
 	overflow: scroll;
 }
 /* .chat__wrapper {
@@ -56,6 +57,7 @@
 }
 
 .message {
+	position: relative;
 	margin: 0.1rem;
 	padding: 0.5rem 1rem;
 	display: flex;
@@ -70,6 +72,29 @@
 	width: 35px;
 	margin: 0.2em;
 	border-radius: 25px;
+}
+
+.message_controller {
+	border: none;
+	border-radius: 8px;
+	position: absolute;
+	top: -0.5rem;
+	right: 1rem;
+	display: none;
+	background-color: rgb(85, 91, 97);
+	z-index: 1;
+}
+
+.message_controller .icon {
+	border-radius: 8px;
+	padding: 0.4rem;
+	color: white;
+}
+.message_controller .icon:hover {
+	background-color: rgb(69, 73, 78);
+}
+.message:hover .message_controller {
+	display: block;
 }
 
 .msg {
@@ -111,4 +136,21 @@
 }
 .send_icon:hover {
 	color: green;
+}
+.parent_message {
+	border-radius: 8px 8px 0 0;
+	margin: 0 1rem;
+	padding: 0 1rem;
+	background-color: rgb(32, 34, 37);
+}
+.reply_message::before {
+	content: "Replying to ";
+	color: grey;
+}
+.flex_message {
+	display: flex;
+	flex-direction: row;
+}
+.flex_message > .close_btn {
+	margin-left: auto;
 }

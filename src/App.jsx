@@ -10,19 +10,20 @@ import { CreateChannel } from "./Pages/CreateChannel/CreateChannel";
 import VoiceSetting from "./Components/SettingComponents/VoiceSetting";
 import AuthContext from "./Context/auth-context";
 // import PageNotFound from "./Pages/PageNotFound/PageNotFound";
-import { UserContextProvider } from "./Context/user-context";
+import UserContext, { UserContextProvider } from "./Context/user-context";
+import { Chatme } from "./Components/HomeComponents/ChatMe/Chatme";
+import { ChannelPage } from "./Components/HomeComponents/ChannelPage/ChannelPage";
 
 export default function App() {
 	const { isLoggedIn } = useContext(AuthContext);
+	const { isServerSelected } = useContext(UserContext);
 
 	return (
 		<Routes>
 			<Route path="/" element={
 				!isLoggedIn ?
 					<Navigate to="/user/login" /> :
-					<UserContextProvider>
-						<HomePage />
-					</UserContextProvider>
+					<Navigate to="/channels/@me" />
 			} />
 			{!isLoggedIn && <>
 				<Route path="/user/login" element={<Login />} />
@@ -30,11 +31,21 @@ export default function App() {
 			</>}
 			{isLoggedIn &&
 				<>
+					<Route path="/channels" element={<MainPage />} >
+						<Route path="/channels/@me" element={<Chatme />} />
+						<Route path="/channels/:serverId" element={
+							!isServerSelected ?
+								<ChannelPage /> : <Chatme />
+						} />
+					</Route>
+					{/* <Route path="/:userId/:serverId" element={<MainPage />}> */}
+					{/* <Route path=":channelId" element={<MainPage />} /> */}
+					{/* </Route> */}
 					<Route path="/user/settings" element={<Settings />}>
-						<Route path="/user/settings/profile" element={<Profile />} />
-						<Route path="/user/settings/voice-controls" element={<VoiceSetting />} />
+						<Route path="profile" element={<Profile />} />
+						<Route path="voice-controls" element={<VoiceSetting />} />
 						<Route
-							path="/user/settings/change-password"
+							path="change-password"
 							element={<ChangePassword />}
 						/>
 					</Route>
@@ -45,5 +56,13 @@ export default function App() {
 			{/* <Route path="*" element={<PageNotFound />} /> */}
 			<Route path="*" element={<Navigate to="/" />} />
 		</Routes>
+	);
+}
+
+const MainPage = () => {
+	return (
+		<UserContextProvider>
+			<HomePage />
+		</UserContextProvider>
 	);
 }
