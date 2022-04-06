@@ -8,9 +8,12 @@ import ChangePassword from "./Components/SettingComponents/ChangePassword";
 import CreateServerPage from "./Pages/CreateServerPage/CreateServerPage";
 import { CreateChannel } from "./Pages/CreateChannel/CreateChannel";
 import VoiceSetting from "./Components/SettingComponents/VoiceSetting";
-import AuthContext from "./Contexts/auth-context";
+import AuthContext from "./Context/auth-context";
 // import PageNotFound from "./Pages/PageNotFound/PageNotFound";
-import { UserContextProvider } from "./Contexts/user-context";
+import UserContext, { UserContextProvider } from "./Context/user-context";
+import { Chatme } from "./Components/HomeComponents/ChatMe/Chatme";
+import { ChannelPage } from "./Components/HomeComponents/ChannelPage/ChannelPage";
+// import { ChatContextProvider } from "./Context/chat-context";
 
 export default function App() {
 	const { isLoggedIn } = useContext(AuthContext);
@@ -20,30 +23,46 @@ export default function App() {
 			<Route path="/" element={
 				!isLoggedIn ?
 					<Navigate to="/user/login" /> :
-					<UserContextProvider>
-						<HomePage />
-					</UserContextProvider>
+					<Navigate to="/channels/@me" />
 			} />
 			{!isLoggedIn && <>
 				<Route path="/user/login" element={<Login />} />
 				<Route path="/user/register" element={<Login />} />
 			</>}
-			{isLoggedIn &&
-				<>
-					<Route path="/user/settings" element={<Settings />}>
-						<Route path="/user/settings/profile" element={<Profile />} />
-						<Route path="/user/settings/voice-controls" element={<VoiceSetting />} />
-						<Route
-							path="/user/settings/change-password"
-							element={<ChangePassword />}
-						/>
-					</Route>
-					<Route path="/user/Create-Server" element={<CreateServerPage />} />
-					<Route path="/server/Create-Channel/:slug" element={<CreateChannel />} />
-				</>
-			}
+			{isLoggedIn && <>
+				<Route path="/channels" element={<MainPage />} >
+					<Route path="@me" element={<Chatme />} />
+					{/* <Route path="/channels/:serverSlug" element={
+						!isServerSelected ?
+							<ChannelPage />
+							: <Navigate to="/channels/@me" />
+					} /> */}
+					<Route path=":serverSlug/:channelSlug" element={
+						<ChannelPage />
+					} />
+				</Route>
+				<Route path="/user/settings" element={<Settings />}>
+					<Route path="profile" element={<Profile />} />
+					<Route path="voice-controls" element={<VoiceSetting />} />
+					<Route path="change-password" element={<ChangePassword />} />
+				</Route>
+				<Route path="/user/Create-Server" element={<CreateServerPage />} />
+				<Route path="/server/Create-Channel/:slug" element={
+					// <ChatContextProvider>
+					<CreateChannel />
+					// {/* </ChatContextProvider> */}
+				} />
+			</>}
 			{/* <Route path="*" element={<PageNotFound />} /> */}
 			<Route path="*" element={<Navigate to="/" />} />
 		</Routes>
+	);
+}
+
+const MainPage = () => {
+	return (
+		<UserContextProvider>
+			<HomePage />
+		</UserContextProvider>
 	);
 }

@@ -1,17 +1,18 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useContext, useLayoutEffect, useState } from 'react'
 import { BsBoxArrowLeft } from 'react-icons/bs';
 import { FiSettings } from 'react-icons/fi';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { FaHashtag, FaSignal } from 'react-icons/fa';
 import { HiPhoneMissedCall } from 'react-icons/hi';
-import { MdHeadset, MdHeadsetOff, MdMic, MdMicOff, MdOutlineScreenShare } from 'react-icons/md';
+import { MdHeadset, MdHeadsetOff, MdMic, MdMicOff, MdOutlineAddCircleOutline, MdOutlineScreenShare } from 'react-icons/md';
 import { GiSpeaker } from 'react-icons/gi';
 import { useNavigate } from 'react-router-dom'
 import style from './ChannelsSec.module.css'
 import io from "socket.io-client";
 import Peer from 'peerjs';
 import { getAllChannels, onUserDeleteServer, onUserLeaveServer } from '../../../APIs/API';
-import UserContext from '../../../Contexts/user-context';
+import UserContext from '../../../Context/user-context';
+import ChatContext from '../../../Context/chat-context';
 const ENDPOINT = "http://192.168.100.130:3000";
 const joinAudio = new Audio('http://192.168.100.130:3000/sounds/join.mp3');
 const leaveAudio = new Audio('http://192.168.100.130:3000/sounds/leave.mp3');
@@ -19,13 +20,16 @@ let voiceSocket, peers, localStream, myPeer;
 
 export const ChannelsSec = (props) => {
     const nav = useNavigate();
-    const { isAuthor, channel, user, setIsChannelSelected, currServer, setChannel } = useContext(UserContext);
+    const { isAuthor, channel, user, setIsChannelSelected,
+        currServer, setChannel
+    } = useContext(UserContext);
+    const {
+        textChannels, setTextChannels, voiceChannels, setVoiceChannels
+        , voiceChannelUsers, setVoiceChannelUsers
+    } = useContext(ChatContext);
 
     const imgPath = "http://192.168.100.130:3000/images/users/";
     const [channelId, setChannelId] = useState(0);
-    const [textChannels, setTextChannels] = useState({});
-    const [voiceChannels, setVoiceChannels] = useState([]);
-    const [voiceChannelUsers, setVoiceChannelUsers] = useState([]);
     const [isVoiceConnected, setIsVoiceConnected] = useState(false);
     const [isSharingScreen, setIsSharingScreen] = useState(false);
 
@@ -59,23 +63,25 @@ export const ChannelsSec = (props) => {
                 setVoiceChannels(channels.filter((e) => { return e.type === "Voice" }));
             }
         })();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
     }, [currServer]);
 
-    useEffect(() => {
-        if (Object.keys(textChannels).length !== 0) {
-            setChannel({
-                name: textChannels[0].name,
-                slug: textChannels[0].slug,
-                _id: textChannels[0]._id
-            });
-            setIsChannelSelected(true);
+    useLayoutEffect(() => {
+        const channelId = window.location.pathname.split('/')[3];
+        for (let j in currServer.channels) {
+            if (currServer.channels[j].slug === channelId) {
+                setChannel(currServer.channels[j]);
+                setIsChannelSelected(true);
+                break;
+            }
         }
         // eslint-disable-next-line
     }, [textChannels])
 
     const divOfListOfTextChannels = Object.keys(textChannels).map((item) => (
         <li key={item} onClick={() => {
+            console.log(`trying to switch /channels/${currServer._id}/${textChannels[item]._id}`);
+            nav(`/channels/${currServer.slug}/${textChannels[item].slug}`);
             if (channel._id !== textChannels[item]._id) {
                 setChannel({
                     name: textChannels[item].name,
@@ -103,10 +109,11 @@ export const ChannelsSec = (props) => {
         voiceSocket?.removeAllListeners();
         voiceSocket = io(ENDPOINT);
         peers = {};
-        myPeer = new Peer(user._id, {
-            host: "/",
-            port: "3001",
-        });
+        myPeer = new Peer(user._id);
+        // , {
+        //     host: "/",
+        //     port: "3001",
+        // }
         const myVideo = document.createElement("video");
         myVideo.muted = true;
 
@@ -191,9 +198,7 @@ export const ChannelsSec = (props) => {
             setIsVoiceConnected(true);
             // alert("connecting to voice channel...");
             // videoGrid.append(video);
-
         }
-
     };
     const disconnectAudio = () => {
         leaveAudio.play();
@@ -203,8 +208,12 @@ export const ChannelsSec = (props) => {
             name: user.name,
             image: user.image
         });
-        // myPeer.destroy();
+
         voiceSocket.disconnect();
+        setIsVoiceConnected(false);
+        // myPeer.close();
+        setVoiceChannelUsers([]);
+        myPeer.destroy();
         console.log(myPeer);
         for (let conns in myPeer.connections) {
             console.log(conns);
@@ -217,9 +226,8 @@ export const ChannelsSec = (props) => {
                     conn.close();
             });
         }
-        setVoiceChannelUsers([]);
-        setIsVoiceConnected(false);
-    }
+    };
+
     window.onbeforeunload = disconnectAudio;
 
     const startShareScreen = () => {
@@ -237,7 +245,6 @@ export const ChannelsSec = (props) => {
             });
     }
     const stopSharingScreen = () => {
-
     }
 
     const divOfListOfVoiceChannels = Object.keys(voiceChannels).map((item) => (
@@ -273,7 +280,7 @@ export const ChannelsSec = (props) => {
                 <div className={`${style.serverOptions} ${style.dropdown}`}>
                     <button className={style.dropbtn}>⋮</button>
                     <div className={style.dropdown_content}>
-                        {isAuthor ? <div onClick={() => nav(`/server/Create-Channel/${currServer.slug}`)} >Create Channel</div> : null}
+                        {isAuthor ? <div onClick={() => nav(`/server/Create-Channel/${currServer.slug}`)} >Manage Channel<MdOutlineAddCircleOutline className={style.react_icon} /></div> : null}
                         <div onClick={onServerSetting}>Server Settings<FiSettings className={style.react_icon} /></div>
                         {!isAuthor && <div onClick={onLeaveServer}>Leave Server<BsBoxArrowLeft className={style.react_icon} /></div>}
                         {isAuthor &&

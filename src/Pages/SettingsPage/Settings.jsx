@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { MdArrowBackIos } from 'react-icons/md';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import AuthContext from '../../Contexts/auth-context';
+import AuthContext from '../../Context/auth-context';
 import style from './Settings.module.css'
 
 

@@ -85,6 +85,7 @@
 	flex-direction: column;
 }
 .inputBox {
+	background-color: aliceblue;
 	margin-top: 0.4rem;
 	padding: 0.3rem 0.5rem;
 	height: 1.5rem;

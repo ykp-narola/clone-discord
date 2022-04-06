@@ -241,6 +241,9 @@ span::before {
 	margin: auto;
 	width: 30%;
 }
+.Loader img {
+	height: 20rem;
+}
 
 /*
 .settings {

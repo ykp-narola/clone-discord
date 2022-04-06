@@ -1,0 +1,9 @@
+.initial {
+	display: grid;
+	place-items: center;
+	width: 100vw;
+}
+.initial p {
+	font-size: 1.5rem;
+	color: grey;
+}

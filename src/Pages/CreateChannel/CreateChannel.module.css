@@ -34,6 +34,7 @@
 	margin: 0.7rem 0;
 }
 .inputBox {
+	background-color: aliceblue;
 	padding: 0.3rem 0.5rem;
 	height: 1.4rem;
 	border: none;
@@ -128,6 +129,15 @@
 	font-size: 1.1rem;
 	height: 2rem;
 	border-radius: 5px 0 0 5px;
+	width: 100%;
+	border: none;
+}
+
+.delete_select select {
+	outline: none;
+	font-size: 1.1rem;
+	height: 2rem;
+	border-radius: 0 5px 5px 0;
 	width: 100%;
 	border: none;
 }

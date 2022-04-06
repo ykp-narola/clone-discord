@@ -11,6 +11,7 @@
 }
 
 .text_channel_section {
+	border-bottom: 1px solid black;
 	height: 6vh;
 }
 
@@ -37,7 +38,7 @@
 
 /* text_channel_section */
 .chat__wrapper {
-	height: 85vh;
+	height: 83vh;
 	overflow: scroll;
 }
 /* .chat__wrapper {
@@ -56,13 +57,39 @@
 }
 
 .message {
-	margin: 0.1rem;
+	position: relative;
+	margin: 0 0.1rem;
 	padding: 0.5rem 1rem;
+	display: flex;
+	flex-direction: column;
+}
+.message_div {
 	display: flex;
 	flex-direction: row;
 }
 .message:hover {
 	background-color: rgb(63, 67, 71);
+}
+.reply_div {
+	display: flex;
+	flex-direction: row;
+	padding: 0 1rem 0 2rem;
+	border-radius: 4px;
+	width: max-content;
+	background-color: rgb(42, 42, 46);
+	color: rgb(207, 210, 214);
+}
+.reply_div .username {
+	padding: 0 0.5rem;
+	color: white;
+}
+.reply_div .rep_message {
+	color: grey;
+}
+.reply_div::before {
+	content: "⎩";
+	transform: rotate(90deg);
+	color: grey;
 }
 
 .message img {
@@ -70,6 +97,29 @@
 	width: 35px;
 	margin: 0.2em;
 	border-radius: 25px;
+}
+
+.message_controller {
+	border: none;
+	border-radius: 8px;
+	position: absolute;
+	top: -0.5rem;
+	right: 1rem;
+	display: none;
+	background-color: rgb(85, 91, 97);
+	z-index: 1;
+}
+
+.message_controller .icon {
+	border-radius: 8px;
+	padding: 0.4rem;
+	color: white;
+}
+.message_controller .icon:hover {
+	background-color: rgb(69, 73, 78);
+}
+.message:hover .message_controller {
+	display: block;
 }
 
 .msg {
@@ -83,6 +133,7 @@
 	flex-direction: row;
 }
 .time {
+	color: grey;
 	margin: auto 1rem;
 	font-size: 0.75rem;
 }
@@ -100,38 +151,6 @@
 	margin-top: auto;
 }
 
-.chat__form > form > button {
-	color: white;
-}
-.chat__form form {
-	height: 7vh;
-	margin: 0 1rem;
-	display: flex;
-	align-items: center;
-}
-.chat__form input {
-	height: 2.5rem;
-	font-size: 1rem;
-	min-width: 90%;
-	padding: 0 1rem;
-	background-color: rgb(197, 197, 197);
-	border-radius: 15px;
-	border: none;
-}
-.chat__form button {
-	width: 10%;
-	height: 100%;
-	font-size: 16px;
-	background-color: transparent;
-	border: none;
-	text-align: center;
-	text-transform: uppercase;
-	cursor: pointer;
-}
-.chat__form button:hover {
-	font-weight: bold;
-}
-
 .inputBox {
 	outline: none;
 }
@@ -142,4 +161,21 @@
 }
 .send_icon:hover {
 	color: green;
+}
+.parent_message {
+	border-radius: 8px 8px 0 0;
+	margin: 0 1rem;
+	padding: 0 1rem;
+	background-color: rgb(32, 34, 37);
+}
+.reply_message::before {
+	content: "Replying to ";
+	color: grey;
+}
+.flex_message {
+	display: flex;
+	flex-direction: row;
+}
+.flex_message > .close_btn {
+	margin-left: auto;
 }

@@ -2,9 +2,9 @@ import React, { useContext, useState } from 'react'
 // import PropTypes from 'prop-types';
 
 import style from './LoginComponent.module.css'
-import qrcode from "../../assets/Qrcode.png"
+import qrcode from "../../assets/Images/Qrcode.png"
 import { onLogin } from '../../APIs/API';
-import AuthContext from '../../Contexts/auth-context';
+import AuthContext from '../../Context/auth-context';
 
 export default function LoginComponent(props) {
     const authCtx = useContext(AuthContext);

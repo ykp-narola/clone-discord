@@ -19,7 +19,7 @@
 	height: 50px;
 	width: 50px;
 	margin: 0.2em;
-	padding: 0.2rem;
+	/* padding: 0.2rem; */
 	border-radius: 25px;
 	transition: 0.3s;
 }
@@ -42,7 +42,7 @@
 	height: 34px;
 	width: 34px;
 	margin: 0.2em;
-	padding: 0.75rem;
+	padding: 0.6rem;
 	border-radius: 25px;
 	transition: 0.3s;
 }
