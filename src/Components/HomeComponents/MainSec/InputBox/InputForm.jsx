@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import style from './InputForm.module.css'
 
 import { BiArrowToBottom, BiArrowToTop } from 'react-icons/bi';
@@ -9,9 +9,10 @@ import UserContext from '../../../../Context/user-context';
 
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker, Emoji } from 'emoji-mart'
-
+import { EmojiIDs } from '../../../../assets/Emojis';
 import { DropzoneDialog } from 'material-ui-dropzone';
 import { AddCircle } from '@material-ui/icons';
+import mongoose from 'mongoose';
 
 
 export const InputForm = (props) => {
@@ -33,13 +34,19 @@ export const InputForm = (props) => {
         setShowEmojiPicker(false);
     });
 
+    useEffect(() => {
+        msgInputRef.current.focus();
+    }, [props.reply])
+
     return (
         <div className={style.chat__form}>
             <form id="inputForm" onSubmit={(e) => {
                 e.preventDefault();
                 if (myMessage !== "") {
                     socket.emit('message', {
+                        _id: new mongoose.Types.ObjectId().toHexString(),
                         message: myMessage,
+                        reply: props.reply,
                         user: user,
                         channelSlug: channel.slug,
                         channelId: channel._id,
@@ -47,6 +54,7 @@ export const InputForm = (props) => {
                         createdAt: (new Date()).toISOString(),
                     });
                     msgInputRef.current.value = "";
+                    props.setReplyMessage(null);
                     setMyMessage("");
                 }
             }}
@@ -78,6 +86,7 @@ export const InputForm = (props) => {
                         <div className={style.right_btn}>
                             <div className={style.emoji_button}>
                                 <button type="button" className={style.icon_btn} onClick={() => {
+                                    msgInputRef.current.focus();
                                     setShowEmojiPicker(!showEmojiPicker);
                                 }}>
                                     <Emoji
@@ -86,7 +95,7 @@ export const InputForm = (props) => {
                                         size={26}
                                         set={'twitter'}
                                         onLeave={(em, e) => {
-                                            console.log(em, " ::: ")
+                                            setEmojiId(EmojiIDs[Math.floor(Math.random() * EmojiIDs.length)]);
                                         }}
                                     />
                                 </button>
@@ -97,7 +106,7 @@ export const InputForm = (props) => {
                                 </button>
                             </div>
                             <div className={style.pagescroll_button}>
-                                <button onClick={() => {
+                                <button type="button" onClick={() => {
                                     if (isOnTop) {
                                         pageScroll({ behavior: "smooth" });
                                     } else {
@@ -117,7 +126,7 @@ export const InputForm = (props) => {
                     </div>
                     }
                     {showEmojiPicker && <div className={style.picker}>
-                        <EmojiPicker myMessage={myMessage} setMyMessage={setMyMessage} />
+                        <EmojiPicker setMyMessage={setMyMessage} />
                     </div>
                     }
                 </div>
@@ -131,7 +140,7 @@ const EmojiPicker = (props) => {
         <Picker
             autoFocus={false}
             onClick={(emoji, e) => {
-                props.setMyMessage(props.myMessage + emoji.native);
+                props.setMyMessage(prev => prev + emoji.native);
             }}
             native={true}
             perLine={12}

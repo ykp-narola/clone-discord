@@ -13,10 +13,10 @@ import AuthContext from "./Context/auth-context";
 import UserContext, { UserContextProvider } from "./Context/user-context";
 import { Chatme } from "./Components/HomeComponents/ChatMe/Chatme";
 import { ChannelPage } from "./Components/HomeComponents/ChannelPage/ChannelPage";
+// import { ChatContextProvider } from "./Context/chat-context";
 
 export default function App() {
 	const { isLoggedIn } = useContext(AuthContext);
-	const { isServerSelected } = useContext(UserContext);
 
 	return (
 		<Routes>
@@ -29,30 +29,30 @@ export default function App() {
 				<Route path="/user/login" element={<Login />} />
 				<Route path="/user/register" element={<Login />} />
 			</>}
-			{isLoggedIn &&
-				<>
-					<Route path="/channels" element={<MainPage />} >
-						<Route path="/channels/@me" element={<Chatme />} />
-						<Route path="/channels/:serverId" element={
-							!isServerSelected ?
-								<ChannelPage /> : <Chatme />
-						} />
-					</Route>
-					{/* <Route path="/:userId/:serverId" element={<MainPage />}> */}
-					{/* <Route path=":channelId" element={<MainPage />} /> */}
-					{/* </Route> */}
-					<Route path="/user/settings" element={<Settings />}>
-						<Route path="profile" element={<Profile />} />
-						<Route path="voice-controls" element={<VoiceSetting />} />
-						<Route
-							path="change-password"
-							element={<ChangePassword />}
-						/>
-					</Route>
-					<Route path="/user/Create-Server" element={<CreateServerPage />} />
-					<Route path="/server/Create-Channel/:slug" element={<CreateChannel />} />
-				</>
-			}
+			{isLoggedIn && <>
+				<Route path="/channels" element={<MainPage />} >
+					<Route path="@me" element={<Chatme />} />
+					{/* <Route path="/channels/:serverSlug" element={
+						!isServerSelected ?
+							<ChannelPage />
+							: <Navigate to="/channels/@me" />
+					} /> */}
+					<Route path=":serverSlug/:channelSlug" element={
+						<ChannelPage />
+					} />
+				</Route>
+				<Route path="/user/settings" element={<Settings />}>
+					<Route path="profile" element={<Profile />} />
+					<Route path="voice-controls" element={<VoiceSetting />} />
+					<Route path="change-password" element={<ChangePassword />} />
+				</Route>
+				<Route path="/user/Create-Server" element={<CreateServerPage />} />
+				<Route path="/server/Create-Channel/:slug" element={
+					// <ChatContextProvider>
+					<CreateChannel />
+					// {/* </ChatContextProvider> */}
+				} />
+			</>}
 			{/* <Route path="*" element={<PageNotFound />} /> */}
 			<Route path="*" element={<Navigate to="/" />} />
 		</Routes>

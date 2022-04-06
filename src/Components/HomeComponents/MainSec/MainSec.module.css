@@ -58,13 +58,38 @@
 
 .message {
 	position: relative;
-	margin: 0.1rem;
+	margin: 0 0.1rem;
 	padding: 0.5rem 1rem;
+	display: flex;
+	flex-direction: column;
+}
+.message_div {
 	display: flex;
 	flex-direction: row;
 }
 .message:hover {
 	background-color: rgb(63, 67, 71);
+}
+.reply_div {
+	display: flex;
+	flex-direction: row;
+	padding: 0 1rem 0 2rem;
+	border-radius: 4px;
+	width: max-content;
+	background-color: rgb(42, 42, 46);
+	color: rgb(207, 210, 214);
+}
+.reply_div .username {
+	padding: 0 0.5rem;
+	color: white;
+}
+.reply_div .rep_message {
+	color: grey;
+}
+.reply_div::before {
+	content: "⎩";
+	transform: rotate(90deg);
+	color: grey;
 }
 
 .message img {

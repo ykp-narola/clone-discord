@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import style from './Homepage.module.css'
-import loader from '../../assets/Loader.gif'
+import loader from '../../assets/Images/Loader.gif'
 import ServerSec from '../../Components/HomeComponents/ServerSec/ServerSec';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { getAllServers } from '../../APIs/API';
@@ -26,7 +26,6 @@ export default function HomePage() {
             }
             const getUserServers = getAllServersInfo.data.user.servers;
             setServers(getUserServers);
-            console.log(getUserServers);
             const userInfo = getAllServersInfo.data.user;
             setUser(userInfo);
             setIsLoading(false)
@@ -41,10 +40,9 @@ export default function HomePage() {
 
     return (
         <div className={style.homepage} >
-            {isLoading &&
-                <div className={style.Loader}>
-                    <img src={loader} alt="Loading..." />
-                </div>
+            {isLoading && <div className={style.Loader}>
+                <img src={loader} alt="Loading..." />
+            </div>
             }
             {!isLoading && <>
                 <ServerSec />

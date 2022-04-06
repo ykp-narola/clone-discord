@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import style from './CreateChannel.module.css'
-import { onCreateChannel, onDeleteChannel } from '../../APIs/API'
+import { getAllChannels, onCreateChannel, onDeleteChannel } from '../../APIs/API'
 
 export const CreateChannel = () => {
     const nav = useNavigate();
@@ -12,6 +12,23 @@ export const CreateChannel = () => {
     const [slug, setSlug] = useState("");
     const [isError, setIsError] = useState(false);
     const serverSlug = window.location.pathname.split('/')[3];
+
+    const [textChannels, setTextChannels] = useState([]);
+    const [voiceChannels, setVoiceChannels] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const token = JSON.parse(localStorage.getItem("token"));
+            const res = await getAllChannels({ token, slug: serverSlug });
+            if (res.data.server.length > 0) {
+                const channels = res.data.server[0].channels;
+                setTextChannels(channels.filter((e) => { return e.type === "Text" }));
+                setVoiceChannels(channels.filter((e) => { return e.type === "Voice" }));
+            }
+        }
+        fetchData();
+        // eslint-disable-next-line
+    }, []);
 
     const onCreateChannelHandler = async (e) => {
         e.preventDefault();
@@ -109,14 +126,21 @@ export const CreateChannel = () => {
                                         <option value="Voice">Voice Channel</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <input
-                                        className={style.inputBox}
-                                        type="text"
-                                        id='SlugName'
-                                        placeholder='Channel Name'
-                                        onChange={e => setSlug(e.target.value)}
-                                    />
+                                <div className={style.delete_select}>
+                                    {channelType === "Text" &&
+                                        <select value={slug} onChange={(e) => { setSlug(e.target.value); }}>
+                                            {textChannels.map((item) => (
+                                                <option key={item._id} value={`${item?.slug}`}>{item?.name}</option>
+                                            ))}
+                                        </select>
+                                    }
+                                    {channelType === "Voice" &&
+                                        <select value={slug} onChange={(e) => { setSlug(e.target.value); }} >
+                                            {voiceChannels.map((item) => (
+                                                <option key={item._id} value={`${item?.slug}`}>{item?.name}</option>
+                                            ))}
+                                        </select>
+                                    }
                                 </div>
                             </div>
                             <button className={style.create_btn} onClick={onDeleteChannelHandler} type='submit'>Delete</button>

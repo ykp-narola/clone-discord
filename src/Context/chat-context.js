@@ -4,6 +4,12 @@ const ENDPOINT = "http://192.168.100.130:3000";
 const imgPath = "http://192.168.100.130:3000/images/users/";
 
 const ChatContext = React.createContext({
+	textChannels: {},
+	setTextChannels: () => {},
+	voiceChannels: [],
+	setVoiceChannels: () => {},
+	voiceChannelUsers: [],
+	setVoiceChannelUsers: () => {},
 	isLoading: true,
 	setIsLoading: () => {},
 	isOnTop: false,
@@ -30,6 +36,10 @@ export const ChatContextProvider = (props) => {
 	const [socket, setSocket] = useState(io(ENDPOINT));
 	const [myMessage, setMyMessage] = useState("");
 	const [messages, setMessages] = useState([]);
+
+	const [textChannels, setTextChannels] = useState({});
+	const [voiceChannels, setVoiceChannels] = useState([]);
+	const [voiceChannelUsers, setVoiceChannelUsers] = useState([]);
 
 	const messagesRef = useRef();
 	const messagesStartRef = useRef(null);
@@ -74,6 +84,12 @@ export const ChatContextProvider = (props) => {
 	};
 
 	const contextValue = {
+		textChannels,
+		setTextChannels,
+		voiceChannels,
+		setVoiceChannels,
+		voiceChannelUsers,
+		setVoiceChannelUsers,
 		isLoading,
 		setIsLoading,
 		isOnTop,

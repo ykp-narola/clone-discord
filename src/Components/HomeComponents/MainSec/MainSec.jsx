@@ -1,7 +1,7 @@
-import React, { useEffect, useLayoutEffect, useContext, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useContext, useState } from 'react'
 import style from './MainSec.module.css'
-import loader from '../../../assets/Loader_magnify.gif'
-import { getChannelMessages } from '../../../APIs/API';
+import loader from '../../../assets/Images/Loader_magnify.gif'
+import { DeleteMessage, getChannelMessages } from '../../../APIs/API';
 import UserContext from '../../../Context/user-context';
 import { InputForm } from './InputBox/InputForm';
 import ChatContext from '../../../Context/chat-context';
@@ -13,7 +13,7 @@ const notificationAudio = new Audio('http://192.168.100.130:3000/sounds/notifica
 
 export const MainSec = (props) => {
     const {
-        channel, user, currServer,
+        channel, user, currServer, isAuthor
     } = useContext(UserContext);
     const {
         isLoading, setIsLoading,
@@ -23,17 +23,25 @@ export const MainSec = (props) => {
         showNotificationfunc
     } = useContext(ChatContext);
 
-    const parentMessageDiv = useRef();
-    const ReplyMessage = useRef();
+    const [replyMessage, setReplyMessage] = useState(null);
 
     useLayoutEffect(() => {
-        // socket?.disconnect();
+        // socket.disconnect();
         socket.removeAllListeners();
+        socket.emit('leave-text-channel');
         socket.emit('join-text-channel', {
             channelId: channel._id,
             userId: user._id
         });
-        console.log("joined ", channel.slug);
+
+        socket.on("delete-message", data => {
+            const index = data.messages.findIndex(a => {
+                return a._id === data.data._id
+            });
+            data.messages.splice(index, 1)
+            console.log(data.messages);
+            setMessages(data.messages);
+        });
 
         socket.on('new-message', data => {
             if (document.hidden) {
@@ -65,7 +73,7 @@ export const MainSec = (props) => {
         // eslint-disable-next-line
     }, [props]);
 
-    function getTime(time) {
+    const getTime = (time) => {
         let hour = new Date(time).getHours();
         let minute = new Date(time).getMinutes();
         hour = hour < 10 ? `0${hour}` : hour;
@@ -73,39 +81,45 @@ export const MainSec = (props) => {
         return (`${hour}:${minute}`)
     }
 
-    const onReplyMessageHandler = (parentMessage) => {
-        console.log("Parent mes: ", parentMessage);
-        const x = parentMessageDiv.current;
-        const y = ReplyMessage.current;
-        x.style.display =
-            (x.style.display === 'none') ? 'block' : 'none';
-        if (x.style.display === 'block') {
-            y.textContent = ` ${parentMessage.user.name} : ${parentMessage.message}`
-        }
+    const DeleteMessageHandler = async (data) => {
+        socket.emit('delete-message', {
+            user, data, messages
+        });
     }
 
     const divOfListOfMesssages = Object.keys(messages).map((item) => (
-        <div key={item} className={style.message} ref={messagesRef}>
-            <img src={`${imgPath}${messages[item].user.image}`} alt="" />
-            <div className={style.msg}>
-                <div className={style.message_header}>
-                    <div className={style.username}>{messages[item].user.name}</div>
-                    <div className={style.time}>{getTime(messages[item].createdAt)}</div>
+        <div key={item} ref={messagesRef}>
+            <div className={style.message}>
+                {messages[item].reply && messages[item].reply !== null &&
+                    <div className={style.reply_div}>
+                        <div className={style.username}>{messages[item].reply.user.name}</div>
+                        <div className={style.rep_message}>{messages[item].reply.message}</div>
+                    </div>
+                }
+                <div className={style.message_div}>
+                    <img src={`${imgPath}${messages[item].user.image}`} alt="" />
+                    <div className={style.msg}>
+                        <div className={style.message_header}>
+                            <div className={style.username}>{messages[item].user.name}</div>
+                            <div className={style.time}>{getTime(messages[item].createdAt)}</div>
+                        </div>
+                        <div className={style.msg_text}>{messages[item].message}</div>
+                    </div>
                 </div>
-                <div className={style.msg_text}>{messages[item].message}</div>
-            </div>
-            <div className={style.message_controller}>
-                <button className={style.message_edit}>
-                    <AiFillEdit className={style.icon} fontSize="1rem" />
-                </button>
-                <button className={style.message_reply} onClick={() => {
-                    onReplyMessageHandler(messages[item]);
-                }}>
-                    <FaReply className={style.icon} />
-                </button>
-                <button className={style.message_edit}>
-                    <AiFillDelete className={style.icon} />
-                </button>
+                <div className={style.message_controller}>
+                    <button className={style.message_edit}>
+                        <AiFillEdit className={style.icon} fontSize="1rem" />
+                    </button>
+                    <button className={style.message_reply} onClick={() => {
+                        setReplyMessage(messages[item]);
+                    }}>
+                        <FaReply className={style.icon} />
+                    </button>
+                    {(isAuthor || user.name === messages[item].user.name) &&
+                        <button className={style.message_edit} onClick={() => DeleteMessageHandler(messages[item])}>
+                            <AiFillDelete className={style.icon} />
+                        </button>}
+                </div>
             </div>
         </div>
     ));
@@ -120,24 +134,26 @@ export const MainSec = (props) => {
         <section className={style.text_msg}>
             <div className={style.chat__wrapper}>
                 {isLoading && <div className={style.Loader}>
-                    <img src={loader} alt="Loading..." />
+                    <img src={loader} alt="Loading" />
                 </div>}
                 <div ref={messagesStartRef} />
                 {!isLoading && divOfListOfMesssages}
                 <div ref={messagesEndRef} />
             </div>
             <div className={style.input_form}>
-                <div ref={parentMessageDiv} className={style.parent_message}>
-                    <div className={style.flex_message}>
-                        <div className={style.reply_message} ref={ReplyMessage}></div>
-                        <button className={style.close_btn} onClick={() =>
-                            parentMessageDiv.current.style.display = 'none'
-                        }>
-                            <GrFormClose />
-                        </button>
+                {replyMessage !== null &&
+                    <div className={style.parent_message}>
+                        <div className={style.flex_message}>
+                            <div className={style.reply_message}>{`${replyMessage.user.name}: ${replyMessage.message}`}</div>
+                            <button className={style.close_btn} onClick={() =>
+                                setReplyMessage(null)
+                            }>
+                                <GrFormClose />
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <InputForm />
+                }
+                <InputForm reply={replyMessage} setReplyMessage={setReplyMessage} />
             </div>
         </section>
     )
