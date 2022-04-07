@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import style from './ChannelsSec.module.css'
 import io from "socket.io-client";
 import Peer from 'peerjs';
-import { getAllChannels, onUserDeleteServer, onUserLeaveServer } from '../../../APIs/API';
+import { onUserDeleteServer, onUserLeaveServer } from '../../../APIs/API';
 import UserContext from '../../../Context/user-context';
 import ChatContext from '../../../Context/chat-context';
 const ENDPOINT = "http://192.168.100.130:3000";
@@ -24,7 +24,7 @@ export const ChannelsSec = (props) => {
         currServer, setChannel
     } = useContext(UserContext);
     const {
-        textChannels, setTextChannels, voiceChannels, setVoiceChannels
+        textChannels, voiceChannels
         , voiceChannelUsers, setVoiceChannelUsers
     } = useContext(ChatContext);
 
@@ -52,19 +52,6 @@ export const ChannelsSec = (props) => {
         }
     }
     const onServerSetting = e => { }
-
-    useLayoutEffect(() => {
-        (async () => {
-            const token = JSON.parse(localStorage.getItem("token"));
-            const res = await getAllChannels({ token, slug: currServer.slug });
-            if (res.data.server.length > 0) {
-                const channels = res.data.server[0].channels;
-                setTextChannels(channels.filter((e) => { return e.type === "Text" }));
-                setVoiceChannels(channels.filter((e) => { return e.type === "Voice" }));
-            }
-        })();
-        // eslint-disable-next-line
-    }, [currServer]);
 
     useLayoutEffect(() => {
         const channelId = window.location.pathname.split('/')[3];
@@ -109,11 +96,11 @@ export const ChannelsSec = (props) => {
         voiceSocket?.removeAllListeners();
         voiceSocket = io(ENDPOINT);
         peers = {};
-        myPeer = new Peer(user._id);
-        // , {
-        //     host: "/",
-        //     port: "3001",
-        // }
+        myPeer = new Peer(user._id
+            , {
+                host: "/",
+                port: "3001",
+            });
         const myVideo = document.createElement("video");
         myVideo.muted = true;
 

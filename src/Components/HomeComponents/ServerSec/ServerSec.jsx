@@ -46,7 +46,7 @@ export default function ServerSec() {
                 </div>
             </div>
             <div className={style.lower}>
-                <div onClick={() => nav('/user/settings')}>
+                <div onClick={() => nav('/user/settings/profile')}>
                     <AiFillSetting color='rgb(20,20,20)' className={style.react_icon} />
                 </div>
             </div>

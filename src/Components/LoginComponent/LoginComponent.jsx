@@ -14,7 +14,7 @@ export default function LoginComponent(props) {
 
     const onLoginHandler = async e => {
         e.preventDefault();
-        const res = await onLogin({ email, password })
+        const res = await onLogin({ email, password });
         if (res.status !== "success") {
             sessionStorage.setItem("error", JSON.stringify(res.message));
             setIsError(true);

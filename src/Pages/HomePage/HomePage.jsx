@@ -5,6 +5,10 @@ import ServerSec from '../../Components/HomeComponents/ServerSec/ServerSec';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { getAllServers } from '../../APIs/API';
 import UserContext from '../../Context/user-context';
+import { io } from "socket.io-client";
+const ENDPOINT = "http://192.168.100.130:3000";
+
+export const textSocket = io(ENDPOINT, { transports: ["websocket"] });
 
 export default function HomePage() {
     const nav = useNavigate();
@@ -24,10 +28,8 @@ export default function HomePage() {
                 localStorage.removeItem("token");
                 nav("/");
             }
-            const getUserServers = getAllServersInfo.data.user.servers;
-            setServers(getUserServers);
-            const userInfo = getAllServersInfo.data.user;
-            setUser(userInfo);
+            setServers(getAllServersInfo.data.user.servers);
+            setUser(getAllServersInfo.data.user);
             setIsLoading(false)
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps

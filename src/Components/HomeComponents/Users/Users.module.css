@@ -2,15 +2,12 @@
 
 .users_section {
 	width: 20%;
-	background-color: rgb(47, 53, 58);
-}
-
-.channel_name {
+	background-color: #2f3136;
 	padding: 0.5rem 0;
 }
 .online_users {
-	height: 90vh;
-	overflow: scroll;
+	max-height: 100%;
+	overflow-y: scroll;
 }
 .serverAuthor {
 	margin: auto 0;

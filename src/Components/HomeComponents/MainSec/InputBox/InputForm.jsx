@@ -13,6 +13,7 @@ import { EmojiIDs } from '../../../../assets/Emojis';
 import { DropzoneDialog } from 'material-ui-dropzone';
 import { AddCircle } from '@material-ui/icons';
 import mongoose from 'mongoose';
+import { textSocket } from '../../../../Pages/HomePage/HomePage';
 
 
 export const InputForm = (props) => {
@@ -20,8 +21,7 @@ export const InputForm = (props) => {
         channel, user, currServer,
     } = useContext(UserContext);
     const {
-        isOnTop, socket,
-        myMessage, setMyMessage,
+        isOnTop, myMessage, setMyMessage,
         pageScroll, messagesStartRef
     } = useContext(ChatContext);
     const msgInputRef = useRef();
@@ -43,7 +43,7 @@ export const InputForm = (props) => {
             <form id="inputForm" onSubmit={(e) => {
                 e.preventDefault();
                 if (myMessage !== "") {
-                    socket.emit('message', {
+                    textSocket.emit('message', {
                         _id: new mongoose.Types.ObjectId().toHexString(),
                         message: myMessage,
                         reply: props.reply,

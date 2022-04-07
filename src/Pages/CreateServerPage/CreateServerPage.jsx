@@ -69,7 +69,7 @@ export default function CreateServerPage() {
     const closeForm = (ref) => ref.current.style.display = "none";
     const onCancelServerHandler = e => {
         e.preventDefault();
-        nav("/");
+        nav(-1);
     }
     const openCity = (ref) => {
         if (ref === createServerRef) {

@@ -88,14 +88,6 @@ export const getUserData = async (token) => {
 		},
 	}).then((data) => data.json());
 };
-export const getServerUsers = async (data) => {
-	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
-		method: "GET",
-		headers: {
-			Authorization: `Bearer ${data.token}`,
-		},
-	}).then((data) => data.json());
-};
 export const getChannelMessages = async (data) => {
 	return fetch(
 		`${ENDPOINT}/api/servers/${data.serverSlug}/channels/${data.channelSlug}/messages`,
