@@ -10,7 +10,7 @@ import { CreateChannel } from "./Pages/CreateChannel/CreateChannel";
 import VoiceSetting from "./Components/SettingComponents/VoiceSetting";
 import AuthContext from "./Context/auth-context";
 // import PageNotFound from "./Pages/PageNotFound/PageNotFound";
-import UserContext, { UserContextProvider } from "./Context/user-context";
+import { UserContextProvider } from "./Context/user-context";
 import { Chatme } from "./Components/HomeComponents/ChatMe/Chatme";
 import { ChannelPage } from "./Components/HomeComponents/ChannelPage/ChannelPage";
 // import { ChatContextProvider } from "./Context/chat-context";

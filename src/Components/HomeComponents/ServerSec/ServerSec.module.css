@@ -6,8 +6,8 @@
 	width: 5%;
 	padding-top: 0.5rem;
 	text-align: center;
-	box-shadow: 1px 0 2px black;
 	overflow: scroll;
+	background-color: rgb(46, 49, 53);
 }
 
 .lower {
@@ -15,11 +15,9 @@
 }
 
 .servers_section img {
-	background-color: rgb(75, 80, 85);
 	height: 50px;
 	width: 50px;
 	margin: 0.2em;
-	/* padding: 0.2rem; */
 	border-radius: 25px;
 	transition: 0.3s;
 }

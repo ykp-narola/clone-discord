@@ -36,9 +36,7 @@ export const ChannelPage = () => {
                             <h2>Select Channel</h2>
                             <p>Click on channel & gets started ✌🏻 </p>
                         </div>}
-                    {isChannelSelected &&
-                        <MainSec />
-                    }
+                    {isChannelSelected && <MainSec />}
                     <Users slug={currServer.slug} />
                 </div>
             </section>

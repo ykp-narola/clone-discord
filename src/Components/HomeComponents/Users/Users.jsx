@@ -47,22 +47,7 @@ export const Users = (props) => {
                 <div className={style.online_users}>
                     <div className={style.head}>{`Server Members - ${onlineUsers.length}`}</div>
                     {OnlineUsersDiv}
-                    {/* <div className={style.online_user}>
-                        <img src={img} alt="" />
-                        <div className={style.username}>{userName}</div>
-                    </div> */}
                 </div>
-                {/* <div className={style.offline_users}>
-                    <div className={style.head}>Offline Members - 2</div>
-                    <div className={style.offline_user}>
-                        <img src={img} alt="" />
-                        <div className={style.username}>{userName}</div>
-                    </div>
-                    <div className={style.offline_user}>
-                        <img src={img} alt="" />
-                        <div className={style.username}>{userName}</div>
-                    </div>
-                </div> */}
             </div>
         </section>
     )

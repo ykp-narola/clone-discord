@@ -229,7 +229,6 @@ export const ChannelsSec = (props) => {
     };
 
     window.onbeforeunload = disconnectAudio;
-
     const startShareScreen = () => {
         var displayMediaOptions = {
             video: {

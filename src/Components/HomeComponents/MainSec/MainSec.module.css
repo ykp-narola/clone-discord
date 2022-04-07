@@ -11,7 +11,7 @@
 }
 
 .text_channel_section {
-	border-bottom: 1px solid black;
+	background-color: rgb(46, 50, 53);
 	height: 6vh;
 }
 
@@ -50,10 +50,13 @@
 .chat__wrapper {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
+	min-height: 85%;
 }
 
 .text_msg {
+	background-color: rgb(46, 50, 53);
 	width: 80%;
+	height: 100%;
 }
 
 .message {
@@ -69,6 +72,10 @@
 }
 .message:hover {
 	background-color: rgb(63, 67, 71);
+}
+
+.input_form {
+	height: 10%;
 }
 .reply_div {
 	display: flex;
