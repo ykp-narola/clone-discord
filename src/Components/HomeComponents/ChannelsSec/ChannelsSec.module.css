@@ -5,6 +5,12 @@
 	height: 100vh;
 	background-color: #2f3136;
 }
+
+@media screen and (max-width: 1230px) {
+	.channel_section {
+		min-width: fit-content;
+	}
+}
 .currServer_wrapper {
 	display: flex;
 	border: none;

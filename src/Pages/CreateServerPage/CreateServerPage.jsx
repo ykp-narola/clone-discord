@@ -104,6 +104,7 @@ export default function CreateServerPage() {
                                     className={style.inputBox}
                                     type="text"
                                     id='ServerName'
+                                    placeholder='Creating Server'
                                     onChange={e => setServerName(e.target.value)}
                                 />
                             </div>
@@ -139,6 +140,7 @@ export default function CreateServerPage() {
                                     className={style.inputBox}
                                     type="text"
                                     id='SlugName'
+                                    placeholder='Joining Server'
                                     onChange={e => setSlug(e.target.value)}
                                 />
                             </div>

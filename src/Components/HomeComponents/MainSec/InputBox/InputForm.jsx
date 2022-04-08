@@ -85,18 +85,18 @@ export const InputForm = (props) => {
                         </div>
                         <div className={style.right_btn}>
                             <div className={style.emoji_button}>
-                                <button type="button" className={style.icon_btn} onClick={() => {
-                                    msgInputRef.current.focus();
-                                    setShowEmojiPicker(!showEmojiPicker);
-                                }}>
+                                <button type="button" className={style.icon_btn}
+                                    onClick={() => {
+                                        msgInputRef.current.focus();
+                                        setShowEmojiPicker(!showEmojiPicker);
+                                    }}
+                                >
                                     <Emoji
                                         emoji={emojiId}
                                         native={true}
                                         size={26}
                                         set={'twitter'}
-                                        onLeave={(em, e) => {
-                                            setEmojiId(EmojiIDs[Math.floor(Math.random() * EmojiIDs.length)]);
-                                        }}
+                                        onLeave={() => setEmojiId(EmojiIDs[Math.floor(Math.random() * EmojiIDs.length)])}
                                     />
                                 </button>
                             </div>
@@ -140,7 +140,7 @@ const EmojiPicker = (props) => {
         <Picker
             autoFocus={false}
             onClick={(emoji, e) => {
-                props.setMyMessage(prev => prev + emoji.native);
+                props.setMyMessage(prev => `${prev} ${emoji.native}`);
             }}
             native={true}
             perLine={12}

@@ -10,7 +10,7 @@ import { getAllChannels } from '../../../APIs/API'
 let author = { _id: -1 };
 
 export const ChannelPage = () => {
-    const { channel, servers, isChannelSelected, currServer, setCurrServer } = useContext(UserContext);
+    const { user, channel, servers, isChannelSelected, currServer, setIsAuthor, setCurrServer } = useContext(UserContext);
     const {
         setTextChannels, setVoiceChannels, setOnlineUsers
     } = useContext(ChatContext);
@@ -19,6 +19,8 @@ export const ChannelPage = () => {
         for (let i in servers) {
             if (servers[i].slug === serverId) {
                 setCurrServer(servers[i]);
+                (servers[i].author.email, user.email) ?
+                    setIsAuthor(true) : setIsAuthor(false);
                 break;
             }
         }

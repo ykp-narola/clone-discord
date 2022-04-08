@@ -7,7 +7,6 @@ import { InputForm } from './InputBox/InputForm';
 import ChatContext from '../../../Context/chat-context';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import { FaHashtag, FaReply } from 'react-icons/fa';
-import { GrFormClose } from 'react-icons/gr';
 import { textSocket } from '../../../Pages/HomePage/HomePage';
 import { RiCloseCircleFill } from 'react-icons/ri';
 const imgPath = "http://192.168.100.130:3000/images/users/";
@@ -42,9 +41,7 @@ export const MainSec = (props) => {
         });
 
         textSocket?.on("delete-message", data => {
-            const index = data.messages.findIndex(a => {
-                return a._id === data.data._id
-            });
+            const index = data.messages.findIndex(a => a._id === data.data._id);
             data.messages.splice(index, 1)
             setMessages(data.messages);
         });
@@ -98,21 +95,28 @@ export const MainSec = (props) => {
             <div className={style.message}>
                 {messages[item].reply && messages[item].reply !== null &&
                     <div className={style.reply_div}>
-                        <img src={`${imgPath}${messages[item].reply.user.image}`} />
+                        <img src={`${imgPath}${messages[item].reply.user.image}`} alt="profile" />
                         <div className={style.username}>{messages[item].reply.user.name}</div>
                         <div className={style.rep_message}>{messages[item].reply.message}</div>
                     </div>
                 }
-                <div className={style.message_div}>
-                    <img src={`${imgPath}${messages[item].user.image}`} alt="" />
-                    <div className={style.msg}>
-                        <div className={style.message_header}>
-                            <div className={style.username}>{messages[item].user.name}</div>
-                            <div className={style.time}>{getTime(messages[item].createdAt)}</div>
+                {messages[item].user._id !== messages[item - 1]?.user._id ?
+                    <div className={style.message_div}>
+                        <img src={`${imgPath}${messages[item].user.image}`} alt="profile" />
+                        <div className={style.msg}>
+                            <div className={style.message_header}>
+                                <div className={style.username}>{messages[item].user.name}</div>
+                                <div className={style.time}>{getTime(messages[item].createdAt)}</div>
+                            </div>
+                            <div className={style.msg_text}>{messages[item].message}</div>
                         </div>
-                        <div className={style.msg_text}>{messages[item].message}</div>
+                    </div> :
+                    <div className={style.message_sub_div}>
+                        <div className={style.msg}>
+                            <div className={style.msg_text}>{messages[item].message}</div>
+                        </div>
                     </div>
-                </div>
+                }
                 <div className={style.message_controller}>
                     <button className={style.message_edit}>
                         <AiFillEdit className={style.icon} fontSize="1rem" />
@@ -159,7 +163,7 @@ export const MainSec = (props) => {
                     <div className={style.parent_message}>
                         <div className={style.flex_message}>
                             <div className={style.reply_message}>
-                                <img src={`${imgPath}${replyMessage.user.image}`} />
+                                <img src={`${imgPath}${replyMessage.user.image}`} alt='profile' />
                                 {`${replyMessage.user.name}: ${replyMessage.message}`}
                             </div>
                             <button className={style.close_btn} onClick={() =>

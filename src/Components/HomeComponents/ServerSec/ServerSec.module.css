@@ -3,7 +3,7 @@
 .servers_section {
 	display: flex;
 	flex-direction: column;
-	width: 5%;
+	width: 5rem;
 	padding-top: 0.5rem;
 	text-align: center;
 	overflow: scroll;

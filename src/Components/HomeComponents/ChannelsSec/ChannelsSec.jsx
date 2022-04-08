@@ -16,7 +16,7 @@ import ChatContext from '../../../Context/chat-context';
 const ENDPOINT = "http://192.168.100.130:3000";
 const joinAudio = new Audio('http://192.168.100.130:3000/sounds/join.mp3');
 const leaveAudio = new Audio('http://192.168.100.130:3000/sounds/leave.mp3');
-let voiceSocket, peers, localStream, myPeer;
+let voiceSocket, peers, localStream, myPeer, myVideo;
 
 export const ChannelsSec = (props) => {
     const nav = useNavigate();
@@ -94,14 +94,14 @@ export const ChannelsSec = (props) => {
         console.log(`connecting audio to ${channel.name} ...`);
         voiceSocket?.disconnect();
         voiceSocket?.removeAllListeners();
-        voiceSocket = io(ENDPOINT);
+        voiceSocket = io(ENDPOINT, { transports: ["websocket"] });
         peers = {};
         myPeer = new Peer(user._id
             , {
                 host: "/",
                 port: "3001",
             });
-        const myVideo = document.createElement("video");
+        myVideo = document.createElement("video");
         myVideo.muted = true;
 
         voiceSocket.on("disconnected", (data) => {
@@ -320,7 +320,7 @@ export const ChannelsSec = (props) => {
                             </div>
                             <div>
                                 <button className={style.btn} onClick={() => {
-                                    document.muted = !isDefean;
+                                    myVideo.enabled = !isDefean;
                                     // console.log(localStream.getAudioTracks()[1]);
                                     // localStream.getAudioTracks()[0].enabled = isDefean;
                                     setIsDefean(!isDefean);

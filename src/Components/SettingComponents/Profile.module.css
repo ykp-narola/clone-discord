@@ -22,9 +22,9 @@
 .imagephoto {
 	width: 10rem;
 	position: relative;
-	cursor: pointer;
 }
 .image {
+	cursor: pointer;
 	border-radius: 50px;
 	height: 10rem;
 	width: 100%;

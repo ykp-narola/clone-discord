@@ -43,21 +43,22 @@
 	padding: 1rem;
 }
 .initial_message .hash {
-	font-size: 2rem;
+	font-size: 3rem;
 }
 .initial_message .name::before {
 	content: "Welcome to";
 	padding-right: 0.5rem;
-	font-size: 1.5rem;
+	font-size: 3rem;
 }
 .initial_message .name {
-	font-size: 1.5rem;
+	font-size: 3rem;
 }
 
-/* text_channel_section */
 .chat__wrapper {
 	height: 83vh;
 	overflow: scroll;
+	display: flex;
+	flex-direction: column-reverse;
 }
 .chat__wrapper .wrapper {
 	height: auto;
@@ -128,6 +129,9 @@
 	margin-right: 0.5rem;
 }
 
+.message_sub_div {
+	margin-left: 2.5rem;
+}
 .message img {
 	height: 35px;
 	width: 35px;
@@ -217,4 +221,10 @@
 }
 .flex_message > .close_btn {
 	margin-left: auto;
+}
+
+@media screen and (max-width: 1230px) {
+	.text_msg {
+		width: 100%;
+	}
 }

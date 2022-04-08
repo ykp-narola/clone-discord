@@ -10,9 +10,12 @@ import { CreateChannel } from "./Pages/CreateChannel/CreateChannel";
 import VoiceSetting from "./Components/SettingComponents/VoiceSetting";
 import AuthContext from "./Context/auth-context";
 // import PageNotFound from "./Pages/PageNotFound/PageNotFound";
+import LoginComponent from "./Components/LoginComponent/LoginComponent";
+import RegisterComponent from "./Components/RegisterComponent/RegisterComponent";
 import { Chatme } from "./Components/HomeComponents/ChatMe/Chatme";
 import { ChannelPage } from "./Components/HomeComponents/ChannelPage/ChannelPage";
 import { ChatContextProvider } from "./Context/chat-context";
+
 
 export default function App() {
 	const { isLoggedIn } = useContext(AuthContext);
@@ -24,18 +27,13 @@ export default function App() {
 					<Navigate to="/user/login" /> :
 					<Navigate to="/channels/@me" />
 			} />
-			{!isLoggedIn && <>
-				<Route path="/user/login" element={<Login />} />
-				<Route path="/user/register" element={<Login />} />
-			</>}
+			{!isLoggedIn && <Route path="/user" element={<Login />}>
+				<Route path="login" element={<LoginComponent />} />
+				<Route path="register" element={<RegisterComponent />} />
+			</Route>}
 			{isLoggedIn && <>
 				<Route path="/channels" element={<HomePage />} >
 					<Route path="@me" element={<Chatme />} />
-					{/* <Route path="/channels/:serverSlug" element={
-						!isServerSelected ?
-							<ChannelPage />
-							: <Navigate to="/channels/@me" />
-					} /> */}
 					<Route path=":serverSlug/:channelSlug" element={
 						<ChatContextProvider>
 							<ChannelPage />
@@ -49,9 +47,7 @@ export default function App() {
 				</Route>
 				<Route path="/user/Create-Server" element={<CreateServerPage />} />
 				<Route path="/server/Create-Channel/:slug" element={
-					// <ChatContextProvider>
 					<CreateChannel />
-					// {/* </ChatContextProvider> */}
 				} />
 			</>}
 			{/* <Route path="*" element={<PageNotFound />} /> */}
