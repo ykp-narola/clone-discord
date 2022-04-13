@@ -15,10 +15,18 @@ import RegisterComponent from "./Components/RegisterComponent/RegisterComponent"
 import { Chatme } from "./Components/HomeComponents/ChatMe/Chatme";
 import { ChannelPage } from "./Components/HomeComponents/ChannelPage/ChannelPage";
 import { ChatContextProvider } from "./Context/chat-context";
+// import { useBeforeunload } from 'react-beforeunload';
 
 
 export default function App() {
 	const { isLoggedIn } = useContext(AuthContext);
+	// console.log(navigator.onLine);
+
+	// useBeforeunload((e) => {
+	// 	e.preventDefault();
+	// 	console.log("navigator.onLine: ", navigator.onLine);
+	// 	prompt("navigator.onLine", navigator.onLine);
+	// });
 
 	return (
 		<Routes>
@@ -46,7 +54,7 @@ export default function App() {
 					<Route path="change-password" element={<ChangePassword />} />
 				</Route>
 				<Route path="/user/Create-Server" element={<CreateServerPage />} />
-				<Route path="/server/Create-Channel/:slug" element={
+				<Route path="/server/Create-Channel/:serverSlug" element={
 					<CreateChannel />
 				} />
 			</>}

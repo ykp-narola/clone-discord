@@ -7,6 +7,7 @@ import { Users } from '../Users/Users'
 import style from '../MainSec/MainSec.module.css'
 import UserContext from '../../../Context/user-context'
 import { getAllChannels } from '../../../APIs/API'
+import { useParams } from 'react-router-dom'
 let author = { _id: -1 };
 
 export const ChannelPage = () => {
@@ -14,12 +15,12 @@ export const ChannelPage = () => {
     const {
         setTextChannels, setVoiceChannels, setOnlineUsers
     } = useContext(ChatContext);
-    const serverId = window.location.pathname.split('/')[2];
+    const { serverSlug } = useParams();
     useLayoutEffect(() => {
         for (let i in servers) {
-            if (servers[i].slug === serverId) {
+            if (servers[i].slug === serverSlug) {
                 setCurrServer(servers[i]);
-                (servers[i].author.email, user.email) ?
+                (servers[i].author.email === user.email) ?
                     setIsAuthor(true) : setIsAuthor(false);
                 break;
             }

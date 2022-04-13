@@ -26,7 +26,6 @@ export default function CreateServerPage() {
         const formdata = new FormData();
         formdata.append('name', serverName);
         formdata.append('image', serverPicture);
-        console.log(formdata);
         let token = localStorage.getItem("token");
         token = token.substring(1, token.length - 1);
         const data = await onCreateServer({ token, formdata });

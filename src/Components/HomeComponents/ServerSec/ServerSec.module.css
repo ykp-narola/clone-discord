@@ -49,3 +49,7 @@
 	background-color: aliceblue;
 	cursor: pointer;
 }
+
+.tooltip {
+	font-size: 1.1rem;
+}

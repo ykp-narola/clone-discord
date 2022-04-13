@@ -301,3 +301,7 @@
 	margin-bottom: 2rem;
 	bottom: 0rem;
 }
+
+.tooltip {
+	font-size: 1.1rem;
+}

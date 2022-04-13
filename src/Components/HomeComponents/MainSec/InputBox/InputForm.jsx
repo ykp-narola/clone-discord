@@ -14,18 +14,19 @@ import { DropzoneDialog } from 'material-ui-dropzone';
 import { AddCircle } from '@material-ui/icons';
 import mongoose from 'mongoose';
 import { textSocket } from '../../../../Pages/HomePage/HomePage';
+import Tooltip from '@mui/material/Tooltip';
+import Zoom from '@mui/material/Zoom';
+import { pageScroll } from '../MainSec';
 
 
 export const InputForm = (props) => {
     const {
         channel, user, currServer,
     } = useContext(UserContext);
-    const {
-        isOnTop, myMessage, setMyMessage,
-        pageScroll, messagesStartRef
-    } = useContext(ChatContext);
+    const { myMessage, setMyMessage } = useContext(ChatContext);
     const msgInputRef = useRef();
 
+    const [isOnTop, setIsOnTop] = useState(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showAttachment, setShowAttachment] = useState(false);
     const [emojiId, setEmojiId] = useState("grinning");
@@ -45,6 +46,7 @@ export const InputForm = (props) => {
                 if (myMessage !== "") {
                     textSocket.emit('message', {
                         _id: new mongoose.Types.ObjectId().toHexString(),
+                        type: "Text",
                         message: myMessage,
                         reply: props.reply,
                         user: user,
@@ -53,7 +55,6 @@ export const InputForm = (props) => {
                         serverId: currServer._id,
                         createdAt: (new Date()).toISOString(),
                     });
-                    msgInputRef.current.value = "";
                     props.setReplyMessage(null);
                     setMyMessage("");
                 }
@@ -62,13 +63,19 @@ export const InputForm = (props) => {
                 <div className={style.container}>
                     <div className={style.input_container}>
                         <div className={style.add_attachment_btn}>
-                            <button className={style.left_btn}
-                                type="button"
-                                onClick={() =>
-                                    setShowAttachment(!showAttachment)
-                                } >
-                                <AddCircle className={`${style.icon} ${style.add_icon}`} />
-                            </button>
+                            <Tooltip
+                                title="Attach File"
+                                placement="top-start"
+                                TransitionComponent={Zoom}
+                                arrow>
+                                <button className={style.left_btn}
+                                    type="button"
+                                    onClick={() =>
+                                        setShowAttachment(!showAttachment)
+                                    } >
+                                    <AddCircle className={`${style.icon} ${style.add_icon}`} />
+                                </button>
+                            </Tooltip>
                         </div>
                         <div className={style.chatbar_input}>
                             <input
@@ -101,28 +108,35 @@ export const InputForm = (props) => {
                                 </button>
                             </div>
                             <div className={style.submit_button}>
-                                <button type="submit">
-                                    <RiSendPlaneFill className={style.icon} />
-                                </button>
+                                <Tooltip
+                                    title="Send"
+                                    placement="top"
+                                    TransitionComponent={Zoom}
+                                    arrow>
+                                    <button type="submit">
+                                        <RiSendPlaneFill className={style.icon} />
+                                    </button>
+                                </Tooltip>
                             </div>
                             <div className={style.pagescroll_button}>
-                                <button type="button" onClick={() => {
-                                    if (isOnTop) {
-                                        pageScroll({ behavior: "smooth" });
-                                    } else {
-                                        messagesStartRef.current?.scrollIntoView({ behavior: "smooth" });
-                                    }
-                                }
-                                }>
-                                    {!isOnTop ? <BiArrowToTop className={style.icon} /> :
-                                        <BiArrowToBottom className={style.icon} />
-                                    }
-                                </button>
+                                <Tooltip
+                                    title={!isOnTop ? "Move Top" : "Move Down"}
+                                    placement="top"
+                                    TransitionComponent={Zoom}
+                                    arrow>
+                                    <button type="button" onClick={() => {
+                                        pageScroll((isOnTop) ? props.messagesEndRef : props.messagesStartRef, { behavior: "smooth" });
+                                        setIsOnTop(!isOnTop);
+                                    }}>
+                                        {!isOnTop ? <BiArrowToTop className={style.icon} /> :
+                                            <BiArrowToBottom className={style.icon} />}
+                                    </button>
+                                </Tooltip>
                             </div>
                         </div>
                     </div>
                     {showAttachment && <div className={style.attachment}>
-                        <FileUpload id="upload" showAttachment setShowAttachment={setShowAttachment} />
+                        <FileUpload parent={props} id="upload" showAttachment setShowAttachment={setShowAttachment} />
                     </div>
                     }
                     {showEmojiPicker && <div className={style.picker}>
@@ -153,22 +167,37 @@ const EmojiPicker = (props) => {
 }
 
 const FileUpload = (props) => {
-    const [files, setFiles] = useState([]);
-    console.log("All files: ", files);
+    const [file, setFile] = useState([]);
+    const {
+        channel, user, currServer,
+    } = useContext(UserContext);
+
+    const onSendHandler = () => {
+        props.setShowAttachment(false);
+        textSocket.emit("send-files", {
+            _id: new mongoose.Types.ObjectId().toHexString(),
+            type: "File",
+            body: file,
+            fileName: file.name,
+            reply: props.parent.reply,
+            user: user,
+            channelSlug: channel.slug,
+            channelId: channel._id,
+            serverId: currServer._id,
+            createdAt: (new Date()).toISOString(),
+        });
+    };
 
     return (
         <DropzoneDialog
             acceptedFiles={['image/*']}
             cancelButtonText={"Cancel"}
-            submitButtonText={"Submit"}
-            maxFileSize={5000000}
+            submitButtonText={"Send"}
+            maxFileSize={3 * 1024 * 1024}
             open={props.showAttachment}
+            onChange={(files) => setFile(files[0])}
             onClose={() => props.setShowAttachment(false)}
-            onSave={(filess) => {
-                console.log('Files:', filess);
-                setFiles(filess);
-                props.setShowAttachment(false);
-            }}
+            onSave={onSendHandler}
             showPreviews={true}
             showFileNamesInPreview={true}
         />

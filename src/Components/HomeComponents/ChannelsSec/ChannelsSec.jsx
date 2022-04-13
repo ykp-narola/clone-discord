@@ -6,19 +6,26 @@ import { FaHashtag, FaSignal } from 'react-icons/fa';
 import { HiPhoneMissedCall } from 'react-icons/hi';
 import { MdHeadset, MdHeadsetOff, MdMic, MdMicOff, MdOutlineAddCircleOutline, MdOutlineScreenShare } from 'react-icons/md';
 import { GiSpeaker } from 'react-icons/gi';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import style from './ChannelsSec.module.css'
 import io from "socket.io-client";
 import Peer from 'peerjs';
 import { onUserDeleteServer, onUserLeaveServer } from '../../../APIs/API';
 import UserContext from '../../../Context/user-context';
 import ChatContext from '../../../Context/chat-context';
+import { useBeforeunload } from 'react-beforeunload';
+import Tooltip from '@mui/material/Tooltip';
+import Zoom from '@mui/material/Zoom';
+
+
 const ENDPOINT = "http://192.168.100.130:3000";
 const joinAudio = new Audio('http://192.168.100.130:3000/sounds/join.mp3');
 const leaveAudio = new Audio('http://192.168.100.130:3000/sounds/leave.mp3');
 let voiceSocket, peers, localStream, myPeer, myVideo;
 
 export const ChannelsSec = (props) => {
+    const { channelSlug } = useParams();
+
     const nav = useNavigate();
     const { isAuthor, channel, user, setIsChannelSelected,
         currServer, setChannel
@@ -54,9 +61,8 @@ export const ChannelsSec = (props) => {
     const onServerSetting = e => { }
 
     useLayoutEffect(() => {
-        const channelId = window.location.pathname.split('/')[3];
         for (let j in currServer.channels) {
-            if (currServer.channels[j].slug === channelId) {
+            if (currServer.channels[j].slug === channelSlug) {
                 setChannel(currServer.channels[j]);
                 setIsChannelSelected(true);
                 break;
@@ -67,7 +73,7 @@ export const ChannelsSec = (props) => {
 
     const divOfListOfTextChannels = Object.keys(textChannels).map((item) => (
         <li key={item} onClick={() => {
-            console.log(`trying to switch /channels/${currServer._id}/${textChannels[item]._id}`);
+            // console.log(`trying to switch /channels/${currServer._id}/${textChannels[item]._id}`);
             nav(`/channels/${currServer.slug}/${textChannels[item].slug}`);
             if (channel._id !== textChannels[item]._id) {
                 setChannel({
@@ -108,16 +114,23 @@ export const ChannelsSec = (props) => {
             console.log("disconnecting with audio");
             leaveAudio.play();
             voiceSocket.disconnect()
+
             voiceSocket.removeAllListeners();
+
+            console.log('---------------');
+            console.log(peers[data.userId]);
+            console.log('---------------');
+
             if (peers[data.userId]) {
                 peers[data.userId].close();
                 console.log(data.userId, " disconnected");
+                console.log("peers: ", peers);
             }
         });
         voiceSocket.on("update-ui", userData => {
-            // console.log(userData);
-            // userData = [...new Map(userData.map(item => [item._id, item])).values()];
             setVoiceChannelUsers(userData);
+            console.log("peers: ", peers);
+
         });
         voiceSocket.emit("join-voice-channel", {
             userId: user._id,
@@ -127,7 +140,8 @@ export const ChannelsSec = (props) => {
         });
         voiceSocket.on("add-user-connected-ui", data => {
             console.log(data);
-            const uniqueUsers = [...new Map(data.map(item => [item.userId, item])).values()]
+
+            const uniqueUsers = [...new Set(data.map(item => [item.userId, item])).values()]
             setVoiceChannelUsers(uniqueUsers);
         });
 
@@ -152,11 +166,8 @@ export const ChannelsSec = (props) => {
 
         myPeer.on("open", (userId) => {
             console.log(`${userId} connected...`);
-            if (peers[userId]) {
-                peers[userId].close();
-                console.log('Call cut...');
-                console.log(peers);
-            }
+
+
 
             voiceSocket.emit("join-channel", { channelId: channel._id, userId });
         });
@@ -171,8 +182,6 @@ export const ChannelsSec = (props) => {
             call.on("close", () => {
                 video.remove();
             });
-
-            console.log(call);
             peers[userId] = call;
         }
         function addVideoStream(video, stream) {
@@ -183,8 +192,6 @@ export const ChannelsSec = (props) => {
             });
             joinAudio.play();
             setIsVoiceConnected(true);
-            // alert("connecting to voice channel...");
-            // videoGrid.append(video);
         }
     };
     const disconnectAudio = () => {
@@ -215,7 +222,13 @@ export const ChannelsSec = (props) => {
         }
     };
 
-    window.onbeforeunload = disconnectAudio;
+    useBeforeunload((e) => {
+        if (isVoiceConnected) {
+            e.preventDefault();
+            disconnectAudio();
+        }
+    });
+
     const startShareScreen = () => {
         var displayMediaOptions = {
             video: {
@@ -235,13 +248,13 @@ export const ChannelsSec = (props) => {
 
     const divOfListOfVoiceChannels = Object.keys(voiceChannels).map((item) => (
         <li key={item} onClick={() => {
-            // if (isVoiceConnected) {
-            //     disconnectAudio();
-            // }
-            if (!isVoiceConnected) {
-                setChannelId(voiceChannels[item]._id);
-                ConnectAudio(voiceChannels[item]);
+            if (isVoiceConnected) {
+                disconnectAudio();
             }
+            // else {
+            setChannelId(voiceChannels[item]._id);
+            ConnectAudio(voiceChannels[item]);
+            // }
         }}>
             <div className={style.icon}>
                 <GiSpeaker className={style.voice_icon} />
@@ -280,7 +293,7 @@ export const ChannelsSec = (props) => {
             </div>
             <div className={style.channels}>
                 <div className={`${style.text_channels} ${style.dropdown}`}>
-                    <input type="checkbox" className={style.texttouch} id="texttouch" />
+                    <input type="checkbox" className={style.texttouch} id="texttouch" defaultChecked={true} />
                     <label htmlFor="texttouch">
                         <span className={style.span_channel}>Text channels</span>
                     </label>
@@ -289,7 +302,7 @@ export const ChannelsSec = (props) => {
                     </ul>
                 </div>
                 <div className={`${style.voice_channels} ${style.dropdown}`}>
-                    <input type="checkbox" className={style.voicetouch} id="voicetouch" />
+                    <input type="checkbox" className={style.voicetouch} id="voicetouch" defaultChecked={true} />
                     <label htmlFor="voicetouch">
                         <span className={style.span_channel}>Voice channels</span>
                     </label>
@@ -302,39 +315,62 @@ export const ChannelsSec = (props) => {
                 {isVoiceConnected &&
                     <div className={style.voice_connected}>
                         <div className={style.connect_status}>
-                            <div className={style.connect_icon}>
-                                <FaSignal color='rgba(0, 255, 0, 0.5)' />
-                            </div>
-                            <div className={style.connect_text}>
-                                Voice Connected
-                            </div>
+                            <Tooltip title={`29ms`} placement="top" arrow>
+                                <div className={style.connect_icon}>
+                                    <FaSignal color='rgba(0, 255, 0, 0.5)' />
+                                </div>
+                            </Tooltip>
+                            <Tooltip title={`Connected with @${channel.name}`} placement="top" arrow>
+                                <div className={style.connect_text}>
+                                    Voice Connected
+                                </div>
+                            </Tooltip>
                         </div>
                         <div className={style.connect_btn}>
                             <div>
-                                <button className={style.btn} onClick={() => {
-                                    localStream.getAudioTracks()[0].enabled = isMuted;
-                                    setIsMuted(!isMuted)
-                                }}>
-                                    {!isMuted ? <MdMic /> : <MdMicOff />}
-                                </button>
+                                <Tooltip
+                                    title={!isMuted ? "Mute" : "Unmute"}
+                                    placement="top"
+                                    TransitionComponent={Zoom}
+                                    arrow>
+
+                                    <button className={style.btn} onClick={() => {
+                                        localStream.getAudioTracks()[0].enabled = isMuted;
+                                        setIsMuted(!isMuted)
+                                    }}>
+                                        {!isMuted ? <MdMic /> : <MdMicOff />}
+                                    </button>
+                                </Tooltip>
                             </div>
                             <div>
-                                <button className={style.btn} onClick={() => {
-                                    myVideo.enabled = !isDefean;
-                                    // console.log(localStream.getAudioTracks()[1]);
-                                    // localStream.getAudioTracks()[0].enabled = isDefean;
-                                    setIsDefean(!isDefean);
-                                    setIsMuted(true)
-                                }}>
-                                    {!isDefean ? <MdHeadset fontSize="1.2rem" /> : <MdHeadsetOff fontSize="1.2rem" />}
-                                </button>
+                                <Tooltip
+                                    title={!isDefean ? "Defean" : "Undefean"}
+                                    placement="top"
+                                    TransitionComponent={Zoom}
+                                    arrow>
+                                    <button className={style.btn} onClick={() => {
+                                        myVideo.enabled = !isDefean;
+                                        // console.log(localStream.getAudioTracks()[1]);
+                                        // localStream.getAudioTracks()[0].enabled = isDefean;
+                                        setIsDefean(!isDefean);
+                                        setIsMuted(true)
+                                    }}>
+                                        {!isDefean ? <MdHeadset fontSize="1.2rem" /> : <MdHeadsetOff fontSize="1.2rem" />}
+                                    </button>
+                                </Tooltip>
                             </div>
                             <div className={style.dropdown}>
-                                <button className={`${style.btn} ${style.dropbtn}`} onClick={(e) => {
-                                    startShareScreen(e);
-                                }}>
-                                    <MdOutlineScreenShare color={isSharingScreen ? 'green' : 'white'} fontSize="1.2rem" />
-                                </button>
+                                <Tooltip
+                                    title="Screen Share"
+                                    placement="top"
+                                    TransitionComponent={Zoom}
+                                    arrow>
+                                    <button className={`${style.btn} ${style.dropbtn}`} onClick={(e) => {
+                                        startShareScreen(e);
+                                    }}>
+                                        <MdOutlineScreenShare color={isSharingScreen ? 'green' : 'white'} fontSize="1.2rem" />
+                                    </button>
+                                </Tooltip>
                                 {isSharingScreen ? <div className={`${style.dropdown_content} ${style.screenshare_content}`}>
                                     <div onClick={startShareScreen}>Display Window<MdOutlineScreenShare className={style.react_icon} /></div>
                                     <div onClick={() => stopSharingScreen()} >Stop Sharing</div>
@@ -342,23 +378,35 @@ export const ChannelsSec = (props) => {
                                     : null}
                             </div>
                             <div>
-                                <button className={style.btn} onClick={() => {
-                                    disconnectAudio();
-                                }}
-                                ><HiPhoneMissedCall color='rgb(255, 59, 59)' />
-                                </button>
+                                <Tooltip
+                                    title="Disconnect"
+                                    placement="top"
+                                    TransitionComponent={Zoom}
+                                    arrow>
+                                    <button className={style.btn} onClick={() => {
+                                        disconnectAudio();
+                                    }}
+                                    ><HiPhoneMissedCall color='rgb(255, 59, 59)' />
+                                    </button>
+                                </Tooltip>
                             </div>
                         </div>
                         <hr className={style.divider} color='grey' />
                     </div>
                 }
-                <div className={style.user_info}>
-                    <img className={style.user_image} src={`${imgPath}${user.image}`} alt={`${user.image}`} />
-                    <div className={style.user_name}>
-                        <div className={style.uname}>{user.name}</div>
-                        <div className={style.uid}>{`# ${user._id.substring(20, 24)}`}</div>
+                <Tooltip
+                    title={`${user.name} #${user._id.substring(20, 24)}`}
+                    placement="top"
+                    TransitionComponent={Zoom}
+                    arrow>
+                    <div className={style.user_info}>
+                        <img className={style.user_image} src={`${imgPath}${user.image}`} alt={`${user.image}`} />
+                        <div className={style.user_name}>
+                            <div className={style.uname}>{user.name}</div>
+                            <div className={style.uid}>{`# ${user._id.substring(20, 24)}`}</div>
+                        </div>
                     </div>
-                </div>
+                </Tooltip>
             </div>
         </section>
     )
