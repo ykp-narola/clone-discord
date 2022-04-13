@@ -4,6 +4,8 @@ import accord from '../../../assets/Images/Accord.png'
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlinePlus, AiFillSetting } from 'react-icons/ai';
 import UserContext from '../../../Context/user-context';
+import Tooltip from '@mui/material/Tooltip';
+import Zoom from '@mui/material/Zoom';
 const imgPath = "http://192.168.100.130:3000/images/servers/";
 
 export default function ServerSec() {
@@ -22,10 +24,17 @@ export default function ServerSec() {
             onServerClickHandler(servers[item]);
         }}>
             <Link to={`/channels/${servers[item].slug}/${servers[item].channels[0].slug}`}>
-                <img
-                    src={`${imgPath}${servers[item].image}`}
-                    alt={`${item}`}
-                />
+                <Tooltip
+                    TransitionComponent={Zoom}
+                    classes={{ tooltip: style.tooltip }}
+                    title={servers[item].name}
+                    placement="right"
+                    arrow>
+                    <img
+                        src={`${imgPath}${servers[item].image}`}
+                        alt={`${item}`}
+                    />
+                </Tooltip>
             </Link>
         </div>
     ));
@@ -35,7 +44,9 @@ export default function ServerSec() {
             <div className={style.upper}>
                 <div onClick={() => setIsServerSelected(false)}>
                     <Link to={`/channels/@me`}>
-                        <img src={accord} alt="Accord" />
+                        <Tooltip title="Accord" TransitionComponent={Zoom} classes={{ tooltip: style.tooltip }} placement="right" arrow>
+                            <img src={accord} alt="Accord" />
+                        </Tooltip>
                     </Link>
                 </div>
                 {serversObj}
@@ -46,7 +57,7 @@ export default function ServerSec() {
                 </div>
             </div>
             <div className={style.lower}>
-                <div onClick={() => nav('/user/settings')}>
+                <div onClick={() => nav('/user/settings/profile')}>
                     <AiFillSetting color='rgb(20,20,20)' className={style.react_icon} />
                 </div>
             </div>

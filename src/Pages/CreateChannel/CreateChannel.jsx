@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import style from './CreateChannel.module.css'
 import { getAllChannels, onCreateChannel, onDeleteChannel } from '../../APIs/API'
 
@@ -11,8 +11,8 @@ export const CreateChannel = () => {
     const [channelType, setChannelType] = useState("Text");
     const [slug, setSlug] = useState("");
     const [isError, setIsError] = useState(false);
-    const serverSlug = window.location.pathname.split('/')[3];
-
+    // const serverSlug = window.location.pathname.split('/')[3];
+    const { serverSlug } = useParams();
     const [textChannels, setTextChannels] = useState([]);
     const [voiceChannels, setVoiceChannels] = useState([]);
 
@@ -80,7 +80,7 @@ export const CreateChannel = () => {
     }
     useEffect(() => {
         openCity(createChannelRef);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
     }, []);
     return (
         <div className={style.page__container}>
@@ -106,7 +106,7 @@ export const CreateChannel = () => {
                                         className={style.inputBox}
                                         type="text"
                                         id='ChannelName'
-                                        placeholder='Channel Name'
+                                        placeholder=' Create Channel Name'
                                         onChange={e => setChannelName(e.target.value)}
                                     />
                                 </div>

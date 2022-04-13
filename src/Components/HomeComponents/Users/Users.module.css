@@ -2,15 +2,12 @@
 
 .users_section {
 	width: 20%;
-	box-shadow: -1px 0px 1px black;
-}
-
-.channel_name {
+	background-color: #2f3136;
 	padding: 0.5rem 0;
 }
 .online_users {
-	height: 90vh;
-	overflow: scroll;
+	max-height: 100%;
+	overflow-y: scroll;
 }
 .serverAuthor {
 	margin: auto 0;
@@ -62,4 +59,11 @@
 .offline_user .username {
 	font-size: 1.2rem;
 	margin: auto 1rem;
+}
+
+@media screen and (max-width: 1230px) {
+	.users_section {
+		width: 0;
+		padding: 0;
+	}
 }

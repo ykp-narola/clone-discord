@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
-import { io } from "socket.io-client";
-const ENDPOINT = "http://192.168.100.130:3000";
+import React, { useState } from "react";
+// import { io } from "socket.io-client";
+// const ENDPOINT = "http://192.168.100.130:3000";
 const imgPath = "http://192.168.100.130:3000/images/users/";
 
 const ChatContext = React.createContext({
@@ -12,42 +12,29 @@ const ChatContext = React.createContext({
 	setVoiceChannelUsers: () => {},
 	isLoading: true,
 	setIsLoading: () => {},
-	isOnTop: false,
-	setIsonTop: () => {},
 	granted: false,
 	setGranted: () => {},
-	socket: io(ENDPOINT),
-	setSocket: () => {},
 	myMessage: "",
 	setMyMessage: () => {},
 	messages: [],
 	setMessages: () => {},
-	pageScroll: () => {},
-	messagesRef: null,
-	messagesStartRef: null,
-	messagesEndRef: null,
+	onlineUsers: [{ name: "User", image: "Accord.png" }],
+	setOnlineUsers: () => {},
 	showNotificationfunc: () => {},
 });
 
 export const ChatContextProvider = (props) => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [isOnTop, setIsonTop] = useState(false);
 	const [NotificationGranted, setGranted] = useState(false);
-	const [socket, setSocket] = useState(io(ENDPOINT));
 	const [myMessage, setMyMessage] = useState("");
 	const [messages, setMessages] = useState([]);
 
 	const [textChannels, setTextChannels] = useState({});
 	const [voiceChannels, setVoiceChannels] = useState([]);
 	const [voiceChannelUsers, setVoiceChannelUsers] = useState([]);
-
-	const messagesRef = useRef();
-	const messagesStartRef = useRef(null);
-	const messagesEndRef = useRef(null);
-
-	function pageScroll(behavior = {}) {
-		messagesEndRef.current?.scrollIntoView(behavior);
-	}
+	const [onlineUsers, setOnlineUsers] = useState([
+		{ name: "User", image: "Accord.png" },
+	]);
 
 	const showError = () => {
 		console.log("Error Occured");
@@ -92,18 +79,12 @@ export const ChatContextProvider = (props) => {
 		setVoiceChannelUsers,
 		isLoading,
 		setIsLoading,
-		isOnTop,
-		setIsonTop,
 		granted: NotificationGranted,
 		setGranted,
-		socket,
-		setSocket,
-		pageScroll,
-		messagesRef,
-		messagesStartRef,
-		messagesEndRef,
 		myMessage,
 		setMyMessage,
+		onlineUsers,
+		setOnlineUsers,
 		messages,
 		setMessages,
 		showNotificationfunc,

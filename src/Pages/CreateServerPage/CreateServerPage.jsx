@@ -26,7 +26,6 @@ export default function CreateServerPage() {
         const formdata = new FormData();
         formdata.append('name', serverName);
         formdata.append('image', serverPicture);
-        console.log(formdata);
         let token = localStorage.getItem("token");
         token = token.substring(1, token.length - 1);
         const data = await onCreateServer({ token, formdata });
@@ -69,7 +68,7 @@ export default function CreateServerPage() {
     const closeForm = (ref) => ref.current.style.display = "none";
     const onCancelServerHandler = e => {
         e.preventDefault();
-        nav("/");
+        nav(-1);
     }
     const openCity = (ref) => {
         if (ref === createServerRef) {
@@ -104,6 +103,7 @@ export default function CreateServerPage() {
                                     className={style.inputBox}
                                     type="text"
                                     id='ServerName'
+                                    placeholder='Creating Server'
                                     onChange={e => setServerName(e.target.value)}
                                 />
                             </div>
@@ -139,6 +139,7 @@ export default function CreateServerPage() {
                                     className={style.inputBox}
                                     type="text"
                                     id='SlugName'
+                                    placeholder='Joining Server'
                                     onChange={e => setSlug(e.target.value)}
                                 />
                             </div>

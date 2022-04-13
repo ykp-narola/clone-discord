@@ -5,8 +5,10 @@ import style from './LoginComponent.module.css'
 import qrcode from "../../assets/Images/Qrcode.png"
 import { onLogin } from '../../APIs/API';
 import AuthContext from '../../Context/auth-context';
+import { useNavigate } from 'react-router-dom';
 
-export default function LoginComponent(props) {
+export default function LoginComponent() {
+    const nav = useNavigate();
     const authCtx = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -14,7 +16,7 @@ export default function LoginComponent(props) {
 
     const onLoginHandler = async e => {
         e.preventDefault();
-        const res = await onLogin({ email, password })
+        const res = await onLogin({ email, password });
         if (res.status !== "success") {
             sessionStorage.setItem("error", JSON.stringify(res.message));
             setIsError(true);
@@ -45,7 +47,7 @@ export default function LoginComponent(props) {
                         </div>
                         <div className={style.forgot_pswd} onClick={() => alert("Can't send Email")}>Forgot your password?</div>
                         <button className={style.login_btn} onClick={onLoginHandler}>Login</button>
-                        <div className={style.isRegister}>Need an account? &nbsp;<div id={style.register} onClick={props.NavtoRegisterPage}>Register</div></div>
+                        <div className={style.isRegister}>Need an account? &nbsp;<div id={style.register} onClick={() => nav("/user/register")}>Register</div></div>
                     </form>
                 </div>
             </div>

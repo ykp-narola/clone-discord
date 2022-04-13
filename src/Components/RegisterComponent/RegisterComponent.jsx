@@ -4,7 +4,7 @@ import { onRegisterUser } from '../../APIs/API';
 // import Login from '../../Pages/Login/Login';
 import style from './RegisterComponent.module.css'
 
-export default function RegisterComponent(props) {
+export default function RegisterComponent() {
     const nav = useNavigate();
     const [name, setName] = useState();
     const [email, setEmail] = useState();
@@ -27,11 +27,8 @@ export default function RegisterComponent(props) {
             setIsError(false);
             sessionStorage.removeItem("error");
             sessionStorage.removeItem("errors");
-            // localStorage.removeItem("item", JSON.stringify(data));
-            // console.log("Registration successfull");
             setTimeout(() => {
                 nav('/user/login');
-                // <Route element={<Login email={email} />} />
             }, 500);
         }
     }
@@ -66,7 +63,7 @@ export default function RegisterComponent(props) {
                 </div>
                 <button type='submit' className={style.register_btn} onClick={onRegisterHandler}>Register</button>
             </form>
-            <div className={style.forgot_pswd} onClick={props.NavtoLoginPage}>Already have an account?</div>
+            <div className={style.forgot_pswd} onClick={() => nav("/user/login")}>Already have an account?</div>
         </div>
     )
 }
