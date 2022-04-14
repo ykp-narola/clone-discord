@@ -1,0 +1,66 @@
+.friends_hangout {
+	display: flex;
+	flex-direction: column;
+}
+.header {
+	display: flex;
+	flex-direction: row;
+	border: none;
+	height: 3rem;
+	border-bottom: 1px solid #1e1f22;
+	background-color: #222429;
+}
+.friends {
+	display: flex;
+	flex-direction: row;
+	margin: 0 2vw;
+}
+.tab {
+	margin: 0 2vw;
+}
+a {
+	text-decoration: none;
+	color: white;
+	height: fit-content;
+}
+
+.tab_content {
+	width: calc(100vw - 17vw - 5rem);
+	display: flex;
+	flex-direction: row;
+}
+/* ********************************************************* */
+
+.main {
+	width: 70%;
+}
+
+/* ********************************************************* */
+.active_now {
+	height: calc(100vh - 3rem);
+	width: 30%;
+	background-color: #25272c;
+}
+
+.active_now > .title {
+	margin: 2vw;
+	font-weight: 800;
+	font-size: 1.5vw;
+}
+.card {
+	background-color: #1e1f22;
+	margin: 0 0.5vw;
+	padding: 0.2vh 0.5vw;
+	border-radius: 8px;
+}
+.card > .card_title {
+	font-size: 1.1vw;
+	font-weight: 700;
+	text-align: center;
+	margin: 1vw;
+}
+.card > .card_content {
+	margin: 1vw;
+	font-size: 1vw;
+	color: grey;
+}

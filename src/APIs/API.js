@@ -19,7 +19,7 @@ export const onRegisterUser = async (data) => {
 	}).then((data) => data.json());
 };
 export const getAllServers = async (token) => {
-	return fetch(`${ENDPOINT}/api/users/`, {
+	return fetch(`${ENDPOINT}/api/users/me`, {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
@@ -81,7 +81,7 @@ export const onChangePassword = async (data) => {
 	}).then((data) => data.json());
 };
 export const getUserData = async (token) => {
-	return fetch(`${ENDPOINT}/api/users/`, {
+	return fetch(`${ENDPOINT}/api/users/me`, {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${token}`,
@@ -116,6 +116,66 @@ export const onUserDeleteServer = async (data) => {
 };
 export const getAllChannels = async (data) => {
 	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+	}).then((data) => data.json());
+};
+export const getAllFriends = async (data) => {
+	return fetch(`${ENDPOINT}/api/friends/all`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+	}).then((data) => data.json());
+};
+export const getPendingRequest = async (data) => {
+	return fetch(`${ENDPOINT}/api/friends/pending`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+	}).then((data) => data.json());
+};
+export const sendFriendRequest = async (data) => {
+	return fetch(`${ENDPOINT}/api/friends/send`, {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+		body: JSON.stringify({ receiver: `${data.id}` }),
+	}).then((data) => data.json());
+};
+export const acceptFriendRequest = async (data) => {
+	return fetch(`${ENDPOINT}/api/friends/accept`, {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+		body: JSON.stringify({ sender: `${data.id}` }),
+	}).then((data) => data.json());
+};
+export const declineFriendRequest = async (data) => {
+	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+		body: JSON.stringify({ sender: `${data.id}` }),
+	}).then((data) => data.json());
+};
+export const unfriendRequest = async (data) => {
+	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+		body: JSON.stringify({ removee: `${data.id}` }),
+	}).then((data) => data.json());
+};
+export const searchUser = async (data) => {
+	return fetch(`${ENDPOINT}/api/users?search=${data.name}`, {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${data.token}`,

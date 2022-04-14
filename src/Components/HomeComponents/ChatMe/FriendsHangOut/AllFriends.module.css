@@ -1,0 +1,14 @@
+.all_friends {
+	height: calc(100vh - 3rem);
+	text-align: center;
+}
+.all_friends > input {
+	background-color: rgb(50, 54, 56);
+	color: white;
+	width: 80%;
+	height: 5vh;
+	margin: 2vh 0.5vw;
+	padding: 0.5vh 0.5vw;
+	border-radius: 8px;
+	font-size: 1.2vw;
+}

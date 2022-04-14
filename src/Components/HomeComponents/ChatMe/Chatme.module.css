@@ -1,10 +1,7 @@
-.initial {
-	display: grid;
-	place-items: center;
+.chatme_section {
+	background-color: #2f3136;
 	width: 100vw;
-	background-color: rgb(47, 49, 54);
-}
-.initial p {
-	font-size: 1.5rem;
-	color: grey;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
 }

@@ -15,6 +15,8 @@ import RegisterComponent from "./Components/RegisterComponent/RegisterComponent"
 import { Chatme } from "./Components/HomeComponents/ChatMe/Chatme";
 import { ChannelPage } from "./Components/HomeComponents/ChannelPage/ChannelPage";
 import { ChatContextProvider } from "./Context/chat-context";
+import { PersonalChat } from "./Components/HomeComponents/ChatMe/PersonalChat/PersonalChat";
+import { FriendsHangOut } from "./Components/HomeComponents/ChatMe/FriendsHangOut/FriendsHangOut";
 // import { useBeforeunload } from 'react-beforeunload';
 
 
@@ -41,7 +43,10 @@ export default function App() {
 			</Route>}
 			{isLoggedIn && <>
 				<Route path="/channels" element={<HomePage />} >
-					<Route path="@me" element={<Chatme />} />
+					<Route path="@me" element={<Chatme />} >
+						<Route path=":tab" element={<FriendsHangOut />} />
+						<Route path="chat/:id" element={<PersonalChat />} />
+					</Route>
 					<Route path=":serverSlug/:channelSlug" element={
 						<ChatContextProvider>
 							<ChannelPage />

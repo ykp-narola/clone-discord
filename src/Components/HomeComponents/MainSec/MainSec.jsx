@@ -12,7 +12,6 @@ import { RiCloseCircleFill } from 'react-icons/ri';
 import { Image } from './Image';
 const imgPath = "http://192.168.100.130:3000/images/users/";
 const notificationAudio = new Audio('http://192.168.100.130:3000/sounds/notification.mp3');
-let fileShare = {};
 
 export const MainSec = (props) => {
     const {
@@ -140,8 +139,6 @@ export const MainSec = (props) => {
     const DeleteMessageHandler = async (data) => {
         textSocket?.emit('delete-message', { user, data });
     }
-
-    console.log(messages);
 
     const divOfListOfMesssages = Object.keys(messages).map((item) => (
         <div key={item} ref={messagesRef}>

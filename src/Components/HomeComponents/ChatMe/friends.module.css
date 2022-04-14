@@ -1,0 +1,102 @@
+.friends_section {
+	width: 17vw;
+	/* background-color: #2f3136; */
+	background-color: #3e4048;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.mui_icon {
+	padding: 0.1vw;
+}
+/* **************************************************************** */
+
+.start_conversation {
+	background-color: #2f3136;
+	display: flex;
+	border: none;
+	border-bottom: 1px solid #1e1f22;
+	padding: 0.5rem 1rem;
+	font-size: 1.5rem;
+}
+
+.start_conversation > .input_conversation {
+	background-color: #3d4047;
+	padding: 0.5vw;
+	margin: auto;
+	width: 80%;
+	border-radius: 4px;
+	color: antiquewhite;
+}
+
+/* **************************************************************** */
+
+.friends_list {
+	background-color: #3d4047;
+	height: 83em;
+}
+.Friends {
+	display: flex;
+	flex-direction: row;
+	background-color: #373b44;
+	margin: 0.5vw;
+	padding: 0.7vw;
+	padding-left: auto;
+	color: aliceblue;
+	border-radius: 5px;
+}
+.Friend {
+	display: flex;
+	flex-direction: row;
+	background-color: #373b44;
+	margin: 0.5vw;
+	padding: 0.7vw;
+	padding-left: auto;
+	color: aliceblue;
+	border-radius: 5px;
+}
+.Friend > img {
+	height: 35px;
+}
+.Friend > .friend_name {
+	margin: auto;
+	margin-left: 0.5vw;
+	font-size: 1.2vw;
+}
+.friends_content {
+	padding: 0 0.5vw;
+	font-size: 1.1vw;
+}
+
+/* **************************************************************** */
+
+.profile_status {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	background-color: #292b2f;
+	border-radius: 8px 8px 0 0;
+	margin-top: auto;
+}
+.user_info {
+	display: flex;
+	flex-direction: row;
+}
+
+.user_image {
+	border-radius: 20px;
+	padding: 0.2rem;
+	height: 35px;
+	width: 35px;
+}
+.user_name {
+	margin: auto 10px;
+}
+.uname {
+	font-size: 1.2rem;
+	font-weight: bolder;
+}
+.uid {
+	font-size: 0.9rem;
+}
