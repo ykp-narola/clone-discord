@@ -1,0 +1,55 @@
+.my_friends {
+	height: calc(100vh - 3rem);
+	text-align: center;
+}
+.my_friends > input {
+	background-color: rgb(39, 42, 44);
+	color: white;
+	width: 90%;
+	height: 1.5rem;
+	margin: 2vh 0.5vw;
+	padding: 0.5vh 0.5vw;
+	border-radius: 8px;
+	font-size: 1.2vw;
+}
+
+.available_users {
+	height: calc(100vh - 5rem - 4vh);
+	overflow-y: scroll;
+	scrollbar-width: none;
+}
+.available_users .user {
+	display: flex;
+	flex-direction: row;
+}
+
+.available_users::-webkit-scrollbar {
+	display: none;
+}
+.user {
+	margin: 1vh 1vw;
+	padding: 3vh 1vw;
+	border-radius: 8px;
+}
+.user:hover {
+	background-color: rgb(39, 42, 44);
+}
+
+.user > img {
+	height: 60px;
+	width: 60px;
+}
+.user .name {
+	margin: 1vh auto auto 2vw;
+}
+.user .request_btn {
+	margin: auto;
+	margin-right: 1vw;
+	height: fit-content;
+	border: none;
+	padding: 0.5vh 0.5vw;
+	background-color: rgb(134, 171, 79);
+}
+.user .request_btn:hover {
+	background-color: greenyellow;
+}

@@ -6,17 +6,17 @@
 	display: flex;
 	flex-direction: row;
 	border: none;
-	height: 3rem;
+	height: 3rem !important;
 	border-bottom: 1px solid #1e1f22;
 	background-color: #222429;
 }
 .friends {
 	display: flex;
 	flex-direction: row;
-	margin: 0 2vw;
+	margin: auto 2vw;
 }
 .tab {
-	margin: 0 2vw;
+	margin: auto 2vw;
 }
 a {
 	text-decoration: none;
@@ -32,20 +32,20 @@ a {
 /* ********************************************************* */
 
 .main {
-	width: 70%;
+	width: 72%;
 }
 
 /* ********************************************************* */
 .active_now {
 	height: calc(100vh - 3rem);
-	width: 30%;
+	width: 28%;
 	background-color: #25272c;
 }
 
 .active_now > .title {
-	margin: 2vw;
+	margin: 2vh 0 2vw 1vw;
 	font-weight: 800;
-	font-size: 1.5vw;
+	font-size: 1.3vw;
 }
 .card {
 	background-color: #1e1f22;

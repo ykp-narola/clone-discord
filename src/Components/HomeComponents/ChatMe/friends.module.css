@@ -49,15 +49,20 @@
 .Friend {
 	display: flex;
 	flex-direction: row;
-	background-color: #373b44;
 	margin: 0.5vw;
 	padding: 0.7vw;
 	padding-left: auto;
 	color: aliceblue;
 	border-radius: 5px;
 }
+.Friend:hover {
+	background-color: #373b44;
+	border-radius: 8px;
+}
 .Friend > img {
-	height: 35px;
+	border-radius: 25px;
+	height: 40px;
+	width: 40px;
 }
 .Friend > .friend_name {
 	margin: auto;

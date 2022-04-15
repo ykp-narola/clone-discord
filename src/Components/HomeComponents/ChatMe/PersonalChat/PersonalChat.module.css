@@ -1,0 +1,215 @@
+.personal_chat {
+	height: 100vh;
+	width: calc(100vw - 17vw - 5rem);
+}
+.header {
+	height: 3rem;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	background-color: rgb(39, 42, 44);
+}
+.header > .name {
+	margin: auto 1vw;
+	font-size: 1.7rem;
+}
+.header > .name::before {
+	content: "@ ";
+	color: grey;
+}
+
+.action_buttons {
+	margin: auto;
+	margin-right: 1vw;
+}
+.action_buttons .icon {
+	margin: 0.5em;
+	padding: 0.5em;
+	border-radius: 25px;
+	color: grey;
+}
+
+.icon:hover {
+	color: antiquewhite;
+}
+
+.chat_section {
+	height: calc(100vh - 3rem);
+}
+
+/* ********************************************************* */
+
+.chat__wrapper {
+	height: 83vh;
+	overflow: scroll;
+	display: flex;
+	flex-direction: column-reverse;
+}
+.chat__wrapper .wrapper {
+	height: auto;
+}
+.chat__wrapper::-webkit-scrollbar {
+	display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.chat__wrapper {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.text_msg {
+	width: 80%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	border: none;
+	margin-top: auto;
+	background-color: #36393f;
+}
+
+.message {
+	position: relative;
+	margin: 0 0.1rem;
+	padding: 0.5rem 1rem;
+	display: flex;
+	flex-direction: column;
+}
+.message_div {
+	display: flex;
+	flex-direction: row;
+}
+.message:hover {
+	background-color: rgb(47, 49, 54);
+}
+
+.input_form {
+	margin: auto 0 0.5rem 0;
+}
+.reply_div {
+	display: flex;
+	flex-direction: row;
+	padding: 0 1rem 0 2rem;
+	border-radius: 4px;
+	width: max-content;
+	/* background-color: rgb(42, 42, 46);	 */
+	color: rgb(207, 210, 214);
+}
+.reply_div img {
+	height: 20px !important;
+	width: 20px !important;
+}
+.reply_div .username {
+	padding: 0 0.5rem;
+	color: white;
+}
+.reply_div .rep_message {
+	color: grey;
+}
+.reply_div::before {
+	content: "⎩";
+	font-size: 1.3rem;
+	font-weight: 900;
+	transform: rotate(90deg);
+	color: grey;
+	margin-right: 0.5rem;
+}
+
+.message_sub_div {
+	margin-left: 2.5rem;
+}
+.message img {
+	height: 35px;
+	width: 35px;
+	margin: 0.2em;
+	border-radius: 25px;
+}
+
+.message_controller {
+	border: none;
+	border-radius: 8px;
+	position: absolute;
+	top: -0.5rem;
+	right: 1rem;
+	display: none;
+	background-color: rgb(85, 91, 97);
+	z-index: 1;
+}
+
+.message_controller .icon {
+	border-radius: 8px;
+	padding: 0.4rem;
+	color: white;
+}
+.message_controller .icon:hover {
+	background-color: rgb(69, 73, 78);
+}
+.message:hover .message_controller {
+	display: block;
+}
+
+.msg {
+	display: flex;
+	flex-direction: column;
+	margin: auto 0.7rem;
+}
+
+.message_header {
+	display: flex;
+	flex-direction: row;
+}
+.time {
+	color: grey;
+	margin: auto 1rem;
+	font-size: 0.75rem;
+}
+
+.msg .username {
+	font-size: 1.2rem;
+	font-weight: 700;
+	margin-bottom: 0.2rem;
+}
+
+/* *********** chat form  ************* */
+
+.inputBox {
+	outline: none;
+}
+.send_icon {
+	color: white;
+	font-size: 1.6rem;
+	transition: 0.5s;
+}
+.send_icon:hover {
+	color: green;
+}
+.parent_message {
+	border-radius: 8px 8px 0 0;
+	margin: 0 1rem;
+	padding: 0.3rem 1rem;
+	background-color: rgb(32, 34, 37);
+}
+.reply_message {
+	display: flex;
+	flex-direction: row;
+}
+.reply_message img {
+	height: 25px;
+	padding: 0 0.5rem;
+}
+.reply_message::before {
+	content: "Replying to ";
+	color: grey;
+}
+.flex_message {
+	display: flex;
+	flex-direction: row;
+}
+.flex_message > .close_btn {
+	margin-left: auto;
+}
+
+@media screen and (max-width: 1230px) {
+	.text_msg {
+		width: 100%;
+	}
+}

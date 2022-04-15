@@ -36,7 +36,7 @@ export const Friends = (props) => {
                 </Link>
                 <hr />
                 {friends.map((item) => (
-                    <Link to="">
+                    <Link key={item._id} to={`./chat/${item._id}`}>
                         <div className={style.Friend}>
                             <img src={`${imgPath}${item.image}`} alt="" />
                             <div className={style.friend_name}>{item.name}</div>

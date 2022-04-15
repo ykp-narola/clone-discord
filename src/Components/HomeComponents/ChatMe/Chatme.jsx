@@ -19,7 +19,7 @@ export const Chatme = () => {
     //     </div>
     // )
 
-    if (id !== undefined && !isNaN(id)) {
+    if (id !== undefined || !isNaN(id)) {
         return (
             <section className={style.chatme_section}>
                 <Friends user={user} />

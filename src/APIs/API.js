@@ -88,6 +88,15 @@ export const getUserData = async (token) => {
 		},
 	}).then((data) => data.json());
 };
+export const getUserById = async (data) => {
+	return fetch(`${ENDPOINT}/api/users/${data.id}`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+	}).then((data) => data.json());
+};
+
 export const getChannelMessages = async (data) => {
 	return fetch(
 		`${ENDPOINT}/api/servers/${data.serverSlug}/channels/${data.channelSlug}/messages`,
@@ -130,7 +139,7 @@ export const getAllFriends = async (data) => {
 		},
 	}).then((data) => data.json());
 };
-export const getPendingRequest = async (data) => {
+export const getPendingRequests = async (data) => {
 	return fetch(`${ENDPOINT}/api/friends/pending`, {
 		method: "GET",
 		headers: {
@@ -143,8 +152,11 @@ export const sendFriendRequest = async (data) => {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ receiver: `${data.id}` }),
+		body: JSON.stringify({
+			receiver: `${data.id}`,
+		}),
 	}).then((data) => data.json());
 };
 export const acceptFriendRequest = async (data) => {
@@ -152,6 +164,7 @@ export const acceptFriendRequest = async (data) => {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ sender: `${data.id}` }),
 	}).then((data) => data.json());

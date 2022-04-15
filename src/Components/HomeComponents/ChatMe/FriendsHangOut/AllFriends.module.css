@@ -1,14 +1,48 @@
 .all_friends {
 	height: calc(100vh - 3rem);
 	text-align: center;
+	display: flex;
+	flex-direction: column;
 }
-.all_friends > input {
-	background-color: rgb(50, 54, 56);
-	color: white;
-	width: 80%;
-	height: 5vh;
-	margin: 2vh 0.5vw;
-	padding: 0.5vh 0.5vw;
+.all_friends > p {
+	margin: 1vh 1vw;
+	text-align: left;
+}
+
+.my_friend {
+	display: flex;
+	flex-direction: row;
+	height: 5rem;
+	margin: 1vh 1vw;
 	border-radius: 8px;
+}
+.my_friend:hover {
+	background-color: rgb(50, 54, 56);
+}
+
+.my_friend img {
+	margin-left: 2vw;
+	padding: 0.5rem;
+	height: 50px;
+	width: 50px;
+}
+
+.my_friend .friend_name {
+	margin: 1vh auto auto 1vw;
 	font-size: 1.2vw;
+}
+
+.actions {
+	margin: auto;
+	margin-right: 0;
+}
+.actions .icon {
+	margin: 0.5em;
+	padding: 0.5em;
+	border-radius: 25px;
+	color: grey;
+}
+
+.icon:hover {
+	color: antiquewhite;
 }

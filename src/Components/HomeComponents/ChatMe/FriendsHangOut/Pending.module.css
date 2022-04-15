@@ -1,0 +1,63 @@
+.pending_request {
+	height: calc(100vh - 3rem);
+	overflow-y: scroll;
+	scrollbar-width: none;
+	display: flex;
+	flex-direction: column;
+}
+.pending_request > p {
+	margin: 1vh 1vw;
+}
+
+.pending_request::-webkit-scrollbar {
+	display: none;
+}
+
+.user {
+	display: flex;
+	flex-direction: row;
+	margin: 1vh 1vw;
+	padding: 3vh 1vw;
+	border-radius: 8px;
+}
+.user:hover {
+	background-color: rgb(39, 42, 44);
+}
+
+.user > img {
+	height: 60px;
+	width: 60px;
+}
+.user .name {
+	margin: 1vh auto auto 2vw;
+	font-size: 1.2vw;
+}
+.user .request_btn {
+	margin: auto;
+	margin-right: 1vw;
+	height: fit-content;
+	border: none;
+	padding: 0.5vh 0.5vw;
+	background-color: rgb(134, 171, 79);
+}
+.user .request_btn:hover {
+	background-color: greenyellow;
+}
+
+.action_buttons {
+	margin: auto;
+	margin-right: 2vw;
+}
+.action_buttons > button {
+	border-radius: 50px;
+	background-color: #202225 !important;
+	padding: 0.2em;
+	margin: 0.2em 0.5vw;
+	color: aliceblue;
+}
+.accept_btn:hover {
+	color: green;
+}
+.reject_btn:hover {
+	color: red;
+}

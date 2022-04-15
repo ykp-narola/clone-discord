@@ -6,6 +6,7 @@ import { Online } from './Online';
 import { Block } from './Block';
 import { Pending } from './Pending';
 import { AllFriends } from './AllFriends';
+import { MyFriends } from './MyFriends';
 
 export const FriendsHangOut = () => {
     const { tab } = useParams();
@@ -13,20 +14,22 @@ export const FriendsHangOut = () => {
     return (
         <div className={style.friends_hangout}>
             <div className={style.header}>
-                <div className={style.friends}>
-                    <PersonIcon />
-                    <div className={style.text}>
-                        Friends
+                <Link to="./friends" className={style.tab}>
+                    <div className={style.friends}>
+                        <PersonIcon />
+                        <div className={style.text}>
+                            Friends
+                        </div>
                     </div>
-                </div>
-                <div style={{ height: 0 }}>|</div>
+                </Link>
+                <div style={{ margin: 'auto 0' }}>|</div>
                 <Link to="./online" className={style.tab}>
                     Online
                 </Link>
                 <Link to="./all" className={style.tab}>
                     All
                 </Link>
-                <Link to=".pending" className={style.tab}>
+                <Link to="./pending" className={style.tab}>
                     Pending
                 </Link>
                 <Link to="./block" className={style.tab}>
@@ -58,5 +61,7 @@ const Tab = ({ tab }) => {
         return <Block />
     else if (tab === "pending")
         return <Pending />
+    else if (tab === "friends")
+        return <MyFriends />
     else return <AllFriends />
 }
