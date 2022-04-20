@@ -96,7 +96,6 @@ export const getUserById = async (data) => {
 		},
 	}).then((data) => data.json());
 };
-
 export const getChannelMessages = async (data) => {
 	return fetch(
 		`${ENDPOINT}/api/servers/${data.serverSlug}/channels/${data.channelSlug}/messages`,

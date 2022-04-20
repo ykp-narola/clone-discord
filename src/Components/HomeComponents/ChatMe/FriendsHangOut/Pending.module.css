@@ -32,6 +32,11 @@
 	margin: 1vh auto auto 2vw;
 	font-size: 1.2vw;
 }
+.user .status {
+	margin: 1vh auto auto 2vw;
+	font-size: 1vw;
+	color: grey;
+}
 .user .request_btn {
 	margin: auto;
 	margin-right: 1vw;
@@ -60,4 +65,19 @@
 }
 .reject_btn:hover {
 	color: red;
+}
+
+.actions {
+	margin: auto;
+	margin-right: 0;
+}
+.actions .icon {
+	margin: 0.5em;
+	padding: 0.5em;
+	border-radius: 25px;
+	color: grey;
+}
+
+.icon:hover {
+	color: antiquewhite;
 }

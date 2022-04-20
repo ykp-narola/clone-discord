@@ -71,48 +71,6 @@ export const MainSec = (props) => {
 			setMessages((prev) => [...prev, obj]);
 			pageScroll(messagesEndRef, { behavior: "smooth" });
 		});
-
-		// textSocket.on("fs-meta", (data) => {
-		//     console.log("fs-meta: ", data);
-		//     fileShare.metadata = data.metadata;
-		//     fileShare.transmitted = 0;
-		//     fileShare.buffer = [];
-
-		// 		let el = document.createElement("div");
-		// 		el.classList.add("item");
-		// 		el.innerHTML = `
-		// 		<div class="progress">0%</div>
-		// 		<div class="filename">${metadata.filename}</div>
-		// `;
-		// 		document.querySelector(".files-list").appendChild(el);
-
-		// fileShare.progrss_node = el.querySelector(".progress");
-
-		//     setMessages((prev) => [...prev, data]);
-
-		//     textSocket.emit("fs-start", {
-		//         user: user,
-		//     });
-		// });
-
-		// textSocket.on("fs-share", function (buffer) {
-		//     console.log("Buffer", buffer);
-		//     fileShare.buffer.push(buffer);
-		//     fileShare.transmitted += buffer.byteLength;
-		//     fileShare.progrss_node.innerText = Math.trunc(
-		//         (fileShare.transmitted / fileShare.metadata.total_buffer_size) * 100
-		//     );
-		//     if (fileShare.transmitted === fileShare.metadata.total_buffer_size) {
-		//         console.log("Download file: ", fileShare);
-		//         require("downloadjs")(new Blob(fileShare.buffer), fileShare.metadata.filename);
-		//         fileShare = {};
-		//     } else {
-		//         textSocket.emit("fs-start", {
-		//             user: user
-		//         });
-		//     }
-		// });
-
 		// eslint-disable-next-line
 	}, [channel._id]);
 

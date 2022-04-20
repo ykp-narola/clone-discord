@@ -16,8 +16,6 @@ import ChatContext from '../../../Context/chat-context';
 import { useBeforeunload } from 'react-beforeunload';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
-
-
 const ENDPOINT = "http://192.168.100.130:3000";
 const joinAudio = new Audio('http://192.168.100.130:3000/sounds/join.mp3');
 const leaveAudio = new Audio('http://192.168.100.130:3000/sounds/leave.mp3');
@@ -25,7 +23,6 @@ let voiceSocket, peers, localStream, myPeer, myVideo;
 
 export const ChannelsSec = (props) => {
     const { channelSlug } = useParams();
-
     const nav = useNavigate();
     const { isAuthor, channel, user, setIsChannelSelected,
         currServer, setChannel
@@ -39,7 +36,6 @@ export const ChannelsSec = (props) => {
     const [channelId, setChannelId] = useState(0);
     const [isVoiceConnected, setIsVoiceConnected] = useState(false);
     const [isSharingScreen, setIsSharingScreen] = useState(false);
-
     const [isMuted, setIsMuted] = useState(false);
     const [isDefean, setIsDefean] = useState(false);
 

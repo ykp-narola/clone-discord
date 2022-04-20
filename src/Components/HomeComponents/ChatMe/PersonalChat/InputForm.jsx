@@ -1,28 +1,25 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import style from './InputForm.module.css'
+import React, { useContext, useEffect, useRef, useState } from "react";
+import style from "../../MainSec/InputBox/InputForm.module.css";
 
-import { BiArrowToBottom, BiArrowToTop } from 'react-icons/bi';
-import { RiSendPlaneFill } from 'react-icons/ri';
+import { BiArrowToBottom, BiArrowToTop } from "react-icons/bi";
+import { RiSendPlaneFill } from "react-icons/ri";
 
-import ChatContext from '../../../../Context/chat-context';
-import UserContext from '../../../../Context/user-context';
+import ChatContext from "../../../../Context/chat-context";
+import UserContext from "../../../../Context/user-context";
 
-import 'emoji-mart/css/emoji-mart.css'
-import { Picker, Emoji } from 'emoji-mart'
-import { EmojiIDs } from '../../../../assets/Emojis';
-import { DropzoneDialog } from 'material-ui-dropzone';
-import { AddCircle } from '@material-ui/icons';
-import mongoose from 'mongoose';
-import { textSocket } from '../../../../Pages/HomePage/HomePage';
-import Tooltip from '@mui/material/Tooltip';
-import Zoom from '@mui/material/Zoom';
-import { pageScroll } from '../MainSec';
-
+import "emoji-mart/css/emoji-mart.css";
+import { Picker, Emoji } from "emoji-mart";
+import { EmojiIDs } from "../../../../assets/Emojis";
+import { DropzoneDialog } from "material-ui-dropzone";
+import { AddCircle } from "@material-ui/icons";
+import mongoose from "mongoose";
+import { textSocket } from "../../../../Pages/HomePage/HomePage";
+import Tooltip from "@mui/material/Tooltip";
+import Zoom from "@mui/material/Zoom";
+import { pageScroll } from "../../MainSec/MainSec";
 
 export const InputForm = (props) => {
-    const {
-        channel, user, currServer,
-    } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const { myMessage, setMyMessage } = useContext(ChatContext);
     const msgInputRef = useRef();
 
@@ -37,28 +34,30 @@ export const InputForm = (props) => {
 
     useEffect(() => {
         msgInputRef.current.focus();
-    }, [props.reply])
+    }, [props.reply]);
 
     return (
         <div className={style.chat__form}>
-            <form id="inputForm" onSubmit={(e) => {
-                e.preventDefault();
-                if (myMessage !== "") {
-                    textSocket.emit('message', {
-                        _id: new mongoose.Types.ObjectId().toHexString(),
-                        type: "Text",
-                        message: myMessage,
-                        reply: props.reply,
-                        user: user,
-                        channelSlug: channel.slug,
-                        channelId: channel._id,
-                        serverId: currServer._id,
-                        createdAt: (new Date()).toISOString(),
-                    });
-                    props.setReplyMessage(null);
-                    setMyMessage("");
-                }
-            }}
+            <form
+                id="inputForm"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    if (myMessage !== "") {
+                        textSocket.emit("message", {
+                            _id: new mongoose.Types.ObjectId().toHexString(),
+                            type: "Text",
+                            message: myMessage,
+                            reply: props.reply,
+                            user: user,
+                            // channelSlug: channel.slug,
+                            // channelId: channel._id,
+                            // serverId: currServer._id,
+                            createdAt: new Date().toISOString(),
+                        });
+                        props.setReplyMessage(null);
+                        setMyMessage("");
+                    }
+                }}
             >
                 <div className={style.container}>
                     <div className={style.input_container}>
@@ -67,12 +66,13 @@ export const InputForm = (props) => {
                                 title="Attach File"
                                 placement="top-start"
                                 TransitionComponent={Zoom}
-                                arrow>
-                                <button className={style.left_btn}
+                                arrow
+                            >
+                                <button
+                                    className={style.left_btn}
                                     type="button"
-                                    onClick={() =>
-                                        setShowAttachment(!showAttachment)
-                                    } >
+                                    onClick={() => setShowAttachment(!showAttachment)}
+                                >
                                     <AddCircle className={`${style.icon} ${style.add_icon}`} />
                                 </button>
                             </Tooltip>
@@ -85,14 +85,16 @@ export const InputForm = (props) => {
                                 className={style.inputBox}
                                 value={myMessage}
                                 autoComplete="off"
-                                placeholder={`Message #${channel.name}`}
-                                onChange={e => setMyMessage(e.target.value)}
+                                placeholder={`Message @${props.privateUser.name}`}
+                                onChange={(e) => setMyMessage(e.target.value)}
                                 max="100"
                             />
                         </div>
                         <div className={style.right_btn}>
                             <div className={style.emoji_button}>
-                                <button type="button" className={style.icon_btn}
+                                <button
+                                    type="button"
+                                    className={style.icon_btn}
                                     onClick={() => {
                                         msgInputRef.current.focus();
                                         setShowEmojiPicker(!showEmojiPicker);
@@ -102,8 +104,12 @@ export const InputForm = (props) => {
                                         emoji={emojiId}
                                         native={true}
                                         size={26}
-                                        set={'twitter'}
-                                        onLeave={() => setEmojiId(EmojiIDs[Math.floor(Math.random() * EmojiIDs.length)])}
+                                        set={"twitter"}
+                                        onLeave={() =>
+                                            setEmojiId(
+                                                EmojiIDs[Math.floor(Math.random() * EmojiIDs.length)]
+                                            )
+                                        }
                                     />
                                 </button>
                             </div>
@@ -112,7 +118,8 @@ export const InputForm = (props) => {
                                     title="Send"
                                     placement="top"
                                     TransitionComponent={Zoom}
-                                    arrow>
+                                    arrow
+                                >
                                     <button type="submit">
                                         <RiSendPlaneFill className={style.icon} />
                                     </button>
@@ -123,54 +130,69 @@ export const InputForm = (props) => {
                                     title={!isOnTop ? "Move Top" : "Move Down"}
                                     placement="top"
                                     TransitionComponent={Zoom}
-                                    arrow>
-                                    <button type="button" onClick={() => {
-                                        pageScroll((isOnTop) ? props.messagesEndRef : props.messagesStartRef, { behavior: "smooth" });
-                                        setIsOnTop(!isOnTop);
-                                    }}>
-                                        {!isOnTop ? <BiArrowToTop className={style.icon} /> :
-                                            <BiArrowToBottom className={style.icon} />}
+                                    arrow
+                                >
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            pageScroll(
+                                                isOnTop ? props.messagesEndRef : props.messagesStartRef,
+                                                { behavior: "smooth" }
+                                            );
+                                            setIsOnTop(!isOnTop);
+                                        }}
+                                    >
+                                        {!isOnTop ? (
+                                            <BiArrowToTop className={style.icon} />
+                                        ) : (
+                                            <BiArrowToBottom className={style.icon} />
+                                        )}
                                     </button>
                                 </Tooltip>
                             </div>
                         </div>
                     </div>
-                    {showAttachment && <div className={style.attachment}>
-                        <FileUpload parent={props} id="upload" showAttachment setShowAttachment={setShowAttachment} />
-                    </div>
-                    }
-                    {showEmojiPicker && <div className={style.picker}>
-                        <EmojiPicker setMyMessage={setMyMessage} />
-                    </div>
-                    }
+                    {showAttachment && (
+                        <div className={style.attachment}>
+                            <FileUpload
+                                parent={props}
+                                id="upload"
+                                showAttachment
+                                setShowAttachment={setShowAttachment}
+                            />
+                        </div>
+                    )}
+                    {showEmojiPicker && (
+                        <div className={style.picker}>
+                            <EmojiPicker setMyMessage={setMyMessage} />
+                        </div>
+                    )}
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
 
 const EmojiPicker = (props) => {
     return (
         <Picker
             autoFocus={false}
             onClick={(emoji, e) => {
-                props.setMyMessage(prev => `${prev} ${emoji.native}`);
+                props.setMyMessage((prev) => `${prev} ${emoji.native}`);
             }}
             native={true}
             perLine={12}
             showPreview={false}
             theme="dark"
             defaultSkin={1}
-            set={'twitter'}
+            set={"twitter"}
         />
-    )
-}
+    );
+};
 
 const FileUpload = (props) => {
     const [file, setFile] = useState([]);
-    const {
-        channel, user, currServer,
-    } = useContext(UserContext);
+    const { channel, user, currServer } = useContext(UserContext);
 
     const onSendHandler = () => {
         props.setShowAttachment(false);
@@ -184,13 +206,13 @@ const FileUpload = (props) => {
             channelSlug: channel.slug,
             channelId: channel._id,
             serverId: currServer._id,
-            createdAt: (new Date()).toISOString(),
+            createdAt: new Date().toISOString(),
         });
     };
 
     return (
         <DropzoneDialog
-            acceptedFiles={['image/*']}
+            acceptedFiles={["image/*"]}
             cancelButtonText={"Cancel"}
             submitButtonText={"Send"}
             maxFileSize={6 * 1024 * 1024}
@@ -201,5 +223,5 @@ const FileUpload = (props) => {
             showPreviews={true}
             showFileNamesInPreview={true}
         />
-    )
-}
+    );
+};

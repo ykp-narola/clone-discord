@@ -1,18 +1,21 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
-import { getUserById } from '../../../../APIs/API';
-import MessageIcon from '@mui/icons-material/Message';
-import CallIcon from '@mui/icons-material/Call';
-import loader from '../../../../assets/Images/Loader_magnify.gif'
-import style from './PersonalChat.module.css'
-import ChatContext from '../../../../Context/chat-context';
-import { FaHashtag, FaReply } from 'react-icons/fa';
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-import UserContext from '../../../../Context/user-context';
-import { Image } from '../../MainSec/Image';
-import { RiCloseCircleFill } from 'react-icons/ri';
-import { InputForm } from '../../MainSec/InputBox/InputForm';
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getChannelMessages, getUserById } from "../../../../APIs/API";
+import MessageIcon from "@mui/icons-material/Message";
+import CallIcon from "@mui/icons-material/Call";
+import loader from "../../../../assets/Images/Loader_magnify.gif";
+import style from "./PersonalChat.module.css";
+import ChatContext from "../../../../Context/chat-context";
+import { FaReply } from "react-icons/fa";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import UserContext from "../../../../Context/user-context";
+import { Image } from "../../MainSec/Image";
+import { RiCloseCircleFill } from "react-icons/ri";
+import { InputForm } from "./InputForm";
+import { pageScroll } from "../../MainSec/MainSec";
+import { textSocket } from "../../../../Pages/HomePage/HomePage";
 const imgPath = "http://192.168.100.130:3000/images/users/";
+const notificationAudio = new Audio("http://192.168.100.130:3000/sounds/notification.mp3");
 
 export const PersonalChat = () => {
     const [privateUser, setPrivateUser] = useState();
@@ -22,7 +25,42 @@ export const PersonalChat = () => {
     const messagesEndRef = useRef(null);
     const [replyMessage, setReplyMessage] = useState(null);
     const { user } = useContext(UserContext);
-    const { isLoading, setIsLoading, messages } = useContext(ChatContext);
+    const { isLoading, setIsLoading, messages, setMessages, showNotificationfunc } = useContext(ChatContext);
+
+    useLayoutEffect(() => {
+        const idArr = [user._id, privateUser._id].sort();
+        textSocket?.removeAllListeners();
+        textSocket?.emit("leave-text-channel");
+        textSocket?.emit("join-text-channel", {
+            channelId: idArr[0] + idArr[1],
+            userId: user._id,
+        });
+        textSocket?.on("delete-message", (data) => {
+            setMessages((prev) => prev.filter((item) => item._id !== data.data._id));
+        });
+        textSocket?.on("new-message", (data) => {
+            if (document.hidden) {
+                if (data.user._id !== user._id) {
+                    showNotificationfunc({
+                        msg: `${data.user.name}: ${data.message}`,
+                        title: `Accord | ${privateUser.name}`,
+                    });
+                    notificationAudio.play();
+                }
+            }
+            setMessages((prev) => [...prev, data]);
+            pageScroll(messagesEndRef, { behavior: "smooth" });
+        });
+        textSocket.on("send-files", (data) => {
+            const blob = new Blob([data.body], { type: data.type });
+            const obj = {
+                ...data,
+                blob,
+            };
+            setMessages((prev) => [...prev, obj]);
+            pageScroll(messagesEndRef, { behavior: "smooth" });
+        });
+    })
 
     useEffect(() => {
         const getData = async () => {
@@ -30,9 +68,24 @@ export const PersonalChat = () => {
             const res = await getUserById({ id, token });
             if (res.status === "success") {
                 setPrivateUser(res.data.user);
+                setIsLoading(false);
+                // (async () => {
+                //     const token = JSON.parse(localStorage.getItem("token"));
+                //     const res = await getChannelMessages({
+                //         token,
+                //         serverSlug: currServer.slug,
+                //         channelSlug: channel.slug,
+                //     });
+                //     if (res.status === "success") {
+                //         setMessages(res.data.messages);
+                //         setIsLoading(false);
+                //         pageScroll(messagesEndRef);
+                //     }
+                // })();
             }
-        }
+        };
         getData();
+        // eslint-disable-next-line
     }, [id]);
 
     const getTime = (time) => {
@@ -40,128 +93,183 @@ export const PersonalChat = () => {
         let minute = new Date(time).getMinutes();
         hour = hour < 10 ? `0${hour}` : hour;
         minute = minute < 10 ? `0${minute}` : minute;
-        return (`${hour}:${minute}`)
-    }
-    const DeleteMessageHandler = async (data) => {
-    }
+        return `${hour}:${minute}`;
+    };
+    const DeleteMessageHandler = async (data) => { };
 
     const divOfListOfMesssages = Object.keys(messages).map((item) => (
         <div key={item} ref={messagesRef}>
-            {messages[item].type === "Text" &&
+            {messages[item].type === "Text" && (
                 <div className={style.message}>
-                    {messages[item].reply && messages[item].reply !== null &&
+                    {messages[item].reply && messages[item].reply !== null && (
                         <div className={style.reply_div}>
-                            <img src={`${imgPath}${messages[item].reply.user.image}`} alt="profile" />
-                            <div className={style.username}>{messages[item].reply.user.name}</div>
-                            <div className={style.rep_message}>{messages[item].reply.message}</div>
+                            <img
+                                src={`${imgPath}${messages[item].reply.user.image}`}
+                                alt="profile"
+                            />
+                            <div className={style.username}>
+                                {messages[item].reply.user.name}
+                            </div>
+                            <div className={style.rep_message}>
+                                {messages[item].reply.message}
+                            </div>
                         </div>
-                    }
-                    {messages[item].user._id !== messages[item - 1]?.user._id ?
+                    )}
+                    {messages[item].user._id !== messages[item - 1]?.user._id ? (
                         <div className={style.message_div}>
-                            <img src={`${imgPath}${messages[item].user.image}`} alt="profile" />
+                            <img
+                                src={`${imgPath}${messages[item].user.image}`}
+                                alt="profile"
+                            />
                             <div className={style.msg}>
                                 <div className={style.message_header}>
-                                    <div className={style.username}>{messages[item].user.name}</div>
-                                    <div className={style.time}>{getTime(messages[item].createdAt)}</div>
+                                    <div className={style.username}>
+                                        {messages[item].user.name}
+                                    </div>
+                                    <div className={style.time}>
+                                        {getTime(messages[item].createdAt)}
+                                    </div>
                                 </div>
                                 <div className={style.msg_text}>{messages[item].message}</div>
                             </div>
-                        </div> :
+                        </div>
+                    ) : (
                         <div className={style.message_sub_div}>
                             <div className={style.msg}>
                                 <div className={style.msg_text}>{messages[item].message}</div>
                             </div>
                         </div>
-                    }
+                    )}
                     <div className={style.message_controller}>
                         <button className={style.message_edit}>
                             <AiFillEdit className={style.icon} fontSize="1rem" />
                         </button>
-                        <button className={style.message_reply} onClick={() => {
-                            setReplyMessage(messages[item]);
-                        }}>
+                        <button
+                            className={style.message_reply}
+                            onClick={() => {
+                                setReplyMessage(messages[item]);
+                            }}
+                        >
                             <FaReply className={style.icon} />
                         </button>
-                        {(user.name === messages[item].user.name) &&
-                            <button className={style.message_edit} onClick={() => DeleteMessageHandler(messages[item])}>
+                        {user.name === messages[item].user.name && (
+                            <button
+                                className={style.message_edit}
+                                onClick={() => DeleteMessageHandler(messages[item])}
+                            >
                                 <AiFillDelete className={style.icon} />
-                            </button>}
+                            </button>
+                        )}
                     </div>
                 </div>
-            }
-            {messages[item].type === "File" &&
+            )}
+            {messages[item].type === "File" && (
                 <div className={style.message}>
-                    {messages[item].reply && messages[item].reply !== null &&
+                    {messages[item].reply && messages[item].reply !== null && (
                         <div className={style.reply_div}>
-                            <img src={`${imgPath}${messages[item].reply.user.image}`} alt="profile" />
-                            <div className={style.username}>{messages[item].reply.user.name}</div>
-                            <div className={style.rep_message}>{messages[item].reply.message}</div>
+                            <img
+                                src={`${imgPath}${messages[item].reply.user.image}`}
+                                alt="profile"
+                            />
+                            <div className={style.username}>
+                                {messages[item].reply.user.name}
+                            </div>
+                            <div className={style.rep_message}>
+                                {messages[item].reply.message}
+                            </div>
                         </div>
-                    }
-                    {messages[item].user._id !== messages[item - 1]?.user._id ?
+                    )}
+                    {messages[item].user._id !== messages[item - 1]?.user._id ? (
                         <div className={style.message_div}>
-                            <img src={`${imgPath}${messages[item].user.image}`} alt="profile" />
+                            <img
+                                src={`${imgPath}${messages[item].user.image}`}
+                                alt="profile"
+                            />
                             <div className={style.msg}>
                                 <div className={style.message_header}>
-                                    <div className={style.username}>{messages[item].user.name}</div>
-                                    <div className={style.time}>{getTime(messages[item].createdAt)}</div>
+                                    <div className={style.username}>
+                                        {messages[item].user.name}
+                                    </div>
+                                    <div className={style.time}>
+                                        {getTime(messages[item].createdAt)}
+                                    </div>
                                 </div>
-                                <Image fileName={messages[item].fileName} blob={messages[item].blob} />
-                            </div>
-                        </div> :
-                        <div className={style.message_sub_div}>
-                            <div className={style.msg}>
-                                <Image fileName={messages[item].fileName} blob={messages[item].blob} />
+                                <Image
+                                    fileName={messages[item].fileName}
+                                    blob={messages[item].blob}
+                                />
                             </div>
                         </div>
-                    }
+                    ) : (
+                        <div className={style.message_sub_div}>
+                            <div className={style.msg}>
+                                <Image
+                                    fileName={messages[item].fileName}
+                                    blob={messages[item].blob}
+                                />
+                            </div>
+                        </div>
+                    )}
                     <div className={style.message_controller}>
                         <button className={style.message_edit}>
                             <AiFillEdit className={style.icon} fontSize="1rem" />
                         </button>
-                        <button className={style.message_reply} onClick={() => {
-                            setReplyMessage(messages[item]);
-                        }}>
+                        <button
+                            className={style.message_reply}
+                            onClick={() => {
+                                setReplyMessage(messages[item]);
+                            }}
+                        >
                             <FaReply className={style.icon} />
                         </button>
-                        {(user.name === messages[item].user.name) &&
-                            <button className={style.message_edit} onClick={() => DeleteMessageHandler(messages[item])}>
+                        {user.name === messages[item].user.name && (
+                            <button
+                                className={style.message_edit}
+                                onClick={() => DeleteMessageHandler(messages[item])}
+                            >
                                 <AiFillDelete className={style.icon} />
-                            </button>}
+                            </button>
+                        )}
                     </div>
                 </div>
-            }
+            )}
         </div>
     ));
 
-
-    return (privateUser ?
+    return privateUser ? (
         <div className={style.personal_chat}>
             <div className={style.header}>
                 <div className={style.name}>{privateUser.name}</div>
-                <div className={style.chat_section}></div>
                 <div className={style.action_buttons}>
-                    <Link to="" className={style.icon}> <MessageIcon /> </Link>
-                    <Link to="" className={style.icon}> <CallIcon /> </Link>
+                    <Link to="" className={style.icon}>
+                        <MessageIcon />
+                    </Link>
+                    <Link to="" className={style.icon}>
+                        <CallIcon />
+                    </Link>
                 </div>
             </div>
             <div className={style.chat_section}>
                 <div className={style.chat__wrapper}>
                     <div className={style.wrapper}>
-                        {isLoading && <div className={style.Loader}>
-                            <img src={loader} alt="Loading" />
-                        </div>}
+                        {isLoading && (
+                            <div className={style.Loader}>
+                                <img src={loader} alt="Loading" />
+                            </div>
+                        )}
                         <div ref={messagesStartRef} />
-                        {!isLoading && <>
-                            <div className={style.initial_message} >
-                                <div className={style.hash}><FaHashtag /></div>
+                        {!isLoading && (<>
+                            <div className={style.initial_message}>
+                                <div className={style.hash}>
+                                    <img src={`${imgPath}/${privateUser.image}`} alt="" />
+                                </div>
                                 <div className={style.name}>{privateUser.name}</div>
                             </div>
                             {divOfListOfMesssages}
-                        </>}
+                        </>
+                        )}
                         <div ref={messagesEndRef} />
                     </div>
-
                 </div>
                 <div className={style.input_form}>
                     {replyMessage !== null && (
@@ -188,12 +296,12 @@ export const PersonalChat = () => {
                         messagesEndRef={messagesEndRef}
                         reply={replyMessage}
                         setReplyMessage={setReplyMessage}
+                        privateUser={privateUser}
                     />
                 </div>
             </div>
-        </div> :
+        </div>
+    ) : (
         <div>Loading...</div>
-    )
-}
-
-
+    );
+};

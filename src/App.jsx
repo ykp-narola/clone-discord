@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import HomePage from "./Pages/HomePage/HomePage";
-import Login from "./Pages/Login/Login";
 import { Routes, Route, Navigate } from "react-router-dom";
+
+import Login from "./Pages/Login/Login";
+import HomePage from "./Pages/HomePage/HomePage";
 import Settings from "./Pages/SettingsPage/Settings";
 import Profile from "./Components/SettingComponents/Profile";
 import ChangePassword from "./Components/SettingComponents/ChangePassword";
@@ -9,14 +10,14 @@ import CreateServerPage from "./Pages/CreateServerPage/CreateServerPage";
 import { CreateChannel } from "./Pages/CreateChannel/CreateChannel";
 import VoiceSetting from "./Components/SettingComponents/VoiceSetting";
 import AuthContext from "./Context/auth-context";
-// import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 import LoginComponent from "./Components/LoginComponent/LoginComponent";
 import RegisterComponent from "./Components/RegisterComponent/RegisterComponent";
 import { Chatme } from "./Components/HomeComponents/ChatMe/Chatme";
 import { ChannelPage } from "./Components/HomeComponents/ChannelPage/ChannelPage";
-import { ChatContextProvider } from "./Context/chat-context";
 import { PersonalChat } from "./Components/HomeComponents/ChatMe/PersonalChat/PersonalChat";
 import { FriendsHangOut } from "./Components/HomeComponents/ChatMe/FriendsHangOut/FriendsHangOut";
+import { ChatContextProvider } from "./Context/chat-context";
+// import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 // import { useBeforeunload } from 'react-beforeunload';
 
 export default function App() {

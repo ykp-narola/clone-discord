@@ -32,12 +32,23 @@
 .icon:hover {
 	color: antiquewhite;
 }
-
 .chat_section {
 	height: calc(100vh - 3rem);
 }
 
 /* ********************************************************* */
+.initial_message {
+	padding: 1rem;
+}
+.initial_message .hash img {
+	height: 12vh;
+	width: 7vw;
+	border-radius: 25px;
+}
+.initial_message .name {
+	font-size: 3rem;
+	font-weight: bolder;
+}
 
 .chat__wrapper {
 	height: 83vh;
