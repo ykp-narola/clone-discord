@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-// import { io } from "socket.io-client";
-// const ENDPOINT = "http://192.168.100.130:3000";
-const imgPath = "http://192.168.100.130:3000/images/users/";
 
 const ChatContext = React.createContext({
 	textChannels: {},
@@ -56,7 +53,7 @@ export const ChatContextProvider = (props) => {
 			let notification = new Notification(data.title, {
 				body: data.msg,
 				timestamp: 1000,
-				icon: `${imgPath}Accord.png`,
+				icon: `https://res.cloudinary.com/du0p5yed7/image/upload/v1650957001/Accord/images/users/Accord_z1ovzz.png`,
 				vibrate: true,
 			});
 			setTimeout(() => {

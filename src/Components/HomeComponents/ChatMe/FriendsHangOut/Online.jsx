@@ -3,7 +3,6 @@ import style from "./Pending.module.css";
 import MessageIcon from '@mui/icons-material/Message';
 import CallIcon from '@mui/icons-material/Call';
 import { Link } from "react-router-dom";
-const imgPath = "http://192.168.100.130:3000/images/users/";
 
 export const Online = () => {
     const [onlineUser, setOnlineUser] = useState([]);
@@ -23,7 +22,7 @@ export const Online = () => {
             <div>
                 {onlineUser.map((item) => (
                     <div key={item._id} className={style.user}>
-                        <img src={`${imgPath}/${item.image}`} alt="" />
+                        <img src={item.image} alt="" />
                         <div className={style.name_status}>
                             <div className={style.name}>{item.name}</div>
                             <div className={style.status}>Online</div>

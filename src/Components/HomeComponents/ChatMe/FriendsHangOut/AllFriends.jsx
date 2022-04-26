@@ -4,7 +4,6 @@ import { getAllFriends } from '../../../../APIs/API'
 import { Link } from 'react-router-dom';
 import MessageIcon from '@mui/icons-material/Message';
 import CallIcon from '@mui/icons-material/Call';
-const imgPath = "http://192.168.100.130:3000/images/users/";
 
 export const AllFriends = () => {
     const [friends, setFriends] = useState([]);
@@ -21,7 +20,7 @@ export const AllFriends = () => {
             <p>{`All Friends - ${friends.length}`}</p>
             {friends.map((item) => (
                 <div key={item._id} className={style.my_friend}>
-                    <img src={`${imgPath}${item.image}`} alt="" />
+                    <img src={item.image} alt="" />
                     <div className={style.friend_name}>{item.name}</div>
                     <div className={style.actions}>
                         <Link to="" className={style.icon}> <MessageIcon /> </Link>

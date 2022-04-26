@@ -3,7 +3,6 @@ import style from './Profile.module.css'
 // import uploadImage from '../../assets/UploadImage.png'
 import { useNavigate } from 'react-router-dom';
 import { getUserData } from '../../APIs/API';
-const imgPath = "http://192.168.100.130:3000/images/users/";
 
 export default function Profile() {
     const nav = useNavigate();
@@ -67,7 +66,7 @@ export default function Profile() {
                             <label htmlFor="image">
                                 {image ?
                                     <img className={style.image} src={URL.createObjectURL(image)} alt="" />
-                                    : <img className={style.image} src={`${imgPath}${user.image}`} alt="" />}
+                                    : <img className={style.image} src={user.image} alt="" />}
                             </label>
                             <span>
                                 <input

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import style from './CreateServerPage.module.css'
 import { onCreateServer, onJoinServer } from '../../APIs/API';
-const imgPath = "http://192.168.100.130:3000/images/users/";
-
+const accordImage = "https://res.cloudinary.com/du0p5yed7/image/upload/v1650957001/Accord/images/users/Accord_z1ovzz.png";
 export default function CreateServerPage() {
     const nav = useNavigate();
     const createServerRef = React.createRef();
@@ -111,7 +110,7 @@ export default function CreateServerPage() {
                                 <label htmlFor="image">
                                     {serverPicture ?
                                         <img className={style.image} src={URL.createObjectURL(serverPicture)} alt="" />
-                                        : <img className={style.image} src={`${imgPath}Accord.png`} alt="" />}
+                                        : <img className={style.image} src={accordImage} alt="" />}
                                 </label>
                                 <span>
                                     <input

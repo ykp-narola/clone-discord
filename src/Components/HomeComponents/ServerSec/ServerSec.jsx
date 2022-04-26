@@ -6,7 +6,6 @@ import { AiOutlinePlus, AiFillSetting } from 'react-icons/ai';
 import UserContext from '../../../Context/user-context';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
-const imgPath = "http://192.168.100.130:3000/images/servers/";
 
 export default function ServerSec() {
     const nav = useNavigate();
@@ -31,7 +30,7 @@ export default function ServerSec() {
                     placement="right"
                     arrow>
                     <img
-                        src={`${imgPath}${servers[item].image}`}
+                        src={servers[item].image}
                         alt={`${item}`}
                     />
                 </Tooltip>

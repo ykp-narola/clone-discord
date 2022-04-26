@@ -3,8 +3,6 @@ import style from './friends.module.css'
 import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
 import { getAllFriends } from '../../../APIs/API';
-const imgPath = "http://192.168.100.130:3000/images/users/";
-
 
 export const Friends = (props) => {
     const [friends, setFriends] = useState([]);
@@ -38,7 +36,7 @@ export const Friends = (props) => {
                 {friends.map((item) => (
                     <Link key={item._id} to={`./chat/${item._id}`}>
                         <div className={style.Friend}>
-                            <img src={`${imgPath}${item.image}`} alt="" />
+                            <img src={item.image} alt="" />
                             <div className={style.friend_name}>{item.name}</div>
                         </div>
                     </Link>
@@ -46,7 +44,7 @@ export const Friends = (props) => {
             </div>
             <div className={style.profile_status}>
                 <div className={style.user_info}>
-                    <img className={style.user_image} src={`${imgPath}${props.user.image}`} alt={`${props.user.name}`} />
+                    <img className={style.user_image} src={props.user.image} alt={`${props.user.name}`} />
                     <div className={style.user_name}>
                         <div className={style.uname}>{props.user.name}</div>
                         <div className={style.uid}>{`# ${props.user._id.substring(20, 24)}`}</div>

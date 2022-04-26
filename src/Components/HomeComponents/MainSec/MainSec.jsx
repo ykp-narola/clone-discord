@@ -16,9 +16,8 @@ import { FaHashtag, FaReply } from "react-icons/fa";
 import { textSocket } from "../../../Pages/HomePage/HomePage";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { Image } from "./Image";
-const imgPath = "http://192.168.100.130:3000/images/users/";
 const notificationAudio = new Audio(
-	"http://192.168.100.130:3000/sounds/notification.mp3"
+	"https://res.cloudinary.com/du0p5yed7/video/upload/v1650957124/Accord/sounds/notification_gm5zvp.mp3"
 );
 
 export const MainSec = (props) => {
@@ -54,7 +53,7 @@ export const MainSec = (props) => {
 				if (data.user._id !== user._id) {
 					showNotificationfunc({
 						msg: `${data.user.name}: ${data.message}`,
-						title: `Accord | ${currServer.slug}`,
+						title: `Accord | ${currServer.name}`,
 					});
 					notificationAudio.play();
 				}
@@ -62,15 +61,15 @@ export const MainSec = (props) => {
 			setMessages((prev) => [...prev, data]);
 			pageScroll(messagesEndRef, { behavior: "smooth" });
 		});
-		textSocket.on("send-files", (data) => {
-			const blob = new Blob([data.body], { type: data.type });
-			const obj = {
-				...data,
-				blob,
-			};
-			setMessages((prev) => [...prev, obj]);
-			pageScroll(messagesEndRef, { behavior: "smooth" });
-		});
+		// textSocket.on("send-files", (data) => {
+		// 	const blob = new Blob([data.body], { type: data.type });
+		// 	const obj = {
+		// 		...data,
+		// 		blob,
+		// 	};
+		// 	setMessages((prev) => [...prev, obj]);
+		// 	pageScroll(messagesEndRef, { behavior: "smooth" });
+		// });
 		// eslint-disable-next-line
 	}, [channel._id]);
 
@@ -111,7 +110,7 @@ export const MainSec = (props) => {
 					{messages[item].reply && messages[item].reply !== null && (
 						<div className={style.reply_div}>
 							<img
-								src={`${imgPath}${messages[item].reply.user.image}`}
+								src={messages[item].reply.user.image}
 								alt="profile"
 							/>
 							<div className={style.username}>
@@ -125,7 +124,7 @@ export const MainSec = (props) => {
 					{messages[item].user._id !== messages[item - 1]?.user._id ? (
 						<div className={style.message_div}>
 							<img
-								src={`${imgPath}${messages[item].user.image}`}
+								src={messages[item].user.image}
 								alt="profile"
 							/>
 							<div className={style.msg}>
@@ -175,7 +174,7 @@ export const MainSec = (props) => {
 					{messages[item].reply && messages[item].reply !== null && (
 						<div className={style.reply_div}>
 							<img
-								src={`${imgPath}${messages[item].reply.user.image}`}
+								src={messages[item].reply.user.image}
 								alt="profile"
 							/>
 							<div className={style.username}>
@@ -189,7 +188,7 @@ export const MainSec = (props) => {
 					{messages[item].user._id !== messages[item - 1]?.user._id ? (
 						<div className={style.message_div}>
 							<img
-								src={`${imgPath}${messages[item].user.image}`}
+								src={messages[item].user.image}
 								alt="profile"
 							/>
 							<div className={style.msg}>
@@ -279,7 +278,7 @@ export const MainSec = (props) => {
 						<div className={style.flex_message}>
 							<div className={style.reply_message}>
 								<img
-									src={`${imgPath}${replyMessage.user.image}`}
+									src={replyMessage.user.image}
 									alt="profile"
 								/>
 								{`${replyMessage.user.name}: ${replyMessage.message}`}

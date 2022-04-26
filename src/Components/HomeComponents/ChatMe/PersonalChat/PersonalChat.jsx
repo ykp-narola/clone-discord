@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getChannelMessages, getUserById } from "../../../../APIs/API";
+import { getUserById } from "../../../../APIs/API";
 import MessageIcon from "@mui/icons-material/Message";
 import CallIcon from "@mui/icons-material/Call";
 import loader from "../../../../assets/Images/Loader_magnify.gif";
@@ -14,8 +14,7 @@ import { RiCloseCircleFill } from "react-icons/ri";
 import { InputForm } from "./InputForm";
 import { pageScroll } from "../../MainSec/MainSec";
 import { textSocket } from "../../../../Pages/HomePage/HomePage";
-const imgPath = "http://192.168.100.130:3000/images/users/";
-const notificationAudio = new Audio("http://192.168.100.130:3000/sounds/notification.mp3");
+const notificationAudio = new Audio("https://res.cloudinary.com/du0p5yed7/video/upload/v1650957124/Accord/sounds/notification_gm5zvp.mp3");
 
 export const PersonalChat = () => {
     const [privateUser, setPrivateUser] = useState();
@@ -26,9 +25,9 @@ export const PersonalChat = () => {
     const [replyMessage, setReplyMessage] = useState(null);
     const { user } = useContext(UserContext);
     const { isLoading, setIsLoading, messages, setMessages, showNotificationfunc } = useContext(ChatContext);
+    const idArr = [user._id, id].sort();
 
     useLayoutEffect(() => {
-        const idArr = [user._id, privateUser._id].sort();
         textSocket?.removeAllListeners();
         textSocket?.emit("leave-text-channel");
         textSocket?.emit("join-text-channel", {
@@ -104,7 +103,7 @@ export const PersonalChat = () => {
                     {messages[item].reply && messages[item].reply !== null && (
                         <div className={style.reply_div}>
                             <img
-                                src={`${imgPath}${messages[item].reply.user.image}`}
+                                src={messages[item].reply.user.image}
                                 alt="profile"
                             />
                             <div className={style.username}>
@@ -118,7 +117,7 @@ export const PersonalChat = () => {
                     {messages[item].user._id !== messages[item - 1]?.user._id ? (
                         <div className={style.message_div}>
                             <img
-                                src={`${imgPath}${messages[item].user.image}`}
+                                src={messages[item].user.image}
                                 alt="profile"
                             />
                             <div className={style.msg}>
@@ -168,7 +167,7 @@ export const PersonalChat = () => {
                     {messages[item].reply && messages[item].reply !== null && (
                         <div className={style.reply_div}>
                             <img
-                                src={`${imgPath}${messages[item].reply.user.image}`}
+                                src={messages[item].reply.user.image}
                                 alt="profile"
                             />
                             <div className={style.username}>
@@ -182,7 +181,7 @@ export const PersonalChat = () => {
                     {messages[item].user._id !== messages[item - 1]?.user._id ? (
                         <div className={style.message_div}>
                             <img
-                                src={`${imgPath}${messages[item].user.image}`}
+                                src={messages[item].user.image}
                                 alt="profile"
                             />
                             <div className={style.msg}>
@@ -261,7 +260,7 @@ export const PersonalChat = () => {
                         {!isLoading && (<>
                             <div className={style.initial_message}>
                                 <div className={style.hash}>
-                                    <img src={`${imgPath}/${privateUser.image}`} alt="" />
+                                    <img src={privateUser.image} alt="" />
                                 </div>
                                 <div className={style.name}>{privateUser.name}</div>
                             </div>
@@ -277,7 +276,7 @@ export const PersonalChat = () => {
                             <div className={style.flex_message}>
                                 <div className={style.reply_message}>
                                     <img
-                                        src={`${imgPath}${replyMessage.user.image}`}
+                                        src={replyMessage.user.image}
                                         alt="profile"
                                     />
                                     {`${replyMessage.user.name}: ${replyMessage.message}`}
@@ -297,6 +296,7 @@ export const PersonalChat = () => {
                         reply={replyMessage}
                         setReplyMessage={setReplyMessage}
                         privateUser={privateUser}
+                        channelId={idArr}
                     />
                 </div>
             </div>

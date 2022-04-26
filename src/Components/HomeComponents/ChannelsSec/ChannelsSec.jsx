@@ -17,8 +17,8 @@ import { useBeforeunload } from 'react-beforeunload';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 const ENDPOINT = "http://192.168.100.130:3000";
-const joinAudio = new Audio('http://192.168.100.130:3000/sounds/join.mp3');
-const leaveAudio = new Audio('http://192.168.100.130:3000/sounds/leave.mp3');
+const joinAudio = new Audio('https://res.cloudinary.com/du0p5yed7/video/upload/v1650957124/Accord/sounds/join_qmkvy3.mp3');
+const leaveAudio = new Audio('https://res.cloudinary.com/du0p5yed7/video/upload/v1650957125/Accord/sounds/leave_y0ik8f.mp3');
 let voiceSocket, peers, localStream, myPeer, myVideo;
 
 export const ChannelsSec = (props) => {
@@ -32,7 +32,6 @@ export const ChannelsSec = (props) => {
         , voiceChannelUsers, setVoiceChannelUsers
     } = useContext(ChatContext);
 
-    const imgPath = "http://192.168.100.130:3000/images/users/";
     const [channelId, setChannelId] = useState(0);
     const [isVoiceConnected, setIsVoiceConnected] = useState(false);
     const [isSharingScreen, setIsSharingScreen] = useState(false);
@@ -260,13 +259,14 @@ export const ChannelsSec = (props) => {
                 {(voiceChannels[item]._id === channelId) &&
                     Object.keys(voiceChannelUsers).map((item) => (
                         <div key={item} className={style.voice_user}>
-                            <img src={`${imgPath}${voiceChannelUsers[item].image}`} alt="" />
+                            <img src={voiceChannelUsers[item].image} alt="" />
                             <div className={style.username}>{voiceChannelUsers[item].name}</div>
                         </div>
                     ))}
             </div>
         </li>
     ));
+    console.log(user.image)
 
     return (
         <section className={style.channel_section}>
@@ -396,7 +396,7 @@ export const ChannelsSec = (props) => {
                     TransitionComponent={Zoom}
                     arrow>
                     <div className={style.user_info}>
-                        <img className={style.user_image} src={`${imgPath}${user.image}`} alt={`${user.image}`} />
+                        <img className={style.user_image} src={user.image} alt="a" />
                         <div className={style.user_name}>
                             <div className={style.uname}>{user.name}</div>
                             <div className={style.uid}>{`# ${user._id.substring(20, 24)}`}</div>

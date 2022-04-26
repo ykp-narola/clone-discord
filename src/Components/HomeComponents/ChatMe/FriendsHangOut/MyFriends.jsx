@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { searchUser, sendFriendRequest } from '../../../../APIs/API';
 import style from './MyFriends.module.css'
-const imgPath = "http://192.168.100.130:3000/images/users/";
 
 export const MyFriends = () => {
     const [users, setUsers] = useState([]);
@@ -37,7 +36,7 @@ export const MyFriends = () => {
                 {
                     users.map(item => (
                         <div key={item._id} className={style.user}>
-                            <img src={`${imgPath}/${item.image}`} alt="" />
+                            <img src={item.image} alt="" />
                             <div className={style.name}>{item.name}</div>
                             <button
                                 ref={requestBtn}

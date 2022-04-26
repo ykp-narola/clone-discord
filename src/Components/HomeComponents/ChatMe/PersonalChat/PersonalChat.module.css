@@ -41,9 +41,9 @@
 	padding: 1rem;
 }
 .initial_message .hash img {
-	height: 12vh;
-	width: 7vw;
-	border-radius: 25px;
+	height: 7rem;
+	width: 7rem;
+	border-radius: 18px;
 }
 .initial_message .name {
 	font-size: 3rem;

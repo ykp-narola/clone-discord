@@ -18,7 +18,7 @@ export const Users = (props) => {
     });
     const OnlineUsersDiv = Object.keys(sortedusers).map((item) => (
         <div key={item} className={style.online_user}>
-            <img src={`${userImg}${onlineUsers[item].image}`} alt="" />
+            <img src={onlineUsers[item].image} alt="" />
             <div className={style.username}>{onlineUsers[item].name}</div>
             {props.author._id === onlineUsers[item]._id &&
                 <FaCrown fontSize="1.5rem" color='yellow' className={style.serverAuthor} />}

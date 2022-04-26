@@ -18,7 +18,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { pageScroll } from '../MainSec';
 
-
 export const InputForm = (props) => {
     const {
         channel, user, currServer,
@@ -174,18 +173,18 @@ const FileUpload = (props) => {
 
     const onSendHandler = () => {
         props.setShowAttachment(false);
-        textSocket.emit("send-files", {
-            _id: new mongoose.Types.ObjectId().toHexString(),
-            type: "File",
-            body: file,
-            fileName: file.name,
-            reply: props.parent.reply,
-            user: user,
-            channelSlug: channel.slug,
-            channelId: channel._id,
-            serverId: currServer._id,
-            createdAt: (new Date()).toISOString(),
-        });
+        // textSocket.emit("send-files", {
+        //     _id: new mongoose.Types.ObjectId().toHexString(),
+        //     type: "File",
+        //     body: file,
+        //     fileName: file.name,
+        //     reply: props.parent.reply,
+        //     user: user,
+        //     channelSlug: channel.slug,
+        //     channelId: channel._id,
+        //     serverId: currServer._id,
+        //     createdAt: (new Date()).toISOString(),
+        // });
     };
 
     return (
@@ -193,7 +192,7 @@ const FileUpload = (props) => {
             acceptedFiles={['image/*']}
             cancelButtonText={"Cancel"}
             submitButtonText={"Send"}
-            maxFileSize={6 * 1024 * 1024}
+            maxFileSize={5 * 1024 * 1024}
             open={props.showAttachment}
             onChange={(files) => setFile(files[0])}
             onClose={() => props.setShowAttachment(false)}

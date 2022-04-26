@@ -17,12 +17,13 @@ import { textSocket } from "../../../../Pages/HomePage/HomePage";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import { pageScroll } from "../../MainSec/MainSec";
+import { useParams } from "react-router-dom";
 
 export const InputForm = (props) => {
     const { user } = useContext(UserContext);
     const { myMessage, setMyMessage } = useContext(ChatContext);
     const msgInputRef = useRef();
-
+    const { id } = useParams();
     const [isOnTop, setIsOnTop] = useState(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showAttachment, setShowAttachment] = useState(false);
@@ -43,14 +44,18 @@ export const InputForm = (props) => {
                 onSubmit={(e) => {
                     e.preventDefault();
                     if (myMessage !== "") {
+
                         textSocket.emit("message", {
                             _id: new mongoose.Types.ObjectId().toHexString(),
+                            isPrivate: true,
                             type: "Text",
                             message: myMessage,
                             reply: props.reply,
                             user: user,
+                            sender: user._id,
+                            receiver: id,
                             // channelSlug: channel.slug,
-                            // channelId: channel._id,
+                            channelId: props.channelId[0] + props.channelId[1],
                             // serverId: currServer._id,
                             createdAt: new Date().toISOString(),
                         });
