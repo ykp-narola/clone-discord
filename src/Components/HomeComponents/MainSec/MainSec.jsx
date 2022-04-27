@@ -102,7 +102,6 @@ export const MainSec = (props) => {
 	const DeleteMessageHandler = async (data) => {
 		textSocket?.emit("delete-message", { user, data });
 	};
-
 	const divOfListOfMesssages = Object.keys(messages).map((item) => (
 		<div key={item} ref={messagesRef}>
 			{messages[item].type === "Text" && (

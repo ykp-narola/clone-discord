@@ -1,6 +1,7 @@
 .personal_chat {
 	height: 100vh;
 	width: calc(100vw - 17vw - 5rem);
+	background-color: #36393f;
 }
 .header {
 	height: 3rem;

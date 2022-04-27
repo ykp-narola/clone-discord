@@ -106,6 +106,13 @@ export const getChannelMessages = async (data) => {
 		}
 	).then((data) => data.json());
 };
+export const getPrivateMessages = async (data) => {
+	return fetch(`${ENDPOINT}/api/users/me/chat/${data.id}`, {
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+	}).then((data) => data.json());
+};
 export const onUserLeaveServer = async (data) => {
 	return fetch(`${ENDPOINT}/api/servers/${data.slug}/leave`, {
 		method: "GET",

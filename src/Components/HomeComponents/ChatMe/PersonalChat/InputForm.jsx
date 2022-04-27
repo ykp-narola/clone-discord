@@ -44,19 +44,15 @@ export const InputForm = (props) => {
                 onSubmit={(e) => {
                     e.preventDefault();
                     if (myMessage !== "") {
-
                         textSocket.emit("message", {
                             _id: new mongoose.Types.ObjectId().toHexString(),
                             isPrivate: true,
                             type: "Text",
                             message: myMessage,
                             reply: props.reply,
-                            user: user,
-                            sender: user._id,
-                            receiver: id,
-                            // channelSlug: channel.slug,
+                            user1: user,
+                            user2: { _id: id },
                             channelId: props.channelId[0] + props.channelId[1],
-                            // serverId: currServer._id,
                             createdAt: new Date().toISOString(),
                         });
                         props.setReplyMessage(null);

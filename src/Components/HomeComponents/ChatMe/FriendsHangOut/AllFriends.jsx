@@ -23,7 +23,7 @@ export const AllFriends = () => {
                     <img src={item.image} alt="" />
                     <div className={style.friend_name}>{item.name}</div>
                     <div className={style.actions}>
-                        <Link to="" className={style.icon}> <MessageIcon /> </Link>
+                        <Link to={`/channels/@me/chat/${item._id}`} className={style.icon}> <MessageIcon /> </Link>
                         <Link to="" className={style.icon}> <CallIcon /> </Link>
                     </div>
                 </div>

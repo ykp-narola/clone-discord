@@ -1,7 +1,7 @@
 .friends_section {
 	width: 17vw;
-	/* background-color: #2f3136; */
-	background-color: #3e4048;
+	/* background-color: #3e4048; */
+	background-color: #2f3136;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -33,7 +33,6 @@
 /* **************************************************************** */
 
 .friends_list {
-	background-color: #3d4047;
 	height: 83em;
 }
 .Friends {

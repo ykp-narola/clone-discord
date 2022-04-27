@@ -266,7 +266,6 @@ export const ChannelsSec = (props) => {
             </div>
         </li>
     ));
-    console.log(user.image)
 
     return (
         <section className={style.channel_section}>

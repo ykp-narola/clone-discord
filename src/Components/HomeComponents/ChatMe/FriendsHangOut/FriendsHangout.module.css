@@ -8,7 +8,7 @@
 	border: none;
 	height: 3rem !important;
 	border-bottom: 1px solid #1e1f22;
-	background-color: #222429;
+	background-color: #36393f;
 }
 .friends {
 	display: flex;
@@ -33,13 +33,15 @@ a {
 
 .main {
 	width: 72%;
+	background-color: #36393f;
 }
 
 /* ********************************************************* */
 .active_now {
 	height: calc(100vh - 3rem);
 	width: 28%;
-	background-color: #25272c;
+	/* background-color: #25272c; */
+	background-color: #2f3136;
 }
 
 .active_now > .title {
