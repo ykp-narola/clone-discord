@@ -9,8 +9,8 @@ import style from "./MainSec.module.css";
 import loader from "../../../assets/Images/Loader_magnify.gif";
 import { getChannelMessages } from "../../../APIs/API";
 import UserContext from "../../../Context/user-context";
-import { InputForm } from "./InputBox/InputForm";
 import ChatContext from "../../../Context/chat-context";
+import { InputForm } from "./InputBox/InputForm";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { FaHashtag, FaReply } from "react-icons/fa";
 import { textSocket } from "../../../Pages/HomePage/HomePage";
@@ -29,7 +29,6 @@ export const MainSec = (props) => {
 		setMessages,
 		showNotificationfunc,
 	} = useContext(ChatContext);
-
 	const messagesRef = useRef();
 	const messagesStartRef = useRef(null);
 	const messagesEndRef = useRef(null);
@@ -45,7 +44,7 @@ export const MainSec = (props) => {
 		});
 
 		textSocket?.on("delete-message", (data) => {
-			setMessages((prev) => prev.filter((item) => item._id !== data.data._id));
+			setMessages((prev) => prev.filter((item) => item._id !== data._id));
 		});
 
 		textSocket?.on("new-message", (data) => {
@@ -100,74 +99,74 @@ export const MainSec = (props) => {
 	};
 
 	const DeleteMessageHandler = async (data) => {
-		textSocket?.emit("delete-message", { user, data });
+		textSocket?.emit("delete-message", data);
 	};
 	const divOfListOfMesssages = Object.keys(messages).map((item) => (
 		<div key={item} ref={messagesRef}>
-			{messages[item].type === "Text" && (
-				<div className={style.message}>
-					{messages[item].reply && messages[item].reply !== null && (
-						<div className={style.reply_div}>
-							<img
-								src={messages[item].reply.user.image}
-								alt="profile"
-							/>
-							<div className={style.username}>
-								{messages[item].reply.user.name}
-							</div>
-							<div className={style.rep_message}>
-								{messages[item].reply.message}
-							</div>
+			{/* {messages[item].type === "Text" && ( */}
+			<div className={style.message}>
+				{messages[item].reply && messages[item].reply !== null && (
+					<div className={style.reply_div}>
+						<img
+							src={messages[item].reply.user.image}
+							alt="profile"
+						/>
+						<div className={style.username}>
+							{messages[item].reply.user.name}
 						</div>
-					)}
-					{messages[item].user._id !== messages[item - 1]?.user._id ? (
-						<div className={style.message_div}>
-							<img
-								src={messages[item].user.image}
-								alt="profile"
-							/>
-							<div className={style.msg}>
-								<div className={style.message_header}>
-									<div className={style.username}>
-										{messages[item].user.name}
-									</div>
-									<div className={style.time}>
-										{getTime(messages[item].createdAt)}
-									</div>
-								</div>
-								<div className={style.msg_text}>{messages[item].message}</div>
-							</div>
+						<div className={style.rep_message}>
+							{messages[item].reply.message}
 						</div>
-					) : (
-						<div className={style.message_sub_div}>
-							<div className={style.msg}>
-								<div className={style.msg_text}>{messages[item].message}</div>
-							</div>
-						</div>
-					)}
-					<div className={style.message_controller}>
-						<button className={style.message_edit}>
-							<AiFillEdit className={style.icon} fontSize="1rem" />
-						</button>
-						<button
-							className={style.message_reply}
-							onClick={() => {
-								setReplyMessage(messages[item]);
-							}}
-						>
-							<FaReply className={style.icon} />
-						</button>
-						{(isAuthor || user.name === messages[item].user.name) && (
-							<button
-								className={style.message_edit}
-								onClick={() => DeleteMessageHandler(messages[item])}
-							>
-								<AiFillDelete className={style.icon} />
-							</button>
-						)}
 					</div>
+				)}
+				{messages[item].user._id !== messages[item - 1]?.user._id ? (
+					<div className={style.message_div}>
+						<img
+							src={messages[item].user.image}
+							alt="profile"
+						/>
+						<div className={style.msg}>
+							<div className={style.message_header}>
+								<div className={style.username}>
+									{messages[item].user.name}
+								</div>
+								<div className={style.time}>
+									{getTime(messages[item].createdAt)}
+								</div>
+							</div>
+							<div className={style.msg_text}>{messages[item].message}</div>
+						</div>
+					</div>
+				) : (
+					<div className={style.message_sub_div}>
+						<div className={style.msg}>
+							<div className={style.msg_text}>{messages[item].message}</div>
+						</div>
+					</div>
+				)}
+				<div className={style.message_controller}>
+					<button className={style.message_edit}>
+						<AiFillEdit className={style.icon} fontSize="1rem" />
+					</button>
+					<button
+						className={style.message_reply}
+						onClick={() => {
+							setReplyMessage(messages[item]);
+						}}
+					>
+						<FaReply className={style.icon} />
+					</button>
+					{(isAuthor || user.name === messages[item].user.name) && (
+						<button
+							className={style.message_edit}
+							onClick={() => DeleteMessageHandler(messages[item])}
+						>
+							<AiFillDelete className={style.icon} />
+						</button>
+					)}
 				</div>
-			)}
+			</div>
+			{/* // )} */}
 			{messages[item].type === "File" && (
 				<div className={style.message}>
 					{messages[item].reply && messages[item].reply !== null && (
@@ -241,11 +240,6 @@ export const MainSec = (props) => {
 		</div>
 	));
 
-	// useEffect(() => {
-	//     pageScroll(messagesEndRef, { behavior: "smooth" });
-	//     // eslint-disable-next-line
-	// }, [divOfListOfMesssages])
-
 	return (
 		<section className={style.text_msg}>
 			<div className={style.chat__wrapper}>
@@ -270,7 +264,6 @@ export const MainSec = (props) => {
 					<div ref={messagesEndRef} />
 				</div>
 			</div>
-
 			<div className={style.input_form}>
 				{replyMessage !== null && (
 					<div className={style.parent_message}>

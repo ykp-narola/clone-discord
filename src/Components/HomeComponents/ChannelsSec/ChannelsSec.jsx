@@ -16,7 +16,7 @@ import ChatContext from '../../../Context/chat-context';
 import { useBeforeunload } from 'react-beforeunload';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
-const ENDPOINT = "http://192.168.100.130:3000";
+import { ENDPOINT } from '../../../APIs/API';
 const joinAudio = new Audio('https://res.cloudinary.com/du0p5yed7/video/upload/v1650957124/Accord/sounds/join_qmkvy3.mp3');
 const leaveAudio = new Audio('https://res.cloudinary.com/du0p5yed7/video/upload/v1650957125/Accord/sounds/leave_y0ik8f.mp3');
 let voiceSocket, peers, localStream, myPeer, myVideo;

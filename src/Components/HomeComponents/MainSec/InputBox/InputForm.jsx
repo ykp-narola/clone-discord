@@ -173,18 +173,18 @@ const FileUpload = (props) => {
 
     const onSendHandler = () => {
         props.setShowAttachment(false);
-        // textSocket.emit("send-files", {
-        //     _id: new mongoose.Types.ObjectId().toHexString(),
-        //     type: "File",
-        //     body: file,
-        //     fileName: file.name,
-        //     reply: props.parent.reply,
-        //     user: user,
-        //     channelSlug: channel.slug,
-        //     channelId: channel._id,
-        //     serverId: currServer._id,
-        //     createdAt: (new Date()).toISOString(),
-        // });
+        textSocket.emit("send-files", {
+            _id: new mongoose.Types.ObjectId().toHexString(),
+            type: "File",
+            body: file,
+            fileName: file.name,
+            reply: props.parent.reply,
+            user: user,
+            channelSlug: channel.slug,
+            channelId: channel._id,
+            serverId: currServer._id,
+            createdAt: (new Date()).toISOString(),
+        });
     };
 
     return (

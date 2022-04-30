@@ -228,3 +228,11 @@
 		width: 100%;
 	}
 }
+
+.channel_not_selected {
+	width: 80%;
+	height: 100%;
+	border: none;
+	margin: auto;
+	background-color: #36393f;
+}

@@ -1,4 +1,5 @@
-const ENDPOINT = "http://192.168.100.130:3000";
+export const ENDPOINT = "http://192.168.100.130:3000";
+// export const ENDPOINT = "https://accord-server.herokuapp.com";
 export const onLogin = async (data) => {
 	return fetch(`${ENDPOINT}/api/users/login`, {
 		method: "POST",
@@ -199,5 +200,14 @@ export const searchUser = async (data) => {
 		headers: {
 			Authorization: `Bearer ${data.token}`,
 		},
+	}).then((data) => data.json());
+};
+export const updateMe = async (data) => {
+	return fetch(`${ENDPOINT}/api/users/updateMe`, {
+		method: "PATCH",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+		},
+		body: data.formdata,
 	}).then((data) => data.json());
 };

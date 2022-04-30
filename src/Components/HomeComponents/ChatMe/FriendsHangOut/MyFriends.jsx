@@ -21,7 +21,7 @@ export const MyFriends = () => {
         const res = await sendFriendRequest({ token, id });
         console.log(res);
         if (res.status === "success") {
-            requestBtn.current.textcontent = "Sent"
+            console.log(requestBtn.current.textcontent);
         }
     };
 

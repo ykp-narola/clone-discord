@@ -2,9 +2,10 @@ import React, { useContext } from 'react'
 import { FaCrown } from 'react-icons/fa';
 import ChatContext from '../../../Context/chat-context';
 import style from './Users.module.css'
+// import { ENDPOINT } from '../../../APIs/API';
 
 export const Users = (props) => {
-    const userImg = "http://192.168.100.130:3000/images/users/";
+    // const userImg = `${ENDPOINT}/images/users/`;
     const { onlineUsers } = useContext(ChatContext);
 
     const sortedusers = onlineUsers.sort(function (a, b) {

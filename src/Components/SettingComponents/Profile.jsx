@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import style from './Profile.module.css'
 // import uploadImage from '../../assets/UploadImage.png'
 import { useNavigate } from 'react-router-dom';
-import { getUserData } from '../../APIs/API';
+import { getUserData, updateMe } from '../../APIs/API';
 
 export default function Profile() {
     const nav = useNavigate();
@@ -30,13 +30,7 @@ export default function Profile() {
             const formdata = new FormData();
             formdata.append('image', image);
             let token = JSON.parse(localStorage.getItem("token"));
-            await fetch("http://192.168.100.130:3000/api/users/updateMe", {
-                method: "PATCH",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                },
-                body: formdata
-            }).then(data => data.json());
+            await updateMe({ token, formdata });
             setIsChanged(true);
         }
     }

@@ -6,9 +6,14 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { getAllServers } from '../../APIs/API';
 import UserContext from '../../Context/user-context';
 import { io } from "socket.io-client";
-const ENDPOINT = "http://192.168.100.130:3000";
+import { ENDPOINT } from '../../APIs/API';
 
-export const textSocket = io(ENDPOINT, { transports: ["websocket"] });
+export const textSocket = io(ENDPOINT, {
+    transports: ["websocket"],
+    'reconnection': true,
+    'reconnectionDelay': 500,
+    'reconnectionAttempts': 10
+});
 
 export default function HomePage() {
     const nav = useNavigate();

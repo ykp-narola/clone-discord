@@ -11,7 +11,6 @@ export const Image = (props) => {
         };
         // eslint-disable-next-line
     }, [props.bolb]);
-    console.log(props.blob, imageSrc);
     return (
         <img
             src={imageSrc}
