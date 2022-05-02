@@ -3,15 +3,15 @@
 * {
 	margin: 0;
 	padding: 0;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 body {
 	font-family: "Noto Serif", serif;
 	background-color: rgb(55, 59, 63);
 	color: aliceblue;
-	-ms-overflow-style: none;
-	scrollbar-width: none;
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
 	display: none;
 }

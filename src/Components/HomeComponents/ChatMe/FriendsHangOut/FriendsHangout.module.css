@@ -39,6 +39,7 @@ a {
 
 .main {
 	width: 72%;
+	overflow-y: scroll;
 	background-color: #36393f;
 }
 
