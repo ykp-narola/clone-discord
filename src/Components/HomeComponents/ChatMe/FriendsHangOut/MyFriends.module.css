@@ -32,7 +32,7 @@
 	border-radius: 8px;
 }
 .user:hover {
-	background-color: rgb(39, 42, 44);
+	background-color: rgb(48, 51, 54);
 }
 
 .user > img {
@@ -42,14 +42,24 @@
 .user .name {
 	margin: 1vh auto auto 2vw;
 }
+
 .user .request_btn {
+	display: none;
+}
+.user:hover .request_btn {
+	display: block;
+	color: antiquewhite;
 	margin: auto;
 	margin-right: 1vw;
-	height: fit-content;
 	border: none;
-	padding: 0.5vh 0.5vw;
-	background-color: rgb(134, 171, 79);
+	border-radius: 4px;
+	padding: 0.5rem;
+	opacity: 0.7;
+	background-color: rgb(39, 42, 44);
 }
 .user .request_btn:hover {
-	background-color: greenyellow;
+	opacity: 1;
+}
+.user .request_btn:active {
+	transform: scale(1.1);
 }

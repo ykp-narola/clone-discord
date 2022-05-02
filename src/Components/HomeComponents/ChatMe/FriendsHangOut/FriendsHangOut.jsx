@@ -14,23 +14,23 @@ export const FriendsHangOut = () => {
 	return (
 		<div className={style.friends_hangout}>
 			<div className={style.header}>
-				<Link to="./friends" className={style.tab}>
+				<Link to="./friends" className={tab === "friends" ? `${style.tab}  ${style.active}` : `${style.tab}`}>
 					<div className={style.friends}>
 						<PersonIcon />
 						<div className={style.text}>Friends</div>
 					</div>
 				</Link>
 				<div style={{ margin: "auto 0" }}>|</div>
-				<Link to="./online" className={style.tab}>
+				<Link to="./online" className={tab === "online" ? `${style.tab}  ${style.active}` : `${style.tab}`}>
 					Online
 				</Link>
-				<Link to="./all" className={style.tab}>
+				<Link to="./all" className={tab === "all" ? `${style.tab}  ${style.active}` : `${style.tab}`}>
 					All
 				</Link>
-				<Link to="./pending" className={style.tab}>
+				<Link to="./pending" className={tab === "pending" ? `${style.tab}  ${style.active}` : `${style.tab}`}>
 					Pending
 				</Link>
-				<Link to="./block" className={style.tab}>
+				<Link to="./block" className={tab === "block" ? `${style.tab}  ${style.active}` : `${style.tab}`}>
 					Blocked
 				</Link>
 			</div>

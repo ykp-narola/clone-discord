@@ -13,10 +13,16 @@
 .friends {
 	display: flex;
 	flex-direction: row;
-	margin: auto 2vw;
+	/* margin: auto 2vw; */
 }
+
 .tab {
-	margin: auto 2vw;
+	margin: auto 1vw;
+	padding: 0.3rem 0.7rem;
+	border-radius: 8px;
+}
+.active {
+	background-color: #2c2e33;
 }
 a {
 	text-decoration: none;

@@ -34,13 +34,11 @@ export const PersonalChat = () => {
             userId: user._id,
         });
         textSocket?.on("delete-message", (data) => {
-            setMessages((prev) => prev.filter((item) => {
-                return item._id !== data._id
-            }));
+            setMessages((prev) => prev.filter((item) => item._id !== data._id));
         });
         textSocket?.on("new-message", (data) => {
-            if (document.hidden) {
-                if (data.user1._id !== user._id) {
+            if (data.user1._id !== user._id) {
+                if (document.hidden) {
                     showNotificationfunc({
                         msg: `${data.user1.name}: ${data.message}`,
                         title: `Accord | ${privateUser.name}`,

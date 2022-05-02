@@ -9,10 +9,8 @@ export const Chatme = () => {
     const { user } = useContext(UserContext);
     const { id } = useParams();
 
-    return (
-        <section className={style.chatme_section}>
-            <Friends user={user} />
-            {(id !== undefined || !isNaN(id)) ? <Outlet /> : <FriendsHangOut />}
-        </section>
-    )
+    return (<section className={style.chatme_section}>
+        <Friends user={user} />
+        {(id !== undefined || !isNaN(id)) ? <Outlet /> : <FriendsHangOut />}
+    </section>)
 }
