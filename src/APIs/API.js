@@ -1,5 +1,5 @@
-export const ENDPOINT = "http://192.168.100.130:3000";
-// export const ENDPOINT = "https://accord-server.herokuapp.com";
+// export const ENDPOINT = "http://192.168.100.130:3000";
+export const ENDPOINT = "https://accord-server.herokuapp.com";
 export const onLogin = async (data) => {
 	return fetch(`${ENDPOINT}/api/users/login`, {
 		method: "POST",
@@ -155,6 +155,18 @@ export const getPendingRequests = async (data) => {
 	}).then((data) => data.json());
 };
 export const sendFriendRequest = async (data) => {
+	return fetch(`${ENDPOINT}/api/friends/send`, {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${data.token}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			receiver: `${data.id}`,
+		}),
+	}).then((data) => data.json());
+};
+export const cancelFriendRequest = async (data) => {
 	return fetch(`${ENDPOINT}/api/friends/send`, {
 		method: "POST",
 		headers: {
