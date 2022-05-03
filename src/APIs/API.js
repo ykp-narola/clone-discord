@@ -1,5 +1,5 @@
-// export const ENDPOINT = "http://192.168.100.130:3000";
-export const ENDPOINT = "https://accord-server.herokuapp.com";
+export const ENDPOINT = "http://192.168.100.130:3000";
+// export const ENDPOINT = "https://accord-server.herokuapp.com";
 export const onLogin = async (data) => {
 	return fetch(`${ENDPOINT}/api/users/login`, {
 		method: "POST",
@@ -167,7 +167,7 @@ export const sendFriendRequest = async (data) => {
 	}).then((data) => data.json());
 };
 export const cancelFriendRequest = async (data) => {
-	return fetch(`${ENDPOINT}/api/friends/send`, {
+	return fetch(`${ENDPOINT}/api/friends/cancel`, {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
@@ -189,19 +189,21 @@ export const acceptFriendRequest = async (data) => {
 	}).then((data) => data.json());
 };
 export const declineFriendRequest = async (data) => {
-	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
-		method: "GET",
+	return fetch(`${ENDPOINT}/api/friends/decline`, {
+		method: "POST",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ sender: `${data.id}` }),
 	}).then((data) => data.json());
 };
 export const unfriendRequest = async (data) => {
-	return fetch(`${ENDPOINT}/api/servers/${data.slug}`, {
-		method: "GET",
+	return fetch(`${ENDPOINT}/api/friends/unfriend`, {
+		method: "POST",
 		headers: {
 			Authorization: `Bearer ${data.token}`,
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ removee: `${data.id}` }),
 	}).then((data) => data.json());

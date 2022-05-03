@@ -44,9 +44,22 @@
 }
 
 .user .request_btn {
+	background-color: hsl(235, 51.4%, 52.4%);
+}
+.user .unfriend_request_btn {
+	background-color: hsl(359, 66.7%, 54.1%);
+}
+.user .cancel_request_btn {
+	background-color: hsl(359, 66.7%, 54.1%);
+}
+.user .request_btn,
+.user .unfriend_request_btn,
+.user .cancel_request_btn {
 	display: none;
 }
-.user:hover .request_btn {
+.user:hover .request_btn,
+.user:hover .unfriend_request_btn,
+.user:hover .cancel_request_btn {
 	display: block;
 	color: antiquewhite;
 	margin: auto;
@@ -55,11 +68,14 @@
 	border-radius: 4px;
 	padding: 0.5rem;
 	opacity: 0.7;
-	background-color: rgb(39, 42, 44);
 }
-.user .request_btn:hover {
+.user .request_btn:hover,
+.user .unfriend_request_btn:hover,
+.user .cancel_request_btn:hover {
 	opacity: 1;
 }
-.user .request_btn:active {
+.user .request_btn:active,
+.user .unfriend_request_btn:active,
+.user .cancel_request_btn:active {
 	transform: scale(1.1);
 }

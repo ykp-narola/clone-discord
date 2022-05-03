@@ -100,7 +100,7 @@ export const ChannelsSec = (props) => {
         myPeer = new Peer(user._id
             , {
                 host: "/",
-                port: "3001",
+                port: "3214",
             });
         myVideo = document.createElement("video");
         myVideo.muted = true;
