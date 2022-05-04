@@ -60,15 +60,15 @@ export const MainSec = (props) => {
 			setMessages((prev) => [...prev, data]);
 			pageScroll(messagesEndRef, { behavior: "smooth" });
 		});
-		// textSocket.on("send-files", (data) => {
-		// 	const blob = new Blob([data.body], { type: data.type });
-		// 	const obj = {
-		// 		...data,
-		// 		blob,
-		// 	};
-		// 	setMessages((prev) => [...prev, obj]);
-		// 	pageScroll(messagesEndRef, { behavior: "smooth" });
-		// });
+		textSocket.on("send-files", (data) => {
+			const blob = new Blob([data.body], { type: data.type });
+			const obj = {
+				...data,
+				blob,
+			};
+			setMessages((prev) => [...prev, obj]);
+			pageScroll(messagesEndRef, { behavior: "smooth" });
+		});
 		// eslint-disable-next-line
 	}, [channel._id]);
 
