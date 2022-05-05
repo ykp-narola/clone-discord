@@ -17,6 +17,10 @@ import { useBeforeunload } from 'react-beforeunload';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { ENDPOINT } from '../../../APIs/API';
+import { Menu, MenuButton, MenuItem } from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
+import '@szhsin/react-menu/dist/theme-dark.css';
+
 const joinAudio = new Audio('https://res.cloudinary.com/du0p5yed7/video/upload/v1650957124/Accord/sounds/join_qmkvy3.mp3');
 const leaveAudio = new Audio('https://res.cloudinary.com/du0p5yed7/video/upload/v1650957125/Accord/sounds/leave_y0ik8f.mp3');
 let voiceSocket, peers, localStream, myPeer, myVideo;
@@ -100,8 +104,9 @@ export const ChannelsSec = (props) => {
         myPeer = new Peer(user._id
             , {
                 host: "/",
-                port: "3214",
-            });
+                port: "5600",
+            }
+        );
         myVideo = document.createElement("video");
         myVideo.muted = true;
 
@@ -393,9 +398,25 @@ export const ChannelsSec = (props) => {
                     title={`${user.name} #${user._id.substring(20, 24)}`}
                     placement="top"
                     TransitionComponent={Zoom}
-                    arrow>
+                    arrow
+                >
                     <div className={style.user_info}>
-                        <img className={style.user_image} src={user.image} alt="a" />
+                        <Menu
+                            menuButton={
+                                <MenuButton>
+                                    <img className={style.user_image} src={user.image} alt="a" />
+                                </MenuButton>
+                            } direction={'top'}
+                            className={style.user_status_menu}
+                            align={'start'}
+                            position={'anchor'}
+                            viewScroll={'auto'}
+                            arrow={true}>
+                            <MenuItem>Online</MenuItem>
+                            <MenuItem>Idle</MenuItem>
+                            <MenuItem>Do not Disturb</MenuItem>
+                            <MenuItem>Invisible</MenuItem>
+                        </Menu>
                         <div className={style.user_name}>
                             <div className={style.uname}>{user.name}</div>
                             <div className={style.uid}>{`# ${user._id.substring(20, 24)}`}</div>

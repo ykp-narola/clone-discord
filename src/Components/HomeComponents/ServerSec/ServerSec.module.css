@@ -7,7 +7,8 @@
 	padding-top: 0.5rem;
 	text-align: center;
 	overflow: scroll;
-	background-color: #202225;
+	/* background-color: #202225; */
+	background-color: var(--dark-theme-server);
 }
 
 .lower {

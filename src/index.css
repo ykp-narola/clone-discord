@@ -6,6 +6,17 @@
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
+
+:root {
+	--dark-theme-dark: #1c1e20;
+	--dark-theme-server: #202225;
+	--dark-theme-channel-top-mid: #2f3136;
+	--dark-theme-channel-down: #292b2f;
+	--dark-theme-main: #36393f;
+	--dark-theme-user: #2f3136;
+	/* --dark-theme-text: ; */
+}
+
 body {
 	font-family: "Noto Serif", serif;
 	background-color: rgb(55, 59, 63);
