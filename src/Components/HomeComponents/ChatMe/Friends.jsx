@@ -44,7 +44,7 @@ export const Friends = (props) => {
             </div>
             <div className={style.profile_status}>
                 <div className={style.user_info}>
-                    <img className={style.user_image} src={props.user.image} alt={`${props.user.name}`} />
+                    <img className={style.user_image} src={props.user.image} alt={props.user.name} />
                     <div className={style.user_name}>
                         <div className={style.uname}>{props.user.name}</div>
                         <div className={style.uid}>{`# ${props.user._id.substring(20, 24)}`}</div>

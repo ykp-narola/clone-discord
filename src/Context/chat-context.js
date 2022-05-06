@@ -34,7 +34,9 @@ export const ChatContextProvider = (props) => {
 	]);
 
 	const showError = () => {
-		console.log("Error Occured");
+		console.Error(
+			"Error Occured While Requesting for Notification, Allow notification on this site"
+		);
 	};
 	let granted = false;
 	const requestPermission = async () => {

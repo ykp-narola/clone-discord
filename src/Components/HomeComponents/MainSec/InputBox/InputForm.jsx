@@ -46,6 +46,7 @@ export const InputForm = (props) => {
                     textSocket.emit('message', {
                         _id: new mongoose.Types.ObjectId().toHexString(),
                         type: "Text",
+                        isPrivate: false,
                         message: myMessage,
                         reply: props.reply,
                         user: user,
