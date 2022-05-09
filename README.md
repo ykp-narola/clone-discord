@@ -1,1 +1,1 @@
-Accord App
+Application Features:
